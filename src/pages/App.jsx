@@ -3,6 +3,7 @@ import reactLogo from '../assets/images/react.svg';
 import viteLogo from '../assets/images/react.svg';
 import './App.css';
 import { example } from '../services/api';
+import { Link } from 'react-router-dom';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -33,6 +34,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Link to={"/login"}>
+        <button>soidopdo</button>
+      </Link>
     </>
   );
 }

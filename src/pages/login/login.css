@@ -1,0 +1,173 @@
+body {
+  background-color: red;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #eb8f25 0%,
+    #eb8f25 6%,
+    #212121 52%,
+    #1b1b1b 100%,
+    #000000 100%
+  );
+}
+
+section {
+  background-image: url("public/img/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 70%;
+  height: 85%;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgb(0, 0, 0, 0.5);
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  font-size: large;
+  height: 30%;
+  align-items: center;
+  padding: 0 1%;
+  box-sizing: border-box;
+}
+
+header > img {
+  width: 20%;
+  filter: drop-shadow(0 0 5px rgba(255, 165, 0, 0.8));
+}
+
+h1 {
+  color: white;
+  margin-left: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-shadow: 0 0 5px #ff8c00, 0 0 10px #ff8c00, 0 0 20px #ff8c00,
+    0 0 40px #ff5500, 0 0 80px #ff5500;
+  animation: pulsate 1.5s infinite alternate;
+}
+
+@keyframes pulsate {
+  100% {
+    text-shadow: 0 0 5px #ff8c00, 0 0 10px #ff8c00, 0 0 15px #ff8c00,
+      0 0 20px #ff5500;
+  }
+  0% {
+    text-shadow: 0 0 2px #ff8c00, 0 0 5px #ff8c00, 0 0 10px #ff5500,
+      0 0 15px #ff5500, 0 0 25px #ff5500;
+  }
+}
+main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-around;
+  height: 50%;
+  align-items: center;
+}
+
+.inputizinho {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.inputizinho > p {
+  padding: 20px;
+  font-size: x-large;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+input {
+  border-radius: 5px;
+  border: solid grey 1px;
+  background-color: rgba(30, 30, 30, 1);
+  height: 3rem;
+  width: 75rem;
+  color: white;
+  padding: 0 15px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border: solid orange 1px;
+  outline: none;
+  border-color: #ff8c00;
+  box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.3);
+  background-color: rgba(40, 40, 40, 0.9);
+}
+
+.botao {
+  width: 100%;
+  padding-top: 40px;
+}
+
+button {
+  background: linear-gradient(to bottom, #ff8c00, #ff7700);
+  width: 88.5%;
+  height: 3rem;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+  background: linear-gradient(to bottom, #ff9900, #ff5500);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+footer {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 10px 0;
+}
+
+footer p {
+  margin: 5px 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+footer a {
+  color: #ff8c00;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #ffaa33;
+  text-decoration: underline;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  margin-top: 15px;
+  opacity: 0.8;
+}

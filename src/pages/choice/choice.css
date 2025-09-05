@@ -1,0 +1,36 @@
+.mainzona{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #eb8f25 0%,
+    #eb8f25 6%,
+    #212121 52%,
+    #1b1b1b 100%,
+    #000000 100%
+  );
+}
+
+
+.cabesa{
+    
+    display: flex;
+    height: 10%;
+}
+
+.botoes-juntos{
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+background-color: red;
+width: 100%;
+}
+
+.botao-loneny{
+background-color: aqua;
+}

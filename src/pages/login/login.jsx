@@ -13,7 +13,7 @@ function login() {
   async function Loginzao(e) {
     e.preventDefault();     
     try {
-      const response = await ApiService.adm.loginUser(email, senha);
+      const response = await ApiService.user.loginUser(email, senha);
       console.log("Login bem-sucedido:", response);
       
       if (response.data.token) {
@@ -21,7 +21,7 @@ function login() {
       }
       
      
-      navigate("NAOSEI");
+      navigate("/choice"); //agora não
       
     } catch (error) {
       console.log("Erro no login:", error);
@@ -87,7 +87,7 @@ function login() {
             Não tem cadastro ainda? <a href="#">Clique Aqui!</a>
           </p>
 
-          <p class="copyright">
+          <p className="copyright">
             © 2023 Disco XP. Todos os direitos reservados.
           </p>
         </footer>

@@ -5,9 +5,9 @@ function choice(){
 
     return(
         <main className="mainzona">
-            <head className="cabesa">
+            <header className="cabesao">
                 <h1>› Home</h1>
-            </head>
+            </header>
             <div className="botoes-juntos">
                 <button>Listar Produto</button>
                 <button>Listar Usuário</button>

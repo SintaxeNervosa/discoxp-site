@@ -1,0 +1,131 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    background-image: url("../../assets/images/control.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    margin: 0 auto;
+    border-radius: 10px;
+    color: white;
+    width: 70%;
+    padding: 30px;
+}
+
+.form-container .content {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+.form-container h1 {
+    text-align: center;
+    font-size: 50px;
+}
+
+.form-container p {
+    margin-bottom: 5px;
+}
+
+.form-container p,
+h1 {
+    font-family: 'AlbertSans-Bold';
+    font-size: 22px;
+}
+
+/* CSS de inputs, botões e select */
+.form-container input,
+.form-container select {
+    border-radius: 10px;
+    max-width: 100%;
+    width: 100%;
+    font-size: 22px;
+    padding: 15px;
+    color: white;
+}
+
+
+.form-container input {
+    border: 2px solid var(--border-input-color);
+    background-color: #1E1E1E;
+    border: 2px solid #7D7D7D;
+}
+
+.form-container input:focus {
+    outline: 2px solid var(--main-color);
+}
+
+.form-container button {
+    width: 95%;
+    border: 2px solid var(--main-color);
+    color: white;
+    background-color: var(--main-color);
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    border-radius: 10px;
+    font-size: 22px;
+    padding: 15px;
+    margin-left: 100px;
+    margin-right: 100px;
+    color: white;
+}
+
+.form-container button:hover {
+    background-color: #eba04a;
+}
+
+.form-container .email,
+.full-name {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 100%;
+}
+
+.form-container .cpf-group,
+.password-confirm-password {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 100px;
+}
+
+.form-container .cpf-group>div,
+.password-confirm-password>div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.form-container .cpf-group select {
+    width: 100%;
+    background-color: #1E1E1E;
+    color: white;
+}
+
+@media (max-width: 850px) {
+
+    .form-container .cpf-group,
+    .password-confirm-password {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .form-container {
+        width: 80%;
+    }
+}
+
+@media (max-width: 570px) {
+
+    .form-container {
+        width: 95%;
+    }
+}

@@ -16,7 +16,7 @@ function choice(){
                 <button>Listar Pedidos</button>
             </div>
         </main>
-    )
+    );
 }
 
 export default choice;

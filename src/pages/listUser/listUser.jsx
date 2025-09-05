@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./listUser.css";
-import { getUsers } from "../../services/user";
-import { Link } from "react-router-dom";
+import { getUsers } from "../../connection/user";
+import { Link, useNavigate } from "react-router-dom";
 import iconUser from "../../assets/images/SVGRepo_iconCarrier.png";
 
 function ListUser() {
   const [user, setUser] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -20,6 +21,15 @@ function ListUser() {
     fetchUsers();
   }, []);
 
+
+  function isEmpty() {
+    user.length === 0;
+  }
+
+  function redirectCreate () {
+    navigate("/admin/register");
+  };
+
   return (
     <main className="main-list-user">
       <section className="container-list-user">
@@ -29,7 +39,7 @@ function ListUser() {
 
         <div className="search-user">
           <input type="text" placeholder="Pesquisar Usuário" />
-          <button>
+          <button onClick={() => redirectCreate()}>
             <img
               src={iconUser}
               alt="Icone de pesquisa"
@@ -39,6 +49,7 @@ function ListUser() {
         </div>
 
         <div className="table-user">
+          {!isEmpty() ?
           <table>
             <thead>
               <tr>
@@ -52,8 +63,8 @@ function ListUser() {
               </tr>
             </thead>
             <tbody>
-              {user.map((user) => (
-                <tr>
+              {user.map((user, key) => (
+                <tr key={key}>
                   <td>{user.id}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
@@ -61,7 +72,7 @@ function ListUser() {
                     <Link to="/edit/1">Editar</Link>
                   </td>
                   <td>{user.groupEnum}</td>
-                  <td>{user.status}</td>
+                  <td>{user.status ? "Ativo" : "Inativo"}</td>
                   <td>
                     <input type="checkbox" />
                   </td>
@@ -69,6 +80,10 @@ function ListUser() {
               ))}
             </tbody>
           </table>
+          : <h1>Não há usuários</h1>
+
+          }
+          
         </div>
       </section>
     </main>

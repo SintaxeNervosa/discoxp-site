@@ -3,10 +3,6 @@
   box-sizing: border-box;
 }
 
-:root {
-  --main-color: #EB8F25;
-}
-
 @font-face {
   font-family: 'AlbertSans-Bold';
   src: url('./assets/fonts/AlbertSans/AlbertSans-Bold.ttf');

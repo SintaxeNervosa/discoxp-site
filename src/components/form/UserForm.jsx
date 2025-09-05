@@ -1,16 +1,59 @@
+import { createUser } from "../../connection/user";
 import "./StyleForm.css";
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function UserForm() {
     const [email, setEmail] = useState("");
-    const [fullName, setFullName] = useState("");
+    const [name, setName] = useState("");
     const [cpf, setCpf] = useState("");
     const [group, setGrup] = useState("");
     const [password, setPassword] = useState("");
     const [confitmPassword, setConfirmPassword] = useState("");
 
+    const persist = async () => {
+        if(password == "") {
+            toast.error("Informe a senha");
+            return; 
+        } 
+        
+        if(confitmPassword == "") {
+            toast.error("Informe a confimação da senha");
+            return; 
+        } 
+
+        if(confitmPassword != password) {
+            toast.error("Senhas não coincidem");
+            return;
+        }
+
+        let response = await createUser({ name, email, group, password, cpf });
+
+
+        console.log(response.status);
+        if (response.status == 201) {
+            toast.success("Usuário criado com sucesso!");
+            return;
+        } if(response.status === 400) {
+            let erros = response.response.data.message; 
+            let errosList = erros.split(", ");  
+            console.log(errosList);
+            
+            for(let i = 0; i < errosList.length; i++) {
+                if(errosList[i] != "") {
+                    toast.error(errosList[i]);
+                }
+                
+            }
+            
+        }
+
+        
+    };
+
     return (
         <div className="form-container">
+            <ToastContainer />
             <h1>Cadastro</h1>
             <div className="content">
                 <div className="email">
@@ -22,8 +65,8 @@ export default function UserForm() {
                 <div className="full-name">
                     <p>Nome Completo</p>
                     <input type="text"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)} />
+                        value={name}
+                        onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className="cpf-group">
                     <div className="cpf">
@@ -36,9 +79,8 @@ export default function UserForm() {
                         <p>Grupo</p>
                         <select value={group} onChange={(e) => setGrup(e.target.value)}>
                             <option value="">Selecionar</option>
-                            <option value="Client">Cliente</option>
-                            <option value="Admin">Administrador</option>
-                            <option value="Estockist">Estoquista</option>
+                            <option value="ADMIN">Administrador</option>
+                            <option value="STOCKIST">Estoquista</option>
                         </select>
                     </div>
 
@@ -59,7 +101,7 @@ export default function UserForm() {
                     </div>
                 </div>
             </div>
-            <button>Confirmar</button>
+            <button id="confirm" onClick={() => persist()}>Confirmar</button>
         </div>
     );
 }

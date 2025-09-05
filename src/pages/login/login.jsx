@@ -1,6 +1,44 @@
 import "./login.css";
+import ApiService from "../../connection/apiService"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"
 
 function login() {
+
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
+  const navigate = useNavigate();
+
+  async function Loginzao(e) {
+    e.preventDefault();     
+    try {
+      const response = await ApiService.adm.loginUser(email, senha);
+      console.log("Login bem-sucedido:", response);
+      
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+      
+     
+      navigate("NAOSEI");
+      
+    } catch (error) {
+      console.log("Erro no login:", error);
+      if (error.response?.status === 400) {
+        setErro(error.response.data.erro || "Credenciais inválidas");
+      } else if (error.response?.status === 401) {
+        setErro("Email ou senha incorretos");
+      } else if (error.response?.status === 404) {
+        setErro("Usuário não encontrado");
+      } else {
+        setErro("Erro de conexão. Tente novamente.");
+      }
+      
+      setTimeout(() => setErro(""), 5000);
+    }
+  }
+
   return (
     <div className="container-mae">
       <section className="tudo">
@@ -9,19 +47,40 @@ function login() {
           <h1 className="tituloh1">Seja bem-vindo de volta!</h1>
         </header>
 
-        <main className="principal">
+        <form onSubmit={Loginzao} className="principal">
           <div className="inputizinho">
             <p>E-mail</p>
-            <input className="inputDados" type="email" />
+             <input 
+              className="inputDados" 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Digite seu e-mail"
+            />
           </div>
           <div className="inputizinho">
             <p>Senha</p>
-            <input type="password" className="inputDados"/>
+              <input 
+              type="password" 
+              className="inputDados"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+              placeholder="Digite sua senha"
+            />
           </div>
+
+           {erro && (
+            <div className="mensagem-erro">
+              {erro}
+            </div>
+          )}
+
           <div className="botao">
-            <button>Confirmar</button>
+            <button type="submit">Confirmar</button>
           </div>
-        </main>
+        </form>
 
         <footer className="embaixo">
           <p>

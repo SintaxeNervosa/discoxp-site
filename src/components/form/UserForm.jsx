@@ -1,4 +1,4 @@
-import { changeUser, createUser, getUsersById } from "../../connection/user";
+import ApiService from "../../connection/apiService";
 import "./StyleForm.css";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,7 +16,7 @@ export default function UserForm({ userId }) {
     useEffect(() => {
         if (userId != null) {
             const res = async () => {
-                const data = await getUsersById(userId);
+                const data = await ApiService.user.getUsersById(userId);
 
                 console.log(data);
                 setId(userId);
@@ -51,7 +51,7 @@ export default function UserForm({ userId }) {
 
 
         if (userId == null) {
-            let response = await createUser({ name, email, group, cpf, password });
+            let response = await ApiService.user.createUser({ name, email, group, cpf, password });
 
             console.log(response.status);
             if (response.status == 201) {
@@ -74,7 +74,7 @@ export default function UserForm({ userId }) {
             toast.success("Usuário criado com sucesso!");
         } else {
 
-            let response = await changeUser({ id, name, group, cpf, password });
+            let response = await ApiService.user.changeUser({ id, name, group, cpf, password });
             console.log(response);
 
             if (response.status == 201) {

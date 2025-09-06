@@ -1,4 +1,4 @@
-import './StyleUserFormPage.css';
+import './StyleUserFormPage.module.scss';
 
 import UserForm from "../../components/form/UserForm";
 

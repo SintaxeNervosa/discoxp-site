@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import "./listUser.css";
-import { changeStatus, getUsers } from "../../connection/user";
+import "./listUser.module.scss";
+import apiService from "../../connection/apiService";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import iconUser from "../../assets/images/SVGRepo_iconCarrier.png";
 import { ToastContainer, toast } from 'react-toastify';
 
 function ListUser() {
   const [user, setUser] = useState([]);
-
   const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const usersData = await getUsers();
+        const usersData = await apiService.user.getUsers();
         setUser(usersData);
       } catch (error) {
         console.error("Erro ao buscar usuários:", error);
@@ -23,7 +23,7 @@ function ListUser() {
   }, []);
 
   const changeUserStatus = async (id) => {
-    const response = await changeStatus(id);
+    const response = await apiService.user.changeStatus(id);
     if (response.status == 201) {
       location.reload();
       toast.success("Usuário criado com sucesso!");
@@ -36,14 +36,6 @@ function ListUser() {
     user.length === 0;
   }
 
-  function redirectCreate() {
-    navigate("/admin/register");
-  };
-
-  function redirectUpdate(userid) {
-    navigate(`/admin/edit/${userid}`);
-  };
-
   return (
     <main className="main-list-user">
       <ToastContainer />
@@ -54,7 +46,7 @@ function ListUser() {
 
         <div className="search-user">
           <input type="text" placeholder="Pesquisar Usuário" />
-          <button onClick={() => redirectCreate()}>
+          <button onClick={() => navigate("/admin/register")}>
             <img
               src={iconUser}
               alt="Icone de pesquisa"
@@ -92,7 +84,7 @@ function ListUser() {
                     <td>{user.status ? "Ativo" : "Inativo"}</td>
                     <td>
                       <button
-                        onClick={() => changeUserStatus(user.id)}>{user.status ? "Desabilitar" : "Habilitar"}</button>
+                        onClick={() =>  navigate(`/admin/edit/${user.id}`)}>{user.status ? "Desabilitar" : "Habilitar"}</button>
                     </td>
                   </tr>
                 ))}

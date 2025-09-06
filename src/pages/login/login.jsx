@@ -1,40 +1,28 @@
-import "./login.css";
-import ApiService from "../../connection/apiService"
+import "./login.module.scss";
+import ApiService from "../../connection/apiService";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 function login() {
-
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
   const navigate = useNavigate();
 
   async function Loginzao(e) {
-    e.preventDefault();     
+    e.preventDefault();
     try {
       const response = await ApiService.user.loginUser(email, senha);
       console.log("Login bem-sucedido:", response);
-      
+
       if (response.id) {
         localStorage.setItem("token", response.id);
       }
-      
-     
+
       navigate("/choice"); //agora não
-      
     } catch (error) {
       console.log("Erro no login:", error);
-      if (error.response?.status === 400) {
-        setErro(error.response.data.erro || "Credenciais inválidas");
-      } else if (error.response?.status === 401) {
-        setErro("Email ou senha incorretos");
-      } else if (error.response?.status === 404) {
-        setErro("Usuário não encontrado");
-      } else {
-        setErro("Erro de conexão. Tente novamente.");
-      }
-      
+
       setTimeout(() => setErro(""), 5000);
     }
   }
@@ -50,9 +38,9 @@ function login() {
         <form onSubmit={Loginzao} className="principal">
           <div className="inputizinho">
             <p>E-mail</p>
-             <input 
-              className="inputDados" 
-              type="email" 
+            <input
+              className="inputDados"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -61,8 +49,8 @@ function login() {
           </div>
           <div className="inputizinho">
             <p>Senha</p>
-              <input 
-              type="password" 
+            <input
+              type="password"
               className="inputDados"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
@@ -71,11 +59,7 @@ function login() {
             />
           </div>
 
-           {erro && (
-            <div className="mensagem-erro">
-              {erro}
-            </div>
-          )}
+          {erro && <div className="mensagem-erro">{erro}</div>}
 
           <div className="botao">
             <button type="submit">Confirmar</button>

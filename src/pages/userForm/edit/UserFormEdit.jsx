@@ -1,4 +1,4 @@
-import './StyleFormEdit.css';
+import './StyleFormEdit.module.scss';
 
 import { useParams } from "react-router-dom";
 import UserForm from "../../../components/form/UserForm";

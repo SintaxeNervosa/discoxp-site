@@ -1,0 +1,25 @@
+//styles/mixins.scss
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+// Uso nos componentes
+.container {
+  padding: 2rem;
+  
+  @include tablet {
+    padding: 1rem;
+  }
+  
+  @include mobile {
+    padding: 0.5rem;
+  }
+}

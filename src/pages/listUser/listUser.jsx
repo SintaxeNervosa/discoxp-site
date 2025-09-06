@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import "./listUser.css";
-import { getUsers } from "../../connection/user";
-import { Link, useNavigate } from "react-router-dom";
+import { changeStatus, getUsers } from "../../connection/user";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import iconUser from "../../assets/images/SVGRepo_iconCarrier.png";
+import { ToastContainer, toast } from 'react-toastify';
 
 function ListUser() {
   const [user, setUser] = useState([]);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -21,17 +22,31 @@ function ListUser() {
     fetchUsers();
   }, []);
 
+  const changeUserStatus = async (id) => {
+    const response = await changeStatus(id);
+    if (response.status == 201) {
+      location.reload();
+      toast.success("Usuário criado com sucesso!");
+      return;
+    }
+    toast.error("Não foi possível alterar o status");
+  };
 
   function isEmpty() {
     user.length === 0;
   }
 
-  function redirectCreate () {
+  function redirectCreate() {
     navigate("/admin/register");
+  };
+
+  function redirectUpdate(userid) {
+    navigate(`/admin/edit/${userid}`);
   };
 
   return (
     <main className="main-list-user">
+      <ToastContainer />
       <section className="container-list-user">
         <div className="header-list-user">
           <h1>Lista Usuário</h1>
@@ -50,40 +65,43 @@ function ListUser() {
 
         <div className="table-user">
           {!isEmpty() ?
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Editar</th>
-                <th>Grupo</th>
-                <th>Status</th>
-                <th>HAB / DES</th>
-              </tr>
-            </thead>
-            <tbody>
-              {user.map((user, key) => (
-                <tr key={key}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <Link to="/edit/1">Editar</Link>
-                  </td>
-                  <td>{user.groupEnum}</td>
-                  <td>{user.status ? "Ativo" : "Inativo"}</td>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Editar</th>
+                  <th>Grupo</th>
+                  <th>Status</th>
+                  <th>HAB / DES</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          : <h1>Não há usuários</h1>
+              </thead>
+              <tbody>
+                {user.map((user, key) => (
+                  <tr key={key}>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                      <button
+                        disabled={localStorage.getItem("token") == user.id}
+                        onClick={() => redirectUpdate(user.id)}>Editar</button>
+                    </td>
+                    <td>{user.groupEnum}</td>
+                    <td>{user.status ? "Ativo" : "Inativo"}</td>
+                    <td>
+                      <button
+                        onClick={() => changeUserStatus(user.id)}>{user.status ? "Desabilitar" : "Habilitar"}</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            : <h1>Não há usuários</h1>
 
           }
-          
+
         </div>
       </section>
     </main>

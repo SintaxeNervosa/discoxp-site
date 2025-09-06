@@ -1,4 +1,4 @@
-import api from "../config/axiosConfig"
+import api from "../config/axiosConfig";
 
 export const loginUser = async (email, password) => {
     try {
@@ -12,6 +12,6 @@ export const loginUser = async (email, password) => {
             Details: error.response?.data,
             Status: error.response?.status
         });
-        throw error
+        throw error;
     }
 };

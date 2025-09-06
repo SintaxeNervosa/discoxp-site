@@ -1,64 +1,99 @@
-import { createUser } from "../../connection/user";
+import { changeUser, createUser, getUsersById } from "../../connection/user";
 import "./StyleForm.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function UserForm() {
+export default function UserForm({ userId }) {
+    const [id, setId] = useState();
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [cpf, setCpf] = useState("");
-    const [group, setGrup] = useState("");
+    const [group, setGroup] = useState("");
     const [password, setPassword] = useState("");
     const [confitmPassword, setConfirmPassword] = useState("");
 
-    const persist = async () => {
-        if(password == "") {
-            toast.error("Informe a senha");
-            return; 
-        } 
-        
-        if(confitmPassword == "") {
-            toast.error("Informe a confimação da senha");
-            return; 
-        } 
 
-        if(confitmPassword != password) {
+    useEffect(() => {
+        if (userId != null) {
+            const res = async () => {
+                const data = await getUsersById(userId);
+
+                console.log(data);
+                setId(userId);
+                setEmail(data.email);
+                setName(data.name);
+                setCpf(data.cpf);
+                setGroup(data.groupEnum);
+                setPassword("@Ita75802309");
+                setConfirmPassword("@Ita75802309");
+            };
+            res();
+        }
+    }, []);
+
+
+    const persist = async () => {
+
+        if (password == "") {
+            toast.error("Informe a senha");
+            return;
+        }
+
+        if (confitmPassword == "") {
+            toast.error("Informe a confimação da senha");
+            return;
+        }
+
+        if (confitmPassword != password) {
             toast.error("Senhas não coincidem");
             return;
         }
 
-        let response = await createUser({ name, email, group, password, cpf });
 
+        if (userId == null) {
+            let response = await createUser({ name, email, group, cpf, password });
 
-        console.log(response.status);
-        if (response.status == 201) {
-            toast.success("Usuário criado com sucesso!");
-            return;
-        } if(response.status === 400) {
-            let erros = response.response.data.message; 
-            let errosList = erros.split(", ");  
-            console.log(errosList);
-            
-            for(let i = 0; i < errosList.length; i++) {
-                if(errosList[i] != "") {
-                    toast.error(errosList[i]);
+            console.log(response.status);
+            if (response.status == 201) {
+                toast.success("Usuário criado com sucesso!");
+                return;
+            } if (response.status === 400) {
+                let erros = response.response.data.message;
+                let errosList = erros.split(", ");
+                console.log(errosList);
+
+                for (let i = 0; i < errosList.length; i++) {
+                    if (errosList[i] != "") {
+                        toast.error(errosList[i]);
+                    }
+
                 }
-                
+
             }
-            
+
+            toast.success("Usuário criado com sucesso!");
+        } else {
+
+            let response = await changeUser({ id, name, group, cpf, password });
+            console.log(response);
+
+            if (response.status == 201) {
+                toast.success("Alterado com sucesso");
+            }
         }
 
-        
+
     };
 
     return (
         <div className="form-container">
             <ToastContainer />
-            <h1>Cadastro</h1>
+            <h1>{id != null ? "Editar" : "Cadastro"}</h1>
             <div className="content">
                 <div className="email">
                     <p>E-mail</p>
                     <input type="email"
+                        disabled={id != null ? true : false}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)} />
                 </div>
@@ -77,7 +112,7 @@ export default function UserForm() {
                     </div>
                     <div className="group">
                         <p>Grupo</p>
-                        <select value={group} onChange={(e) => setGrup(e.target.value)}>
+                        <select value={group} onChange={(e) => setGroup(e.target.value)}>
                             <option value="">Selecionar</option>
                             <option value="ADMIN">Administrador</option>
                             <option value="STOCKIST">Estoquista</option>

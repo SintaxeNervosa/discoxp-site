@@ -16,8 +16,8 @@ function login() {
       const response = await ApiService.user.loginUser(email, senha);
       console.log("Login bem-sucedido:", response);
       
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
+      if (response.id) {
+        localStorage.setItem("token", response.id);
       }
       
      

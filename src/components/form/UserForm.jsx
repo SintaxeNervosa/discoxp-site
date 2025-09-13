@@ -1,5 +1,5 @@
 import ApiService from "../../connection/apiService";
-import "./StyleForm.css";
+import "./StyleForm.scss";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 

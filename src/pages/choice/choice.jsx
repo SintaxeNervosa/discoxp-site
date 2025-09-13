@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./choice.module.scss";
+import "./choice.scss";
 
 function choice() {
 

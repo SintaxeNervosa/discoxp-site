@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./listUser.module.scss";
+import "./listUser.scss";
 import apiService from "../../connection/apiService";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import iconUser from "../../assets/images/SVGRepo_iconCarrier.png";

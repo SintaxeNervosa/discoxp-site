@@ -1,4 +1,4 @@
-import "./login.module.scss";
+import "./login.scss";
 import ApiService from "../../connection/apiService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -67,9 +67,6 @@ function login() {
         </form>
 
         <footer className="embaixo">
-          <p>
-            Não tem cadastro ainda? <a href="#">Clique Aqui!</a>
-          </p>
 
           <p className="copyright">
             © 2023 Disco XP. Todos os direitos reservados.

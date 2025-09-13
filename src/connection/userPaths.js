@@ -1,5 +1,4 @@
-import api from "../config/apiConfig";
-
+import api from "../config/axiosConfig.js";
 
 //GET
 export const getUsers = async () => {

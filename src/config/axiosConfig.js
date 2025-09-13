@@ -15,7 +15,7 @@ api.interceptors.request.use(config => {
   console.log('[AXIOS] Enviando para:', config.method?.toUpperCase(), config.url);
   console.log('[AXIOS] Headers:', config.headers);
   console.log('[AXIOS] Dados:', config.data);
-  console.log('[AXIOS] Parametros:', config.params)
+  console.log('[AXIOS] Parametros:', config.params);
 
   console.groupEnd();
 
@@ -28,7 +28,7 @@ api.interceptors.request.use(config => {
 // Interceptador de RESPONSES para debugar
 api.interceptors.response.use(response => {
   console.log('[AXIOS] Resposta recebida:', response.status, response.data);
-  console.log('[AXIOS] Headers:', response.headers)
+  console.log('[AXIOS] Headers:', response.headers);
 
   console.groupEnd();
 

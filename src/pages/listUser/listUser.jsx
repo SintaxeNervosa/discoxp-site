@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./listUser.module.scss";
 import apiService from "../../connection/apiService";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import iconUser from "../../assets/images/SVGRepo_iconCarrier.png";
 import { ToastContainer, toast } from 'react-toastify';
 

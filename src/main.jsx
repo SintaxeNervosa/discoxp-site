@@ -5,8 +5,6 @@ import './index.css';
 import { RouterProvider } from 'react-router-dom';
 
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+createRoot(document.getElementById('root')).render(  
     <RoutesWeb />
-  </StrictMode>,
 );

@@ -6,15 +6,13 @@ export const getUsers = async () => {
         const response = await api.get('/users');
         return response.data;
     } catch (error) {
-        console.error("Erro ao buscar usuários:", error);
-        throw error;
+        throw error.status;
     }
 };
 
 export const getUsersById = async (id) => {
     try {
         const response = await api.get(`/users/${id}`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error("Erro ao buscar usuários:", error);
@@ -40,16 +38,17 @@ export const loginUser = async (email, password) => {
 };
 
 export const createUser = async (user) => {
+     
     try {
         const response = await api.post("/admin", user);
         return response;
     } catch (error) {
-        return error;
+        throw error.response.data.message;
     }
 };
 
 //PUT
-export const changeStatus = async (id) => {
+export const changeUserStatus = async (id) => {
     try {
         const response = await api.put(`/admin/change-status/${id}`);
         return response;
@@ -65,6 +64,6 @@ export const changeUser = async (user) => {
         const response = await api.put(`/admin`, user);
         return response;
     } catch (error) {
-        return error;
+        throw error.response.data.message;
     }
 };

@@ -1,6 +1,6 @@
 import "./login.scss";
 import ApiService from "../../connection/apiService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function login() {
@@ -26,6 +26,7 @@ function login() {
       setTimeout(() => setErro(""), 5000);
     }
   }
+
 
   return (
     <div className="container-mae">

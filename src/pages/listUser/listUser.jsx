@@ -1,42 +1,55 @@
 import { useEffect, useState } from "react";
 import "./listUser.scss";
-import apiService from "../../connection/apiService";
 import { Link, useNavigate } from "react-router-dom";
 import iconUser from "../../assets/images/SVGRepo_iconCarrier.png";
 import { ToastContainer, toast } from 'react-toastify';
+import { changeUserStatus, getUsers } from "../../connection/userPaths";
 
 function ListUser() {
-  const [user, setUser] = useState([]);
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const usersData = await apiService.user.getUsers();
-        setUser(usersData);
-      } catch (error) {
-        console.error("Erro ao buscar usuários:", error);
-      }
-    };
 
+  const [usersList, setUsersList] = useState([]);
+  const [listIsEmpty, setListIsEmpty] = useState(true);
+
+  const navigate = useNavigate();
+
+  async function fetchUsers() {
+    try {
+      await getUsers().then(setUsersList);
+    } catch (err) {
+      toast.error("Ocorreu um erro ao buscar usuários");
+    };
+  }
+
+  const changeStatus = async (id) => {
+    const data = await changeUserStatus(id);
+
+    if (data.status != 201) {
+      toast.error("Ocorreu um erro ao alterar o status");
+      return;
+    }
+
+    fetchUsers();
+    toast.success("Status alterado com sucesso.");
+  };
+
+  useEffect(() => {
     fetchUsers();
   }, []);
 
-  const changeUserStatus = async (id) => {
-    const response = await apiService.user.changeStatus(id);
-    if (response.status == 201) {
-      location.reload();
-      toast.success("Usuário criado com sucesso!");
-      return;
-    }
-    toast.error("Não foi possível alterar o status");
-  };
+  useEffect(() => {
+    setListIsEmpty(usersList.length === 0);
+  }, [usersList]);
 
-  function isEmpty() {
-    user.length === 0;
+  function navigateToEdit(id) {
+    try {
+      navigate(`/admin/edit/${id}`);
+    } catch (err) {
+      toast.error(err.message);
+    }
   }
 
   return (
+
     <main className="main-list-user">
       <ToastContainer />
       <section className="container-list-user">
@@ -56,7 +69,7 @@ function ListUser() {
         </div>
 
         <div className="table-user">
-          {!isEmpty() ?
+          {!listIsEmpty ?
             <table>
               <thead>
                 <tr>
@@ -70,7 +83,7 @@ function ListUser() {
                 </tr>
               </thead>
               <tbody>
-                {user.map((user, key) => (
+                {usersList.map((user, key) => (
                   <tr key={key}>
                     <td>{user.id}</td>
                     <td>{user.name}</td>
@@ -78,13 +91,12 @@ function ListUser() {
                     <td>
                       <button
                         disabled={localStorage.getItem("token") == user.id}
-                        onClick={() => redirectUpdate(user.id)}>Editar</button>
+                        onClick={() => navigateToEdit(user.id)}>Editar</button>
                     </td>
                     <td>{user.groupEnum}</td>
                     <td>{user.status ? "Ativo" : "Inativo"}</td>
                     <td>
-                      <button
-                        onClick={() =>  navigate(`/admin/edit/${user.id}`)}>{user.status ? "Desabilitar" : "Habilitar"}</button>
+                      <button onClick={() => changeStatus(user.id)}>{user.status ? "Desabilitar" : "Habilitar"}</button>
                     </td>
                   </tr>
                 ))}

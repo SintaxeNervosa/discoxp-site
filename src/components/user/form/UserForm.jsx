@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./StyleForm.scss";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
-import { changeUser, createUser, getUsersById } from "../../connection/userPaths";
+import { changeUser, createUser, getUsersById } from "../../../connection/userPaths.js";
 
 export default function UserForm() {
     const [email, setEmail] = useState("");

@@ -1,6 +1,6 @@
 import "./login.scss";
 import ApiService from "../../connection/apiService";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function login() {

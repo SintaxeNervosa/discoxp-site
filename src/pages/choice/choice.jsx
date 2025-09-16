@@ -11,7 +11,7 @@ function choice() {
     const component = user == 1 ?
         <div className="botoes-juntos">
             <button>Listar Produto</button>
-            <button onClick={() => navigate("/users")}>Listar Usuário</button>
+            <button onClick={() => navigate("/admin/users")}>Listar Usuário</button>
         </div>
         : <div className="botao-loneny">
             <button>Listar Pedidos</button>

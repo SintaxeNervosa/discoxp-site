@@ -12,14 +12,17 @@ export default function UserForm() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const LOCAL_STORAGE_NAME = "userPassword";
     const { userid } = useParams();
     const navigate = useNavigate();
 
     const titleForm = userid ? "Editar" : "Cadastro";
     const disableEmail = userid ? true : false;
 
+    // função para buscar dados do usuário
     async function fetchDataUser() {
         try {
+            // busca os dados do id do parâmetro
             const data = await getUsersById(userid);
 
             setEmail(data.email);
@@ -27,33 +30,43 @@ export default function UserForm() {
             setCpf(data.cpf);
             setGroup(data.groupEnum);
 
+            // busca o usuário salvo na LocalStorage
             const userFromLocalStorage = findUserByLocalStorageId();
+            // coleta a senha salva e adiciona no input
             setPassword(userFromLocalStorage.password);
             setConfirmPassword(userFromLocalStorage.password);
 
-        // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars
         } catch (err) {
+            // retorna para tela de listagem caso haja algum erro ao buscar dados do usuário
             navigate('/users', { replace: true });
         }
     };
 
     useEffect(() => {
+        // caso haja id no parâmetro, carrega os dados do usuário
         if (userid) { fetchDataUser(); }
     }, []);
 
-    function parseUsersToJson() {
-        const users = localStorage.getItem("userPassword");
+    // converte os usuários da localStorage em JSON
+    function fetchLocalStorageUsers() {
+        const users = localStorage.getItem(LOCAL_STORAGE_NAME);
         const usersToJson = JSON.parse(users);
         return usersToJson;
     }
 
+    // busca de usuários por id na localStorage
     const findUserByLocalStorageId = () => {
-        const users = parseUsersToJson();
+        // obtêm os usuários da LocalStorage convertidos em JSON
+        const users = fetchLocalStorageUsers();
 
+        // obtêm a posição do usuário na lista
         const position = binarySearch(users);
-    
+
+        // caso não encontre, retorna null
         if (position == null) { return null; }
 
+        // caso encontre, retorna o objeto do usuário
         return users[position];
     };
 
@@ -81,23 +94,26 @@ export default function UserForm() {
 
     // função para criar o adcionar um item na LocalStorage
     function createItemInLocalStorage(id) {
-        let optionalPassword = localStorage.getItem("userPassword");
+        // busca os usuários da localStorage
+        let localStorageItems = fetchLocalStorageUsers();
 
-        if (optionalPassword != null) {
-            let itens = JSON.parse(optionalPassword);
-            let newItens = [{ ...itens }, JSON.parse(`{"id": ${id}, "password": "${password}"}`)];
+        if (localStorageItems != null) {
+            // adiciona a cópia dos elementos + o novo objeto
+            let newItens = [{ ...localStorageItems }, JSON.parse(`{"id": ${id}, "password": "${password}"}`)];
 
-            localStorage.setItem("userPassword", JSON.stringify(newItens));
+            // salva o novo objeto na LocalStorage
+            localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(newItens));
             return;
         }
 
+        // salva o primeiro usuário como string, mas em formato de JSON 
         const userToString = `
             {
              "id": ${id},
              "password": "${password}"
             }`;
 
-        localStorage.setItem("userPassword", userToString);
+        localStorage.setItem(LOCAL_STORAGE_NAME, userToString);
     }
 
     // função para criar o usuário
@@ -109,19 +125,23 @@ export default function UserForm() {
 
             // se o usuário for criado 
             if (response.status == 201) {
+                // captura o id da resposta da requisição
                 const id = response.data.id;
-                // adiciona o id e password na LocalStorage
+                // função para adicionar o id e password na LocalStorage
                 createItemInLocalStorage(id);
+                toast.success("Usuário criado com sucesso");
                 return;
             }
 
         } catch (error) {
+            // caso dê exceção, exibe os erros
             showAllErrors(error);
         }
     }
 
+    // função para alterar a senha da localStorage
     function changeUserPasswordById() {
-        let users = JSON.parse(localStorage.getItem("userPassword"));
+        let users = fetchLocalStorageUsers();
 
         // pega a posição do usuário
         const position = binarySearch(users);
@@ -129,34 +149,44 @@ export default function UserForm() {
         // atualiza a senha
         users[position].password = password;
         // salva na LocalStorage
-        localStorage.setItem("userPassword", JSON.stringify(users));
+        localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(users));
     }
 
+    // função para editar usuário
     async function requestToEditUser() {
+        // monta o objeto para a requisição
         const userRequest = { id: userid, name: name, group: group, cpf: cpf, password: password };
         try {
+            // faz a requisição
             const response = await changeUser(userRequest);
 
+            // caso a requisição dê "ok"
             if (response.status == 201) {
+                // busca o usuário da localStorage
                 const user = findUserByLocalStorageId();
+                
+                // verifica se a senha atual (enviada na requisição) é a mesma da localStorage
                 if (password != user.password) {
-                    changeUserPasswordById(); // altera a senha da localStorage
+                    // caso não, altera a senha da localStorage
+                    changeUserPasswordById(); 
                 }
 
                 toast.success("Usuário alterado com sucesso.");
             };
 
         } catch (error) {
--            showAllErrors(error);
+            // caso dê exceção, exibe os erros
+            showAllErrors(error);
         }
 
     };
 
+    // função utilizada para exibir todos os erros
     const showAllErrors = (error) => {
         // separa todos os erros pelo delimitador ", "
         const erroMessages = error.split(", ");
 
-        // caso a senha sejam diferentes, adiciona o erro
+        // caso a senha sejam diferentes, adiciona o erro à lista
         if (password != confirmPassword) {
             erroMessages.push("Senhas não coincidem");
         }
@@ -169,12 +199,15 @@ export default function UserForm() {
         }
     };
 
+    // função utilizada para persistência (editar/cadastro)
     const persist = async () => {
+        // chama o edit caso haja id no parâmetro
         if (userid) {
             await requestToEditUser();
             return;
         }
 
+        // senão, chama a função para criar 
         await requestToCreateUser();
     };
 

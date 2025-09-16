@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import "./StyleForm.scss";
+import "./UserStyleForm.scss";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import { changeUser, createUser, getUsersById } from "../../../connection/userPaths.js";

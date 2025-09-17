@@ -1,41 +1,13 @@
 import "./ProductForm.scss";
 
-import React, { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Thumbs } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
-import "./ProductForm.scss";
 
 export default function ProductForm() {
-    const [images, setImagens] = useState([]);
-    const [thumbSwiper, setThumbSwiper] = useState(null);
 
-    function QualImagemDIV() {
-        document.getElementById("file").click();
-    }
 
-    function handleImageSelect(event) {
-        const arquivosSelecionados = event.target.files;
 
-        const arrayDeArquivos = Array.from(arquivosSelecionados);
-        setImagens(function (imagensAntigas) {
-            return [...imagensAntigas, ...arrayDeArquivos];
-        });
-    }
-    function exibirImagem(fili) {
-        return URL.createObjectURL(fili);
-    }
 
-    function removerImagem(index) {
-        const novasImagens = [...imagens];
 
-        novasImagens.splice(index, 1);
 
-        setImagens(novasImagens);
-    }
 
     return (
         <div id="ProductForm">

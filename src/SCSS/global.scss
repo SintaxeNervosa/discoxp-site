@@ -6,8 +6,16 @@ $breakpoint-mobile: 768px;
 $breakpoint-tablet: 1024px;
 
 // Utilização nos módulos
-@import 'styles/variables';
+//@import 'styles/variables';
 
 .container {
   background: linear-gradient(180deg, #000000 0%, #1b1b1b 10%, #212121 48%, $primary-color 94%, $primary-color 100%);
+    display: flex;
+  flex-direction: column;
+          color: white;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh; 
+  box-sizing: border-box;
 }

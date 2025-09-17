@@ -1,3 +1,4 @@
+// @import 'styles/variables'; 
 // Arquivo de variáveis SCSS para manter consistência visual
 $primary-color: #eb8f25;
 $secondary-color: #212121;
@@ -6,7 +7,6 @@ $breakpoint-mobile: 768px;
 $breakpoint-tablet: 1024px;
 
 // Utilização nos módulos
-@import 'styles/variables';
 
 .container {
   background: linear-gradient(180deg, #000000 0%, #1b1b1b 10%, #212121 48%, $primary-color 94%, $primary-color 100%);

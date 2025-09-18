@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Thumbs } from "swiper/modules";
 
-// Importações CSS do Swiper - CORRIGIDO
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

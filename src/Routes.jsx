@@ -6,7 +6,8 @@ const ListUser = lazy(() => import("./pages/listUser/listUser"));
 const Choice = lazy(() => import("./pages/choice/choice"));
 const UserRegister = lazy(() => import("./pages/userForm/UserFormPage"));
 const UserFormEdit = lazy(() => import("./pages/userForm/edit/UserFormEdit"));
-const Gallery = lazy(() => import("./components/galleryImgs/Gallery"))
+const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
+const ListProduct = lazy(() => import("./pages/listProduct/listProduc"));
 
 export default function RouteWeb() {
   return (
@@ -22,6 +23,7 @@ export default function RouteWeb() {
             <Route path="admin/edit/:userid" element={<UserFormEdit />} />
             {/*Produto*/}
             <Route path="/admin/product/register" element={<Gallery/>}/>
+            <Route path="/admin/list-products" element={<ListProduct/>}/>
           </Routes>
         </Suspense>
       </BrowserRouter>

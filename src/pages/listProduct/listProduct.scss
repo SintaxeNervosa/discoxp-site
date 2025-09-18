@@ -1,0 +1,196 @@
+.main-list-product {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #1b1b1b 10%,
+    #212121 48%,
+    #eb8f25 94%,
+    #eb8f25 100%
+  );
+}
+
+.container-list-product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.header-list-product {
+  margin-left: 5px;
+}
+
+.header-list-product h1 {
+  margin-top: 2em;
+  color: #fff;
+  font-family: "Albert Sans", sans-serif;
+  font-size: 35px;
+}
+
+.search-product {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: 5% 0 0 2%;
+  gap: 1rem;
+}
+
+.search-product input {
+  width: 71%;
+  border-radius: 4px;
+  border: #eb8f25 solid 2px;
+  font-family: "Albert Sans", sans-serif;
+  font-size: 15px;
+  padding: 10px;
+}
+
+.search-product button {
+  width: 80px;
+  border-radius: 4px;
+  background-color: #f28c28;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.image-icon {
+  width: 25px;
+  height: 25px;
+}
+
+/* TABELA AJUSTADA */
+.table-product {
+  width: 80%;
+  max-height: 550px;
+  overflow: auto;
+  margin-top: 5%;
+  display: block; 
+  border-radius: 8px;
+}
+
+.table-product table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; 
+}
+
+.table-product thead {
+  position: sticky;
+  top: 0;
+  background-color: #f28c28;
+  z-index: 2;
+}
+
+.table-product th,
+.table-product td {
+padding: 10px 2px;  
+  font-family: "Albert Sans", sans-serif;
+  text-align: center;
+  border: 1px solid #fff;
+  color: #fff;
+  vertical-align: middle;
+}
+
+.table-product tbody tr {
+  background-color: #f28c28;
+}
+
+/* Somente os <td> que têm botões e toggle */
+.table-product td.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* BOTÕES */
+.btn-edit {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #f9e400;
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-family: "Albert Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-edit:hover {
+  background-color: #f7d200;
+}
+
+.btn-view {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-family: "Albert Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-view:hover {
+  background-color: #218838;
+}
+
+/* TOGGLE SWITCH */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}

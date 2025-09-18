@@ -68,13 +68,13 @@ function ListProduct() {
                       <td>R$ {p.price}</td>
                       <td>{p.status ? "Ativo" : "Inativo"}</td>
                       <td className="actions">
-  <button className="btn-view">View</button>
-  <button className="btn-edit">Editar</button>
-  <label className="switch">
-    <input type="checkbox" />
-    <span className="slider"></span>
-  </label>
-</td>
+                        <button className="btn-view">View</button>
+                        <button className="btn-edit">Editar</button>
+                        <label className="switch">
+                          <input type="checkbox" />
+                          <span className="slider"></span>
+                        </label>
+                      </td>
                     </tr>
                   ))
                 ) : (

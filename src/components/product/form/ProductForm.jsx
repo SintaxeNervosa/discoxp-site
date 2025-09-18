@@ -11,8 +11,15 @@ export default function ProductForm() {
     const [stock, setStock] = useState(1);
     const [description, setDescription] = useState("");
     const [evaluation, setEvaluetion] = useState(0);
+    // eslint-disable-next-line no-unused-vars
+    const [image, setImage] = useState(null);
 
     const { productid } = useParams();
+
+    const textForm = {
+        titleForm: productid ? "Editar" : "Cadastro de Produto",
+        imageButtonText: productid ? "Editar Imagem" : "Adicionar Imagem"
+    };
 
     useEffect(() => {
         toast.warning("Faz direito ein");
@@ -21,11 +28,10 @@ export default function ProductForm() {
     const addImage = () => { };
     const cancel = () => { };
 
-    const titleForm = productid ? "Editar" : "Cadastro de Produto";
     return (
         <div className="container-form-product">
             <ToastContainer />
-            <h1>{titleForm}</h1>
+            <h1>{textForm.titleForm}</h1>
             <div className="content">
                 <div className="form">
                     <div className="product-name">
@@ -59,12 +65,12 @@ export default function ProductForm() {
                             onChange={(e) => setEvaluetion(e.target.value)} />
                     </div>
                     <div className="buttons">
-                        <button onClick={() => addImage()}>Adicionar Imagem</button>
+                        <button onClick={() => addImage()}>{textForm.imageButtonText}</button>
                         <button onClick={() => cancel()}>Cancelar</button>
                     </div>
                 </div>
-                <img src={gta} alt="" />
+                <img src={image == null ? "" : image} alt="" />
             </div>
         </div>
     );
-}
+}   

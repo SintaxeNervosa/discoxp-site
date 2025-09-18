@@ -7,6 +7,7 @@ const Choice = lazy(() => import("./pages/choice/choice.jsx"));
 const UserRegister = lazy(() => import("./pages/userForm/create/UserFormPage.jsx"));
 const UserFormEdit = lazy(() => import("./pages/userForm/edit/UserFormEdit.jsx"));
 const ProductFormCreate = lazy(() => import("./pages/form/product/create/ProductFormCreate.jsx"));
+const ProductFormPageEdit = lazy(() => import("./pages/form/product/edit/ProductFormPageEdit.jsx"));
 
 export default function RouteWeb() {
   return (
@@ -20,6 +21,7 @@ export default function RouteWeb() {
             <Route path="/admin/user/register" element={<UserRegister />} />
             <Route path="/admin/user/edit/:userid" element={<UserFormEdit />} />
             <Route path="/admin/product/create" element={<ProductFormCreate />} />
+            <Route path="/admin/product/edit/:productid" element={<ProductFormPageEdit />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

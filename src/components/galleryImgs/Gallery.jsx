@@ -8,7 +8,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import "./Gallery.scss";
+
 import "../ui/button.scss"
+
 
 
 export default function Gallery({ onSave, onCancel, existingImages = [] }) {
@@ -25,6 +27,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [] }) {
     }
 
     function removerImagem(index) {
+
         const novasImagens = images.filter((_, i) => i !== index);
         setImagens(novasImagens);
 
@@ -51,6 +54,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [] }) {
     }
 
     return (
+
         <div className="gallery-container">
             <div id="Gallery">
                 <nav className="Gallery-nav">

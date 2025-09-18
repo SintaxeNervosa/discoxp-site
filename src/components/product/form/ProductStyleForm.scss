@@ -1,0 +1,78 @@
+@import '../../../SCSS/global.scss';
+
+.container-form-product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+    color: white;
+    background-color: black;
+}
+
+.container-form-product>h1 {
+    font-size: 40px;
+}
+
+.container-form-product .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 5pc;
+    max-width: 80%;
+    width: 100%;
+
+    .form {
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100%;
+        max-width: 50%;
+        width: 100%;
+
+        div {
+
+            p {
+                font-weight: bold;
+                padding-bottom: 8px;
+            }
+
+            input {
+                width: 100%;
+                outline: none;
+                border: 2px solid $primary-color;
+                background-color: $secondary-color;
+                border-radius: 5px;
+                color: white;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+
+            button {
+                border-radius: 5px;
+                width: 100%;
+                border: 2px solid $primary-color;
+                background-color: $primary-color;
+                color: white;
+                font-weight: bold;
+                padding: 10px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    img {
+        min-width: 300px;
+        max-width: 490px;
+        width: 35%;
+    }
+}

@@ -3,7 +3,7 @@ import emptyImage from '../../../../public/img/empty.webp';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { changeProduct, getImageFile, getImages, getProductById } from "../../../connection/productPaths";
+import { changeProduct, createProduct, getImageFile, getImages, getProductById } from "../../../connection/productPaths";
 
 export default function ProductForm() {
 
@@ -96,6 +96,31 @@ export default function ProductForm() {
     async function persist() {
         if (productid) {
             requestChangeProduct();
+            return;
+        }
+        requestCreateProduct()
+    }
+
+    async function requestCreateProduct(){
+        try{
+            let Product = {
+                name: name,
+                evaluation: evaluation,
+                description: description,
+                price: price,
+                quantity: stock
+            }
+            const Response = await createProduct(Product)
+            if(Response.status == 200){
+                toast.success("Produto cadastrado com sucesso!")
+            }
+        } catch (error){
+            const errorMessage = getErrorMessage(error.response.data.message);
+            for (let err of errorMessage) {
+                if (err != null && err != "") {
+                    toast.error(err);
+                }
+            }
         }
     }
 

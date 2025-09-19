@@ -53,6 +53,12 @@ export default function Gallery({ onSave, onCancel, existingImages = [] }) {
         onSave(images, favoriteIndex);
     }
 
+    function removeImage(){
+        confirmAlert({
+            
+        })
+    }
+
     return (
 
         <div className="gallery-container">
@@ -96,7 +102,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [] }) {
                                                     onClick={() => removerImagem(index)}
                                                     title="Remover imagem"
                                                 >
-                                                    ×
+                                                    ×vdhfiohiovfoi
                                                 </button>
                                             </div>
                                         </div>

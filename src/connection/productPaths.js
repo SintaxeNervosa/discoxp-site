@@ -53,3 +53,24 @@ export const getImages = async (id) => {
     }
 };
 
+export const getProductItems = async (id) => {
+    try {
+        const response = await api.get(`/product/${id}`);
+        return response.data;
+    } catch (error) {
+          console.error('Erro ao pegar items do produto:', {
+            Details: error.response?.data,
+            Status: error.response?.status
+        });
+        throw error;
+    }
+}
+
+export const deleteImage = async (idProduct, idImg) => {
+    try {
+        const response = await api.delete(`/product/${idProduct}/images/${idImg}`)
+        return response.data
+    } catch (error) {
+        throw error.data.message
+    }
+}

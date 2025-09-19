@@ -27,7 +27,7 @@ export const loginUser = async (email, password) => {
             email,
             password
         });
-        return response.data;
+        return response;
     } catch (error) {
         console.error('[API] Erro no login de usuario:', {
             Details: error.response?.data,

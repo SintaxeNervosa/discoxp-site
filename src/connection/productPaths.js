@@ -87,17 +87,6 @@ export const upImages = async (files, id) => {
 };
 
 //GET
-export const getImages = async (id) => {
-    try {
-        const response = await api.get(`/product/${id}/images`);
-        return response.data;
-    } catch (error) {
-        console.error("Erro ao buscar imagens do produto:", error);
-        throw error;
-    }
-};
-//GET
-
 export const getImage = async (id) => {
     try {
         const response = await api.get(`/product/${id}/images`);

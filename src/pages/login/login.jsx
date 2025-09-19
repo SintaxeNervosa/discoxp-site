@@ -2,6 +2,7 @@ import "./login.scss";
 import ApiService from "../../connection/apiService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 function login() {
   const [email, setEmail] = useState("");
@@ -12,15 +13,24 @@ function login() {
   async function Loginzao(e) {
     e.preventDefault();
     try {
-      const response = await ApiService.user.loginUser(1);//id 1 para 
-    } catch (error) {
-      
+      const response = await ApiService.user.loginUser(email, senha);//id 1 para
+
+      if (response.status == 200) {
+        toast.success("OK");
+
+        setTimeout(() => {
+          navigate("/choice");
+        }, [1000]);
+      }
+    } catch (err) {
+      toast.error(");");
     }
   }
 
 
   return (
     <div className="container-mae">
+      <ToastContainer />
       <section className="tudo">
         <header className="cabesa">
           <img src="/img/DISCO_XP__1_-removebg-preview.png" alt="logo" />

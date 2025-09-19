@@ -3,7 +3,7 @@ import emptyImage from '../../../../public/img/empty.webp';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { changeProduct, createProduct, getImageFile, getImages, getProductById } from "../../../connection/productPaths";
+import { changeProduct, createProduct, getImage, getImageFile, getProductById } from "../../../connection/productPaths";
 
 export default function ProductForm() {
 
@@ -35,7 +35,7 @@ export default function ProductForm() {
                 setDescription(data.description);
                 setEvaluetion(data.evaluation);
 
-                const favoriteImage = await getImages(productid);
+                const favoriteImage = await getImage(productid);
                 if (favoriteImage == null || favoriteImage == "") { return; }
 
                 const idFavoriteImage = favoriteImage[0].id;

@@ -1,5 +1,5 @@
 import "./ProductStyleForm.scss";
-import gta from '../../../assets/images/gta.png';
+import emptyImage from '../../../../public/img/empty.webp';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,7 +12,7 @@ export default function ProductForm() {
     const [stock, setStock] = useState(1);
     const [description, setDescription] = useState("");
     const [evaluation, setEvaluetion] = useState(0);
-    const [image, setImage] = useState(gta);
+    const [image, setImage] = useState(emptyImage);
 
     const { productid } = useParams();
     const navigate = useNavigate();
@@ -36,18 +36,18 @@ export default function ProductForm() {
                 setEvaluetion(data.evaluation);
 
                 const favoriteImage = await getImages(productid);
+                if (favoriteImage == null || favoriteImage == "") { return; }
+
                 const idFavoriteImage = favoriteImage[0].id;
-                if (favoriteImage[0] == null) { return; }
-
                 await findFavoriteImageByProduct(idFavoriteImage);
-
                 return;
             };
 
         } catch (error) {
-            // setTimeout(() => {
-            //     navigate("/admin/list-products");
-            // }, 1500);
+            toast.error("Erro ao carregar dados do produto");
+            setTimeout(() => {
+                navigate("/admin/list-products");
+            }, 1500);
         }
     }
 
@@ -86,7 +86,6 @@ export default function ProductForm() {
                 }
             }
         }
-
     };
 
     useEffect(() => {

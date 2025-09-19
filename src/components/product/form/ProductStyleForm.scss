@@ -54,9 +54,15 @@
 
         .buttons {
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            gap: 40px;
+            gap: 20px;
 
+            div {
+                display: flex;
+                gap: 20px;
+            }
+            
             button {
                 border-radius: 5px;
                 width: 100%;

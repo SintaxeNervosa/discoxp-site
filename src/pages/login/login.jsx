@@ -12,18 +12,9 @@ function login() {
   async function Loginzao(e) {
     e.preventDefault();
     try {
-      const response = await ApiService.user.loginUser(email, senha);
-      console.log("Login bem-sucedido:", response);
-
-      if (response.id) {
-        localStorage.setItem("token", response.id);
-      }
-
-      navigate("/choice"); //agora não
+      const response = await ApiService.user.loginUser(1);//id 1 para 
     } catch (error) {
-      console.log("Erro no login:", error);
-
-      setTimeout(() => setErro(""), 5000);
+      
     }
   }
 

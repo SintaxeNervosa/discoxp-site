@@ -2,13 +2,6 @@ import "./ProductForm.scss";
 
 
 export default function ProductForm() {
-
-
-
-
-
-
-
     return (
         <div id="ProductForm">
             <header className="ProductForm-header">
@@ -42,7 +35,7 @@ export default function ProductForm() {
                     </div>
                 </aside>
                 <figure className="ProductForm-images">
-                    {images.length > 0 ? <></> : <div></div>}
+                    {/* {images.length > 0 ? <></> : <div></div>} */}
                 </figure>
             </main>
 

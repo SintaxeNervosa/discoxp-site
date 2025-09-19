@@ -10,7 +10,8 @@ const ProductFormCreate = lazy(() => import("./pages/form/product/create/Product
 const ProductFormPageEdit = lazy(() => import("./pages/form/product/edit/ProductFormPageEdit.jsx"));
 
 const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
-const ListProduct = lazy(() => import("./pages/listProduct/listProduc"));
+//const ListProduct = lazy(() => import("./pages/listProduct/listProduc"));
+const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
 
 export default function RouteWeb() {
   return (
@@ -30,7 +31,8 @@ export default function RouteWeb() {
             <Route path="admin/edit/:userid" element={<UserFormEdit />} />
             {/*Produto*/}
             <Route path="/admin/product/register" element={<Gallery/>}/>
-            <Route path="/admin/list-products" element={<ListProduct/>}/>
+
+            <Route path="/user/product" element={<PreviewProduct/>}/>
           </Routes>
         </Suspense>
       </BrowserRouter>

@@ -28,6 +28,37 @@ export const getProductById = async (id) => {
     }
 };
 
+export const changeProductStatus = async (id) => {
+    try {
+        const response = await api.put(`admin/product/status/${id}`);
+        return response;
+    } catch (error) {
+        throw error.message;
+    }
+};
+
+export const findAllUProductsByName = async (name, page) => {
+    try {
+        const response = await api.get(`/productsByName?name=${name}&size=10&page=${page}`);
+        return response.data;
+    } catch (error) {
+        throw error.status;
+    }
+};
+
+export const getProductItems = async (id) => {
+    try {
+        const response = await api.get(`/product/${id}`);
+        return response.data;
+    } catch (error) {
+          console.error('Erro ao pegar items do produto:', {
+            Details: error.response?.data,
+            Status: error.response?.status
+        });
+        throw error;
+    }
+};
+
 export const upImages = async (files, id) => {
     try {
         const formData = new FormData();
@@ -62,21 +93,11 @@ export const getImages = async (id) => {
     }
 };
 
-export const changeProductStatus = async (id) => {
+export const deleteImage = async (idProduct, idImg) => {
     try {
-        const response = await api.put(`admin/product/status/${id}`);
-        return response;
-    } catch (error) {
-        throw error.message;
-    }
-};
-
-export const findAllUProductsByName = async (name, page) => {
-    try {
-        const response = await api.get(`/productsByName?name=${name}&size=10&page=${page}`);
+        const response = await api.delete(`/product/${idProduct}/images/${idImg}`);
         return response.data;
     } catch (error) {
-        throw error.status;
+        throw error.data.message;
     }
 };
-

@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 
 import "./Gallery.scss";
 
-import "../ui/button.scss"
+import "../ui/button.scss";
 
 
 
@@ -51,6 +51,12 @@ export default function Gallery({ onSave, onCancel, existingImages = [] }) {
 
     function handleSave() {
         onSave(images, favoriteIndex);
+    }
+
+    function removeImage(){
+        confirmAlert({
+            
+        });
     }
 
     return (
@@ -96,7 +102,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [] }) {
                                                     onClick={() => removerImagem(index)}
                                                     title="Remover imagem"
                                                 >
-                                                    ×
+                                                    ×vdhfiohiovfoi
                                                 </button>
                                             </div>
                                         </div>

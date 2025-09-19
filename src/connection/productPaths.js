@@ -6,7 +6,7 @@ export const createProduct = async (product) => {
         const response = await api.post("/createProduct", product);
         return response;
     } catch (error) {
-        throw error.response.data.message;
+        throw error;
     }
 };
 

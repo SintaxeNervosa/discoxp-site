@@ -8,6 +8,7 @@ const UserRegister = lazy(() => import("./pages/userForm/create/UserFormPage.jsx
 const UserFormEdit = lazy(() => import("./pages/userForm/edit/UserFormEdit.jsx"));
 const ProductFormCreate = lazy(() => import("./pages/form/product/create/ProductFormCreate.jsx"));
 const ProductFormPageEdit = lazy(() => import("./pages/form/product/edit/ProductFormPageEdit.jsx"));
+const ListProduct = lazy(() => import("./pages/listProduct/listProduc.jsx"));
 
 const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
 //const ListProduct = lazy(() => import("./pages/listProduct/listProduc"));
@@ -26,13 +27,14 @@ export default function RouteWeb() {
             <Route path="/admin/user/register" element={<UserRegister />} />
             <Route path="/admin/user/edit/:userid" element={<UserFormEdit />} />
             <Route path="/admin/product/create" element={<ProductFormCreate />} />
+            <Route path="/admin/list-products" element={<ListProduct />} />
             <Route path="/admin/product/edit/:productid" element={<ProductFormPageEdit />} />
             <Route path="admin/register" element={<UserRegister />} />
             <Route path="admin/edit/:userid" element={<UserFormEdit />} />
             {/*Produto*/}
-            <Route path="/admin/product/register" element={<Gallery/>}/>
+            <Route path="/admin/product/register" element={<Gallery />} />
 
-            <Route path="/user/product" element={<PreviewProduct/>}/>
+            <Route path="/user/product" element={<PreviewProduct />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

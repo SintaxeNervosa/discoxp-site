@@ -4,7 +4,8 @@ import iconProduct from "../../assets/images/add-product 1.png";
 import { useNavigate } from "react-router-dom";
 import { changeProductStatus, findAllUProductsByName, getProducts } from "../../connection/productPaths";
 import { ToastContainer, toast } from "react-toastify";
-import AlertConfirm, { Button } from "react-alert-confirm";
+import AlertConfirm from "react-alert-confirm";
+import "react-alert-confirm/lib/style.css";
 
 function ListProduct() {
   const [productsList, setProductList] = useState([]);

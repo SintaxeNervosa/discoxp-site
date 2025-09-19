@@ -3,7 +3,7 @@ import gta from '../../../assets/images/gta.png';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { getProductById } from "../../../connection/productPaths";
+import { changeProduct, getImageFile, getImages, getProductById } from "../../../connection/productPaths";
 
 export default function ProductForm() {
 
@@ -12,7 +12,7 @@ export default function ProductForm() {
     const [stock, setStock] = useState(1);
     const [description, setDescription] = useState("");
     const [evaluation, setEvaluetion] = useState(0);
-    // const [images, setImages] = useState(null);
+    const [image, setImage] = useState(gta);
 
     const { productid } = useParams();
     const navigate = useNavigate();
@@ -34,23 +34,71 @@ export default function ProductForm() {
                 setStock(data.stock);
                 setDescription(data.description);
                 setEvaluetion(data.evaluation);
+
+                const favoriteImage = await getImages(productid);
+                const idFavoriteImage = favoriteImage[0].id;
+                if (favoriteImage[0] == null) { return; }
+
+                await findFavoriteImageByProduct(idFavoriteImage);
+
                 return;
             };
 
-            throw "Ocorreu um erro inesperado";
-
         } catch (error) {
-            toast.error("Erro ao carregar os dados do usuário");
-
-            setTimeout(() => {
-                navigate("/admin/list-products");
-            }, 1500);
+            // setTimeout(() => {
+            //     navigate("/admin/list-products");
+            // }, 1500);
         }
     }
 
+    async function findFavoriteImageByProduct(idImage) {
+        const response = await getImageFile(idImage);
+        setImage(response);
+    }
+
+    function getErrorMessage(message) {
+        const errors = message.split(", ");
+        return errors;
+    }
+
+    const requestChangeProduct = async () => {
+        try {
+            const productObj = {
+                id: productid,
+                name: name,
+                evaluation: evaluation,
+                description: description,
+                price: price,
+                quantity: stock
+            };
+
+            const response = await changeProduct(productObj);
+
+            if (response.status == 204) {
+                toast.success("produto alterado com sucesso!");
+            }
+        } catch (error) {
+            const errorMessage = getErrorMessage(error.response.data.message);
+
+            for (let err of errorMessage) {
+                if (err != null && err != "") {
+                    toast.error(err);
+                }
+            }
+        }
+
+    };
+
     useEffect(() => {
         if (productid) { fetchProductData(); }
+
     }, []);
+
+    async function persist() {
+        if (productid) {
+            requestChangeProduct();
+        }
+    }
 
     const addImage = () => { };
     const cancel = () => { };
@@ -92,11 +140,15 @@ export default function ProductForm() {
                             onChange={(e) => setEvaluetion(e.target.value)} />
                     </div>
                     <div className="buttons">
-                        <button onClick={() => addImage()}>{textForm.imageButtonText}</button>
-                        <button onClick={() => cancel()}>Cancelar</button>
+                        <div>
+                            <button onClick={() => addImage()}>{textForm.imageButtonText}</button>
+                            <button onClick={() => cancel()}>Cancelar</button>
+                        </div>
+                        <button onClick={() => persist()}>Editar</button>
+
                     </div>
                 </div>
-                <img src={""} alt="" />
+                <img src={image} alt="" />
             </div>
         </div>
     );

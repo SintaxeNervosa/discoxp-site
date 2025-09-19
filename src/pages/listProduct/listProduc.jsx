@@ -35,7 +35,7 @@ function ListProduct() {
   
   async function findUProductsByName() {
     try {
-      const response = await findAllUProductsByName(name, page);
+      const response = await findAllUProductsByName(name);
       
       setTotalPages(response.totalPages);
       setProductList(response.content);
@@ -122,7 +122,7 @@ function ListProduct() {
             onChange={(e) => setName(e.target.value)}
             type="text"
             placeholder="Pesquisar Produtos" />
-          <button onClick={() => navigate("/admin/product/register")}>
+          <button onClick={() => navigate("/admin/product/create")}>
             <img
               src={iconProduct}
               alt="Adicionar Produto"

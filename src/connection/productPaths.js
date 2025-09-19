@@ -69,8 +69,8 @@ export const getProductItems = async (id) => {
 export const deleteImage = async (idProduct, idImg) => {
     try {
         const response = await api.delete(`/product/${idProduct}/images/${idImg}`)
-        return response.data
+        return response.data;
     } catch (error) {
-        throw error.data.message
+        throw error.data.message;
     }
-}
+};

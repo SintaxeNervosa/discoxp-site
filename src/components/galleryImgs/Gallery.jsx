@@ -56,7 +56,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [] }) {
     function removeImage(){
         confirmAlert({
             
-        })
+        });
     }
 
     return (

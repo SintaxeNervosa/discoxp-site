@@ -10,12 +10,21 @@ export const createProduct = async (product) => {
     }
 };
 
-export const getProducts = async () => {
+export const getProducts = async (page) => {
     try {
-        const response = await api.get('/products');
+        const response = await api.get(`/products?size=10&page=${page}`);
         return response.data;
     } catch (error) {
         throw error.status;
+    }
+};
+
+export const getProductById = async (id) => {
+    try {
+        const response = await api.get(`/product/${id}`);
+        return response;
+    } catch (error) {
+        throw error.response.data.message;
     }
 };
 
@@ -34,7 +43,7 @@ export const upImages = async (files, id) => {
         });
         return response.data;
     } catch (error) {
-         console.error('Erro em inserir as imagens de produto:', {
+        console.error('Erro em inserir as imagens de produto:', {
             Details: error.response?.data,
             Status: error.response?.status
         });
@@ -48,8 +57,26 @@ export const getImages = async (id) => {
         const response = await api.get(`/product/${id}/images`);
         return response.data;
     } catch (error) {
-           console.error("Erro ao buscar imagens do produto:", error);
+        console.error("Erro ao buscar imagens do produto:", error);
         throw error;
+    }
+};
+
+export const changeProductStatus = async (id) => {
+    try {
+        const response = await api.put(`admin/product/status/${id}`);
+        return response;
+    } catch (error) {
+        throw error.message;
+    }
+};
+
+export const findAllUProductsByName = async (name, page) => {
+    try {
+        const response = await api.get(`/productsByName?name=${name}&size=10&page=${page}`);
+        return response.data;
+    } catch (error) {
+        throw error.status;
     }
 };
 

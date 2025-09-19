@@ -2,32 +2,113 @@ import { useEffect, useState } from "react";
 import "./listProduct.scss";
 import iconProduct from "../../assets/images/add-product 1.png";
 import { useNavigate } from "react-router-dom";
-import { getProducts } from "../../connection/productPaths";
+import { changeProductStatus, findAllUProductsByName, getProducts } from "../../connection/productPaths";
 import { ToastContainer, toast } from "react-toastify";
+import AlertConfirm, { Button } from "react-alert-confirm";
 
 function ListProduct() {
-  const navigate = useNavigate();
   const [productsList, setProductList] = useState([]);
   const [listIsEmpty, setListIsEmpty] = useState(true);
+  const [name, setName] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
+
+  const [idToEdit, setIdToEdit] = useState(null);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [popUpMessage, setPopUpMessage] = useState(null);
+
+  const navigate = useNavigate();
 
   // Buscar produtos
   async function fetchProducts() {
     try {
-      const products = await getProducts();
-      setProductList(products);
+      const products = await getProducts(page);
+      setTotalPages(products.totalPages);
+
+      setProductList(products.content);
       setListIsEmpty(products.length === 0);
     } catch (err) {
       toast.error("Ocorreu um erro ao buscar produtos");
     }
   }
+  
+  async function findUProductsByName() {
+    try {
+      const response = await findAllUProductsByName(name, page);
+      
+      setTotalPages(response.totalPages);
+      setProductList(response.content);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function fetchPages() {
+    const item = [];
+
+    for (let i = 0; i < totalPages; i++) {
+      item.push(i);
+    }
+
+    return item;
+  }
+
+  const changeStatusConfirm = (product) => {
+    setIdToEdit(product.id);
+
+    if (product.status) {
+      setPopUpMessage("Deseja desativar o produto?");
+    } else {
+      setPopUpMessage("Deseja ativar o produto?");
+    }
+
+    setAlertVisible(true);
+  };
+
+  const changeStatus = async () => {
+    try {
+      const response = await changeProductStatus(idToEdit);
+
+      if (response.status == 204) {
+        toast.success("Status atualizado com sucesso");
+        fetchProducts();
+      }
+
+      setAlertVisible(false);
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Erro ao atualizar status");
+    }
+  };
+
+  useEffect(() => {
+    findUProductsByName();
+  }, [name]);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    fetchProducts();
+  }, [page]);
+
   return (
     <main className="main-list-product">
       <ToastContainer />
+      <AlertConfirm
+        title={popUpMessage}
+        visible={alertVisible}
+        cancelText="Cancelar"
+        okText="Confirmar"
+        onOk={() => {
+          changeStatus();
+        }}
+        onCancel={() => {
+          setAlertVisible(false);
+        }}
+      />
 
       <section className="container-list-product">
         <div className="header-list-product">
@@ -35,7 +116,11 @@ function ListProduct() {
         </div>
 
         <div className="search-product">
-          <input type="text" placeholder="Pesquisar Produtos" />
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            placeholder="Pesquisar Produtos" />
           <button onClick={() => navigate("/admin/product/register")}>
             <img
               src={iconProduct}
@@ -61,21 +146,25 @@ function ListProduct() {
               <tbody>
                 {productsList.length > 0 ? (
                   productsList.map((p) => (
-                    <tr key={p.id}>
-                      <td>{p.id}</td>
-                      <td>{p.name}</td>
-                      <td>{p.quantity}</td>
-                      <td>R$ {p.price}</td>
-                      <td>{p.status ? "Ativo" : "Inativo"}</td>
-                      <td className="actions">
-                        <button className="btn-view">View</button>
-                        <button className="btn-edit">Editar</button>
-                        <label className="switch">
-                          <input type="checkbox" />
-                          <span className="slider"></span>
-                        </label>
-                      </td>
-                    </tr>
+                    <>
+                      <tr key={p.id}>
+                        <td>{p.id}</td>
+                        <td>{p.name}</td>
+                        <td>{p.quantity}</td>
+                        <td>R$ {p.price}</td>
+                        <td>{p.status ? "Ativo" : "Inativo"}</td>
+                        <td className="actions">
+                          <button className="btn-view">View</button>
+                          <button className="btn-edit" onClick={(() => navigate(`/admin/product/edit/${p.id}`))}>Editar</button>
+                          <label className="switch">
+                            <input type="checkbox"
+                              checked={p.status}
+                              onClick={() => changeStatusConfirm({ id: p.id, status: p.status })} />
+                            <span className="slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                    </>
                   ))
                 ) : (
                   <tr>
@@ -87,6 +176,15 @@ function ListProduct() {
           ) : (
             <h2>Não há produtos cadastrados</h2>
           )}
+          {!listIsEmpty ?
+            <div className="pages">
+              {fetchPages().map(e =>
+                <p onClick={() => setPage(e)}>{e + 1}</p>
+              )}
+            </div>
+            : <></>
+          }
+
         </div>
       </section>
     </main>

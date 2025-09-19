@@ -37,9 +37,19 @@ export const changeProductStatus = async (id) => {
     }
 };
 
-export const findAllUProductsByName = async (name, page) => {
+export const changeProduct = async (newProduct) => {
+    // eslint-disable-next-line no-useless-catch
     try {
-        const response = await api.get(`/productsByName?name=${name}&size=10&page=${page}`);
+        const response = await api.put(`admin/product`, newProduct);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const findAllUProductsByName = async (name) => {
+    try {
+        const response = await api.get(`/productsByName?name=${name}&size=10`);
         return response.data;
     } catch (error) {
         throw error.status;
@@ -51,7 +61,7 @@ export const getProductItems = async (id) => {
         const response = await api.get(`/product/${id}`);
         return response.data;
     } catch (error) {
-          console.error('Erro ao pegar items do produto:', {
+        console.error('Erro ao pegar items do produto:', {
             Details: error.response?.data,
             Status: error.response?.status
         });
@@ -83,6 +93,32 @@ export const getImages = async (id) => {
         return response.data;
     } catch (error) {
         console.error("Erro ao buscar imagens do produto:", error);
+        throw error;
+    }
+};
+//GET
+
+export const getImage = async (id) => {
+    try {
+        const response = await api.get(`/product/${id}/images`);
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao buscar imagens do produto:", error);
+        throw error;
+    }
+};
+
+export const getImageFile = async (id) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+        const bufferResponse = await api.get(`/images/${id}/file`, {
+            responseType: "arraybuffer"
+        });
+
+        const blob = new Blob([bufferResponse.data], { type: "image/jpeg" });
+        const url = URL.createObjectURL(blob);
+        return url;
+    } catch (error) {
         throw error;
     }
 };

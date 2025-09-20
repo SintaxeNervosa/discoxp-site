@@ -1,24 +1,40 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const ProtectRoutes = ({ Children, requireDtype }) => {
+export const ProtectRoutes = ({ children, requiredType }) => {
     const navigate = useNavigate();
 
+    // chama a função assim que carregar o componente
     useEffect(() => {
+        // captura o user da sessionStorage
         const dataUser = sessionStorage.getItem("user-data");
 
+        // caso não existe, retorna para login
         if (dataUser == null) {
             navigate("/login");
-            return;
         };
 
+        // converte para json
         const dataUserToJson = JSON.parse(dataUser);
+        // captura o group
         const group = dataUserToJson.group;
 
-        if (!group) {
+        // variável para verificar se os tipos são iguais aos requiridos
+        let equalTypes = false;
+
+        // faz a verificação
+        for (let type of requiredType) {
+            if (type == group) {
+                equalTypes = true;
+            }
+        }
+
+        // caso não seja, volta para login
+        if (!equalTypes) {
             navigate("/login");
             return;
         };
-        return Children
     });
+
+    return children;
 };

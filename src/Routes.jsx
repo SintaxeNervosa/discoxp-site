@@ -24,40 +24,40 @@ export default function RouteWeb() {
             <Route path="/login" element={<Login />} />
 
             <Route path="/choice" element={
-              <ProtectRoutes requireDtype={"STOCKIST" || "ADMIN"}>
+              <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                 <Choice />
               </ProtectRoutes>} />
             <Route path="/admin/list-products" element={
-              <ProtectRoutes requireDtype={"STOCKIST" || "ADMIN"}>
-                <ListProduct />
+              <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
+
               </ProtectRoutes>} />
             <Route path="/admin/product/edit/:productid" element={
-              <ProtectRoutes requireDtype={"STOCKIST" || "ADMIN"}>
+              <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                 <ProductFormPageEdit />
               </ProtectRoutes>} />
 
             <Route path="/admin/users" element={
-              <ProtectRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requiredType={["ADMIN"]}>
                 <ListUser />
               </ProtectRoutes>} />
             <Route path="/admin/user/register" element={
-              <ProtectRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requiredType={["ADMIN"]}>
                 <UserRegister />
               </ProtectRoutes>} />
             <Route path="/admin/user/edit/:userid" element={
-              <ProtectRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requiredType={["ADMIN"]}>
                 <UserFormEdit />
               </ProtectRoutes>} />
             <Route path="/admin/product/create" element={
-              <ProtectRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requiredType={["ADMIN"]}>
                 <ProductFormCreate />
               </ProtectRoutes>} />
             <Route path="admin/register" element={
-              <ProtectRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requiredType={["ADMIN"]}>
                 <UserRegister />
               </ProtectRoutes>} />
             <Route path="admin/edit/:userid" element={
-              <ProtectRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requiredType={["ADMIN"]}>
                 <UserFormEdit />
               </ProtectRoutes>} />
             {/*Produto*/}

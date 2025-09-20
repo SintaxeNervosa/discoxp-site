@@ -29,7 +29,7 @@ export default function PreviewProduct() {
             const data = response.data;
 
             if(response.status == 200) {
-                setName(data.name);
+                setName(data.name); 
             }
         } catch (error) {
             console.log(error);

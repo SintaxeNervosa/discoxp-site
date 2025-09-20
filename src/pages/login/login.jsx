@@ -18,6 +18,10 @@ function login() {
       if (response.status == 200) {
         toast.success("OK");
 
+        const data = response.data;
+        const dataToString = JSON.stringify(data);
+        sessionStorage.setItem("user-data", dataToString);
+
         setTimeout(() => {
           navigate("/choice");
         }, [1000]);
@@ -25,6 +29,7 @@ function login() {
     } catch (err) {
       toast.error(");");
     }
+
   }
 
 

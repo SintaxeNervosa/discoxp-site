@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { changeProduct, createProduct, getImage, getImageFile, getProductById } from "../../../connection/productPaths";
 
-export default function ProductForm() {
+export const function ProductForm() {
 
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);

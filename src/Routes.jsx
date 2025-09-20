@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import { protectdRoutes } from "./context/ProtectdRoutes.jsx";
+import { ProtectRoutes } from "./context/ProtectRoutes.jsx";
 
 const Login = lazy(() => import("./pages/login/login.jsx"));
 const ListUser = lazy(() => import("./pages/listUser/listUser.jsx"));
@@ -24,42 +24,42 @@ export default function RouteWeb() {
             <Route path="/login" element={<Login />} />
 
             <Route path="/choice" element={
-              <protectdRoutes requireDtype={"STOCKIST" || "ADMIN"}>
+              <ProtectRoutes requireDtype={"STOCKIST" || "ADMIN"}>
                 <Choice />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             <Route path="/admin/list-products" element={
-              <protectdRoutes requireDtype={"STOCKIST" || "ADMIN"}>
+              <ProtectRoutes requireDtype={"STOCKIST" || "ADMIN"}>
                 <ListProduct />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             <Route path="/admin/product/edit/:productid" element={
-              <protectdRoutes requireDtype={"STOCKIST" || "ADMIN"}>
+              <ProtectRoutes requireDtype={"STOCKIST" || "ADMIN"}>
                 <ProductFormPageEdit />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
 
             <Route path="/admin/users" element={
-              <protectdRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requireDtype={"ADMIN"}>
                 <ListUser />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             <Route path="/admin/user/register" element={
-              <protectdRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requireDtype={"ADMIN"}>
                 <UserRegister />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             <Route path="/admin/user/edit/:userid" element={
-              <protectdRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requireDtype={"ADMIN"}>
                 <UserFormEdit />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             <Route path="/admin/product/create" element={
-              <protectdRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requireDtype={"ADMIN"}>
                 <ProductFormCreate />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             <Route path="admin/register" element={
-              <protectdRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requireDtype={"ADMIN"}>
                 <UserRegister />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             <Route path="admin/edit/:userid" element={
-              <protectdRoutes requireDtype={"ADMIN"}>
+              <ProtectRoutes requireDtype={"ADMIN"}>
                 <UserFormEdit />
-              </protectdRoutes>} />
+              </ProtectRoutes>} />
             {/*Produto*/}
             <Route path="/admin/product/register" element={<Gallery />} />
 

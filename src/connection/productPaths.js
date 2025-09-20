@@ -69,22 +69,22 @@ export const getProductItems = async (id) => {
     }
 };
 
-export const upImages = async (files, id) => {
-    try {
-        const response = await api.post(`/api/images/${productId}`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-        return response.data;
-    } catch (error) {
-        console.error('Erro em inserir as imagens de produto:', {
-            Details: error.response?.data,
-            Status: error.response?.status
-        });
-        throw error;
-    }
-};
+// export const upImages = async (files, id) => {
+//     try {
+//         const response = await api.post(`/api/images/${productId}`, formData, {
+//                     headers: {
+//                         'Content-Type': 'multipart/form-data'
+//                     }
+//                 });
+//         return response.data;
+//     } catch (error) {
+//         console.error('Erro em inserir as imagens de produto:', {
+//             Details: error.response?.data,
+//             Status: error.response?.status
+//         });
+//         throw error;
+//     }
+// };
 
 //GET
 export const getImage = async (id) => {

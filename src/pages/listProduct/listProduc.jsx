@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import "./listProduct.scss";
 import iconProduct from "../../assets/images/add-product 1.png";
 import { useNavigate } from "react-router-dom";
-import { changeProductStatus, findAllUProductsByName, getProducts } from "../../connection/productPaths";
+import {
+  changeProductStatus,
+  findAllUProductsByName,
+  getProducts,
+} from "../../connection/productPaths";
 import { ToastContainer, toast } from "react-toastify";
 import AlertConfirm from "react-alert-confirm";
 import "react-alert-confirm/lib/style.css";
@@ -32,11 +36,13 @@ function ListProduct() {
       toast.error("Ocorreu um erro ao buscar produtos");
     }
   }
-  
+
+  const userCollect = localStorage.getItem("groupEnum");
+
   async function findUProductsByName() {
     try {
       const response = await findAllUProductsByName(name);
-      
+
       setTotalPages(response.totalPages);
       setProductList(response.content);
     } catch (error) {
@@ -76,7 +82,6 @@ function ListProduct() {
       }
 
       setAlertVisible(false);
-
     } catch (error) {
       console.log(error);
       toast.error("Erro ao atualizar status");
@@ -121,7 +126,8 @@ function ListProduct() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             type="text"
-            placeholder="Pesquisar Produtos" />
+            placeholder="Pesquisar Produtos"
+          />
           <button onClick={() => navigate("/admin/product/create")}>
             <img
               src={iconProduct}
@@ -155,14 +161,50 @@ function ListProduct() {
                         <td>R$ {p.price}</td>
                         <td>{p.status ? "Ativo" : "Inativo"}</td>
                         <td className="actions">
-                          <button className="btn-view">View</button>
-                          <button className="btn-edit" onClick={(() => navigate(`/admin/product/edit/${p.id}`))}>Editar</button>
-                          <label className="switch">
-                            <input type="checkbox"
-                              checked={p.status}
-                              onClick={() => changeStatusConfirm({ id: p.id, status: p.status })} />
-                            <span className="slider"></span>
-                          </label>
+                          {userCollect === "STOCKIST" && (
+                            <button
+                              className="btn-edit"
+                              onClick={() =>
+                                navigate(`/admin/product/edit/${p.id}`)
+                              }
+                            >
+                              Editar
+                            </button>
+                          )}
+
+                          {userCollect === "ADMIN" && (
+                            <>
+                              <button
+                                className="btn-view"
+                                onClick={() =>
+                                  navigate(`/admin/product/${p.id}`)
+                                }
+                              >
+                                View
+                              </button>
+                              <button
+                                className="btn-edit"
+                                onClick={() =>
+                                  navigate(`/admin/product/edit/${p.id}`)
+                                }
+                              >
+                                Editar
+                              </button>
+                              <label className="switch">
+                                <input
+                                  type="checkbox"
+                                  checked={p.status}
+                                  onClick={() =>
+                                    changeStatusConfirm({
+                                      id: p.id,
+                                      status: p.status,
+                                    })
+                                  }
+                                />
+                                <span className="slider"></span>
+                              </label>
+                            </>
+                          )}
                         </td>
                       </tr>
                     </>
@@ -177,15 +219,15 @@ function ListProduct() {
           ) : (
             <h2>Não há produtos cadastrados</h2>
           )}
-          {!listIsEmpty ?
+          {!listIsEmpty ? (
             <div className="pages">
-              {fetchPages().map(e =>
+              {fetchPages().map((e) => (
                 <p onClick={() => setPage(e)}>{e + 1}</p>
-              )}
+              ))}
             </div>
-            : <></>
-          }
-
+          ) : (
+            <></>
+          )}
         </div>
       </section>
     </main>

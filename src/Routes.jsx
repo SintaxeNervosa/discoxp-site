@@ -22,7 +22,7 @@ export default function RouteWeb() {
         <Suspense fallback={<div>Carregando...</div>}>
           <Routes>
             {/*Usuarios*/}
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
 
             <Route path="/choice" element={
               <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>

@@ -16,7 +16,7 @@ export default function NotFound() {
                     Desculpe, a página que você procura não existe.
                 </p>
                 <button
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/")}
                     className="btn notfound-btn">
                     Voltar para Home
                 </button>

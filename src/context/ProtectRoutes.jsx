@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const ProtectRoutes = ({ children, requiredType }) => {
+    const [ok, setOk] = useState(false);
     const navigate = useNavigate();
 
     // chama a função assim que carregar o componente
@@ -11,7 +12,8 @@ export const ProtectRoutes = ({ children, requiredType }) => {
 
         // caso não existe, retorna para login
         if (dataUser == null) {
-            navigate("/login");
+            navigate("/");
+            return;
         };
 
         // converte para json
@@ -29,12 +31,14 @@ export const ProtectRoutes = ({ children, requiredType }) => {
             }
         }
 
-        // caso não seja, volta para login
+        // caso não seja, define como rota nao encontrada
         if (!equalTypes) {
-            navigate("/login");
+            navigate("/*");
             return;
         };
+
+        if (equalTypes) { setOk(true); }
     });
 
-    return children;
+    return ok ? children : null;
 };

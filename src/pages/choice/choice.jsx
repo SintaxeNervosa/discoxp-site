@@ -13,7 +13,7 @@ export default function choice() {
         if (!usertype) {
             toast.error("Ocorreu um erro inesperado");
             setTimeout(() => {
-                navigate("/login");
+                navigate("/");
             }, [1000]);
         } else if (usertype == "ADMIN") {
             componente =
@@ -27,7 +27,7 @@ export default function choice() {
         } else {
             toast.error("Ocorreu um erro inesperado");
             setTimeout(() => {
-                navigate("/login");
+                navigate("/");
             }, [1000]);
         }
         setButton(componente);

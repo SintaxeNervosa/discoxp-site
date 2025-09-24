@@ -30,8 +30,8 @@ export default function PreviewProduct() {
             const response = await getProductById(productid);
             const data = response.data;
 
-            if(response.status == 200) {
-                setName(data.name); 
+            if (response.status == 200) {
+                setName(data.name);
                 setDescription(data.description);
                 setQuantity(data.quantity);
                 setPrice(data.price);
@@ -46,14 +46,12 @@ export default function PreviewProduct() {
         try {
             const response = await getImage(productid);
             console.log(response);
-             if (response.length != 0){
-                let teste = response[0].slice(5);
-                console.log(response[0]);
-            setImages(teste);
-            
-        } else {
-            toast.error("Nenhuma imagem encontrada para este produto");
-        }
+            if (response.length != 0) {
+                setImages(response);
+
+            } else {
+                toast.error("Nenhuma imagem encontrada para este produto");
+            }
         } catch (error) {
             console.log(error);
             toast.error("Erro ao buscar imagem do produto");
@@ -64,10 +62,6 @@ export default function PreviewProduct() {
         fetchDataProduct();
         fetchProductImages();
     }, []);
-
-    useEffect(() => {
-        console.log(images);
-    }, [images])
 
     // dps coloca as imagens reais
     const productImages = [
@@ -100,7 +94,7 @@ export default function PreviewProduct() {
                         className="preview-main-swiper"
                         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                     >
-                        {productImages.map((image, index) => (
+                        {images.map((image, index) => (
                             <SwiperSlide key={index}>
                                 <img
                                     className='principal'
@@ -110,7 +104,7 @@ export default function PreviewProduct() {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                    
+
                 </figure>
 
                 <aside className='PreviewProduct-aside'>
@@ -118,7 +112,7 @@ export default function PreviewProduct() {
                         <h1>{name}</h1>
                         <img src="blob:http://localhost:5173/2a5caf81-a1da-4a95-9638-99b7a6818ff9" alt="" />
                         <h3>
-                            <Rating initialValue={evaluation} size={40} fillColor="gold" readonly allowFraction/>
+                            <Rating initialValue={evaluation} size={40} fillColor="gold" readonly allowFraction />
                         </h3>
                     </div>
                     <div className='PreviewProduct-aside-desc'>

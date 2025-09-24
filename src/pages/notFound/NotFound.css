@@ -1,0 +1,13 @@
+.notfound-404 {
+  color: #EB8F25;
+}
+
+.notfound-btn {
+  background-color: #EB8F25;
+  color: #fff;
+  border: none;
+}
+
+.notfound-btn:hover {
+  background-color: #d97a1f;
+}

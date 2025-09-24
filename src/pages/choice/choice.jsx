@@ -23,8 +23,8 @@ function choice() {
                 </>;
         } else if (usertype == "STOCKIST") {
             componente =
-                <button>Listar Produto</button>
-        } else{
+                <button onClick={() => navigate("/list-products")}>Listar Produto</button>
+        } else {
             toast.error("Ocorreu um erro inesperado");
             setTimeout(() => {
                 navigate("/login");
@@ -39,24 +39,20 @@ function choice() {
         return dataUserToJson.group;
     };
 
-    useEffect(()=> {
+    useEffect(() => {
         carregarButton();
-    },[]);
+    }, []);
 
     return (
 
         <main className="mainzona">
-            <ToastContainer/>
+            <ToastContainer />
             <header className="cabesao">
                 <h1>›Home</h1>
             </header>
             <div className="botoes-juntos">
                 {button}
             </div>
-
-            {/* <div className="botao-loneny">
-                <button>Listar Pedidos</button>
-            </div> */}
         </main>
     );
 }

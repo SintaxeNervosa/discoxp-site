@@ -14,6 +14,7 @@ const ListProduct = lazy(() => import("./pages/listProduct/listProduc.jsx"));
 const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
 const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
 
+const NotFound = lazy(() => import("./pages/notFound/NotFound.jsx"));
 export default function RouteWeb() {
   return (
     <>
@@ -61,9 +62,14 @@ export default function RouteWeb() {
                 <UserFormEdit />
               </ProtectRoutes>} />
             {/*Produto*/}
-            <Route path="/admin/product/register" element={<Gallery />} />
-
+            <Route path="/admin/product/gallery" element={
+              <ProtectRoutes requiredType={["ADMIN"]}>
+                <Gallery />
+              </ProtectRoutes>
+            }>
+            </Route>
             <Route path="/admin/product/:productid" element={<PreviewProduct />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

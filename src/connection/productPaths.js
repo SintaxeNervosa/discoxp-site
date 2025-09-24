@@ -87,24 +87,20 @@ export const getProductItems = async (id) => {
 // };
 
 //GET
+//Esse método COM VÁRIAS imagens não deu certo
 export const getImage = async (id) => {
     try {
-        const response = await api.get(`/product/${id}/images`);
+    const response = await api.get(`/product/${id}/images`);
 
-        let urls = [];
-        let blob;
-        for (let i = 0; i < response.data.length; i++) {
-           //console.log(response.data[i]);
-            blob = new Blob([response.data[i]], { type: "image/jpeg" });
-            urls.push(URL.createObjectURL(blob));
-        }
-        return urls;
-    } catch (error) {
-        console.error("Erro ao buscar imagens do produto:", error);
+    const urls = response.data.map(img => img.imageData);
+    console.log("URLs das imagens:", urls);
+    return urls;
+    } catch (error){
+        console.error("Erro ao buscar imagens do produto:", error); 
         throw error;
     }
 };
-
+//Esse método COM UMA imagem deu certo 
 export const getImageFile = async (id) => {
     // eslint-disable-next-line no-useless-catch
     try {

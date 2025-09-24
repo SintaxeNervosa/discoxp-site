@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Thumbs } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import './PreviewProduct.scss';
-import '../../components/ui/button.scss';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getImage, getProductById } from '../../connection/productPaths';
-import { toast } from 'react-toastify';
-import { Rating } from 'react-simple-star-rating';
+import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Thumbs } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "./PreviewProduct.scss";
+import "../../components/ui/button.scss";
+import { useNavigate, useParams } from "react-router-dom";
+import { getImage, getProductById } from "../../connection/productPaths";
+import { toast } from "react-toastify";
+import { Rating } from "react-simple-star-rating";
 
 export default function PreviewProduct() {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -44,13 +44,13 @@ export default function PreviewProduct() {
 
     async function fetchProductImages() {
         try {
-            const response = await getImage(productid);
-            console.log(response);
-            if (response.length != 0) {
-                setImages(response);
+            const imagesUrls = await getImage(productid);
+            console.log("imagens recebidas da api:", imagesUrls);
 
+            if (imagesUrls && imagesUrls.length > 0) {
+                setImages(imagesUrls);
             } else {
-                toast.error("Nenhuma imagem encontrada para este produto");
+                toast.info("Nenhuma imagem encontrada para este produto");
             }
         } catch (error) {
             console.log(error);
@@ -61,61 +61,67 @@ export default function PreviewProduct() {
     useEffect(() => {
         fetchDataProduct();
         fetchProductImages();
-    }, []);
+    }, [productid]);
 
     // dps coloca as imagens reais
-    const productImages = [
+    const productImagesFallback = [
         "/img/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg",
         "/img/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg",
         "/img/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg",
-        "/img/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg"
+        "/img/alexey-savchenko-k4Akpt5-Sfk-unsplash.jpg",
     ];
 
-    async function pegarDadosProduto() {
-    }
+    const imagesToShow = images.length ? images : productImagesFallback;
+
+    async function pegarDadosProduto() { }
 
     return (
-        <div id='PreviewProduct'>
-            <nav className='PreviewProduct-nav'>
+        <div id="PreviewProduct">
+            <nav className="PreviewProduct-nav">
                 <h1>Preview de Produto</h1>
             </nav>
 
-            <main className='PreviewProduct-main'>
-                <figure className='PreviewProduct-figure'>
+            <main className="PreviewProduct-main">
+                <figure className="PreviewProduct-figure">
                     <Swiper
                         spaceBetween={10}
                         navigation={true}
                         pagination={{
                             clickable: true,
-                            type: 'fraction'
+                            type: "fraction",
                         }}
                         thumbs={{ swiper: thumbsSwiper }}
                         modules={[Navigation, Pagination, Thumbs]}
                         className="preview-main-swiper"
                         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                     >
-                        {images.map((image, index) => (
-                            <SwiperSlide key={index}>
+                        {imagesToShow.map((imageData, index) => (
+                            <SwiperSlide key={`main-${index}`}>
                                 <img
                                     className='principal'
-                                    src={image}
+                                    src={imageData}
                                     alt={`Produto ${index + 1}`}
                                 />
                             </SwiperSlide>
                         ))}
                     </Swiper>
-
                 </figure>
 
-                <aside className='PreviewProduct-aside'>
-                    <div className='PreviewProduct-aside-titulo'>
+                <aside className="PreviewProduct-aside">
+                    <div className="PreviewProduct-aside-titulo">
                         <h1>{name}</h1>
-                        <img src="blob:http://localhost:5173/2a5caf81-a1da-4a95-9638-99b7a6818ff9" alt="" />
+                        {images[0] ? <img src={images[0]} alt="Produto mini" /> : <img src="/img/placeholder.jpg" alt="placeholder" />}
                         <h3>
-                            <Rating initialValue={evaluation} size={40} fillColor="gold" readonly allowFraction />
+                            <Rating
+                                initialValue={evaluation}
+                                size={40}
+                                fillColor="gold"
+                                readonly
+                                allowFraction
+                            />
                         </h3>
                     </div>
-                    <div className='PreviewProduct-aside-desc'>
+                    <div className="PreviewProduct-aside-desc">
                         <p>{description}</p>
                         <h5>Estoque: {quantity}</h5>
                         <h5>Preço: {price}$</h5>
@@ -123,8 +129,8 @@ export default function PreviewProduct() {
                 </aside>
             </main>
 
-            <footer className='PreviewProduct-footer'>
-                <div className='PreviewProduct-footer-images'>
+            <footer className="PreviewProduct-footer">
+                <div className="PreviewProduct-footer-images">
                     <Swiper
                         onSwiper={setThumbsSwiper}
                         spaceBetween={10}
@@ -134,10 +140,11 @@ export default function PreviewProduct() {
                         modules={[Thumbs]}
                         className="preview-thumbs-swiper"
                     >
-                        {productImages.map((image, index) => (
+                        {productImagesFallback.map((image, index) => (
                             <SwiperSlide key={index}>
                                 <img
-                                    className={`footer-images ${index === activeIndex ? 'active' : ''}`}
+                                    className={`footer-images ${index === activeIndex ? "active" : ""
+                                        }`}
                                     src={image}
                                     alt={`Thumb ${index + 1}`}
                                 />
@@ -146,7 +153,7 @@ export default function PreviewProduct() {
                     </Swiper>
                 </div>
 
-                <div className='PreviewProduct-footer-button'>
+                <div className="PreviewProduct-footer-button">
                     <button>COMPRAR</button>
                 </div>
             </footer>

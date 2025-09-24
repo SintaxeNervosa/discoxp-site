@@ -36,6 +36,8 @@ export default function ProductForm() {
                 setEvaluetion(data.evaluation);
 
                 const favoriteImage = await getImage(productid);
+
+                console.log(favoriteImage);
                 if (favoriteImage == null || favoriteImage == "") { return; }
 
                 const idFavoriteImage = favoriteImage[0].id;
@@ -45,9 +47,9 @@ export default function ProductForm() {
 
         } catch (error) {
             toast.error("Erro ao carregar dados do produto");
-            setTimeout(() => {
-                navigate("/admin/list-products");
-            }, 1500);
+            // setTimeout(() => {
+            //     navigate("/admin/list-products");
+            // }, 1500);
         }
     }
 

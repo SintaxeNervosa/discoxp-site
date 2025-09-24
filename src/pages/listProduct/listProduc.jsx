@@ -16,7 +16,7 @@ import ProductListingStockistButtons from "../../components/listProducts/stockis
 function ListProduct() {
   const [productsList, setProductList] = useState([]);
   const [listIsEmpty, setListIsEmpty] = useState(true);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(0);
 
@@ -30,6 +30,7 @@ function ListProduct() {
   async function fetchProducts() {
     try {
       const products = await getProducts(page);
+      
       setTotalPages(products.totalPages);
 
       setProductList(products.content);
@@ -48,7 +49,7 @@ function ListProduct() {
     if (userData) {
 
       const userType = JSON.parse(userData);
-      
+
       userType.group == "ADMIN"
         ? component = <ProductListingAdminButtons
           p={p}
@@ -66,21 +67,23 @@ function ListProduct() {
     try {
       const response = await findAllUProductsByName(name);
 
-      setTotalPages(response.totalPages);
       setProductList(response.content);
+      setTotalPages(response.totalPages);
+
     } catch (error) {
       console.log(error);
     }
   }
 
   function fetchPages() {
-    const item = [];
+    const items = [];
 
     for (let i = 0; i < totalPages; i++) {
-      item.push(i);
+      items.push(i);
     }
 
-    return item;
+    console.log(totalPages);
+    return items;
   }
 
   const changeStatusConfirm = (product) => {
@@ -112,12 +115,14 @@ function ListProduct() {
   };
 
   useEffect(() => {
-    findUProductsByName();
-  }, [name]);
+    fetchProducts();
+    console.log("Page: " + page);
+  }, [page]);
 
   useEffect(() => {
-    fetchProducts();
-  }, [page]);
+    findUProductsByName();
+    if (name == null) { setPage(0); }
+  }, [name]);
 
   useEffect(() => {
     fetchProducts();
@@ -176,16 +181,14 @@ function ListProduct() {
               <tbody>
                 {productsList.length > 0 ? (
                   productsList.map((p) => (
-                    <>
-                      <tr key={p.id}>
-                        <td>{p.id}</td>
-                        <td>{p.name}</td>
-                        <td>{p.quantity}</td>
-                        <td>R$ {p.price}</td>
-                        <td>{p.status ? "Ativo" : "Inativo"}</td>
-                        {loadButtom(p)}
-                      </tr>
-                    </>
+                    <tr key={p.id}>
+                      <td>{p.id}</td>
+                      <td>{p.name}</td>
+                      <td>{p.quantity}</td>
+                      <td>R$ {p.price}</td>
+                      <td>{p.status ? "Ativo" : "Inativo"}</td>
+                      {loadButtom(p)}
+                    </tr>
                   ))
                 ) : (
                   <tr>
@@ -197,15 +200,13 @@ function ListProduct() {
           ) : (
             <h2>Não há produtos cadastrados</h2>
           )}
-          {!listIsEmpty ? (
+          {
             <div className="pages">
-              {fetchPages().map((e) => (
-                <p onClick={() => setPage(e)}>{e + 1}</p>
+              {fetchPages().map((e, key) => (
+                <p key={key} onClick={() => setPage(e)}>{e + 1}</p>
               ))}
             </div>
-          ) : (
-            <></>
-          )}
+          }
         </div>
       </section>
     </main>

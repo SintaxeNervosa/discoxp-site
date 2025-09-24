@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ProtectRoutes = ({ children, requiredType }) => {
     const navigate = useNavigate();
@@ -12,7 +12,6 @@ export const ProtectRoutes = ({ children, requiredType }) => {
         // caso não existe, retorna para login
         if (dataUser == null) {
             navigate("/login");
-            return;
         };
 
         // converte para json
@@ -35,8 +34,7 @@ export const ProtectRoutes = ({ children, requiredType }) => {
             navigate("/login");
             return;
         };
-
-        return children;
     });
 
+    return children;
 };

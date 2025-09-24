@@ -98,7 +98,8 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
 
                 console.log("Produto: ", productId, " Images = ", nwefiles)
 
-                await ApiService.product.upImages(formData, 1)
+                console.log(formData);
+                await ApiService.product.upImages(formData, 5)
                 console.log("enviou imgs")
             } else{
                 console.log("nenhuma img")

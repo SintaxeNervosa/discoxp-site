@@ -69,34 +69,34 @@ export const getProductItems = async (id) => {
     }
 };
 
-// export const upImages = async (files, id) => {
-//     try {
-//         const response = await api.post(`/api/images/${productId}`, formData, {
-//                     headers: {
-//                         'Content-Type': 'multipart/form-data'
-//                     }
-//                 });
-//         return response.data;
-//     } catch (error) {
-//         console.error('Erro em inserir as imagens de produto:', {
-//             Details: error.response?.data,
-//             Status: error.response?.status
-//         });
-//         throw error;
-//     }
-// };
+export const upImages = async (files, id) => {
+    try {
+        const response = await api.post(`/images/${id}`, files, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Erro em inserir as imagens de produto:', {
+            Details: error.response?.data,
+            Status: error.response?.status
+        });
+        throw error;
+    }
+};
 
 //GET
 //Esse método COM VÁRIAS imagens não deu certo
 export const getImage = async (id) => {
     try {
-    const response = await api.get(`/product/${id}/images`);
+        const response = await api.get(`/product/${id}/images`);
 
-    const urls = response.data.map(img => img.imageData);
-    console.log("URLs das imagens:", urls);
-    return urls;
-    } catch (error){
-        console.error("Erro ao buscar imagens do produto:", error); 
+        const urls = response.data.map(img => img.imageData);
+        console.log("URLs das imagens:", urls);
+        return urls;
+    } catch (error) {
+        console.error("Erro ao buscar imagens do produto:", error);
         throw error;
     }
 };

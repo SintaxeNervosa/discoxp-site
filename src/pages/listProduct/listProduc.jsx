@@ -10,6 +10,8 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import AlertConfirm from "react-alert-confirm";
 import "react-alert-confirm/lib/style.css";
+import ProductListingAdminButtons from "../../components/listProducts/admin/ProductListingAdminButtons";
+import ProductListingStockistButtons from "../../components/listProducts/stockist/ProductListingStockistButtons";
 
 function ListProduct() {
   const [productsList, setProductList] = useState([]);
@@ -37,7 +39,28 @@ function ListProduct() {
     }
   }
 
-  const userCollect = localStorage.getItem("groupEnum");
+  // carregar botão de acordo com o tipo de usuário
+  const loadButtom = (p) => {
+    const userData = sessionStorage.getItem("user-data");
+
+    let component = null;
+
+    if (userData) {
+
+      const userType = JSON.parse(userData);
+      
+      userType.group == "ADMIN"
+        ? component = <ProductListingAdminButtons
+          p={p}
+          changeStatusConfirm={() => changeStatusConfirm({
+            id: p.id,
+            status: p.status,
+          })} />
+        : component = <ProductListingStockistButtons p={p} />
+    }
+
+    return component;
+  };
 
   async function findUProductsByName() {
     try {
@@ -94,11 +117,11 @@ function ListProduct() {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     fetchProducts();
-  }, [page]);
+  }, []);
 
   return (
     <main className="main-list-product">
@@ -160,52 +183,7 @@ function ListProduct() {
                         <td>{p.quantity}</td>
                         <td>R$ {p.price}</td>
                         <td>{p.status ? "Ativo" : "Inativo"}</td>
-                        <td className="actions">
-                          {userCollect === "STOCKIST" && (
-                            <button
-                              className="btn-edit"
-                              onClick={() =>
-                                navigate(`/admin/product/edit/${p.id}`)
-                              }
-                            >
-                              Editar
-                            </button>
-                          )}
-
-                          {userCollect === "ADMIN" && (
-                            <>
-                              <button
-                                className="btn-view"
-                                onClick={() =>
-                                  navigate(`/admin/product/${p.id}`)
-                                }
-                              >
-                                View
-                              </button>
-                              <button
-                                className="btn-edit"
-                                onClick={() =>
-                                  navigate(`/admin/product/edit/${p.id}`)
-                                }
-                              >
-                                Editar
-                              </button>
-                              <label className="switch">
-                                <input
-                                  type="checkbox"
-                                  checked={p.status}
-                                  onClick={() =>
-                                    changeStatusConfirm({
-                                      id: p.id,
-                                      status: p.status,
-                                    })
-                                  }
-                                />
-                                <span className="slider"></span>
-                              </label>
-                            </>
-                          )}
-                        </td>
+                        {loadButtom(p)}
                       </tr>
                     </>
                   ))

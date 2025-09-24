@@ -3,7 +3,7 @@ import "./choice.scss";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-function choice() {
+export default function choice() {
     const [button, setButton] = useState("");
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ function choice() {
         } else if (usertype == "ADMIN") {
             componente =
                 <>
-                    <button>Listar Produto</button>
+                    <button onClick={() => navigate("/list-products")} >Listar Produto</button>
                     <button onClick={() => navigate("/admin/users")}>Listar Usuário</button>
                 </>;
         } else if (usertype == "STOCKIST") {
@@ -55,6 +55,4 @@ function choice() {
             </div>
         </main>
     );
-}
-
-export default choice;
+};

@@ -28,7 +28,7 @@ export default function RouteWeb() {
               <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                 <Choice />
               </ProtectRoutes>} />
-            <Route path="/admin/list-products" element={
+            <Route path="/list-products" element={
               <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                 <ListProduct />
               </ProtectRoutes>} />

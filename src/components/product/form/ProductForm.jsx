@@ -3,7 +3,8 @@ import emptyImage from '../../../../public/img/empty.webp';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { changeProduct, createProduct, getImage, getImageFile, getProductById } from "../../../connection/productPaths";
+import { changeProduct, createProduct, getImage, getImageFile, getProductById, upImages } from "../../../connection/productPaths";
+import { convertFilesToFormData, fileExists, removeAll } from "../../../config/dexie";
 
 export default function ProductForm() {
 
@@ -100,21 +101,41 @@ export default function ProductForm() {
             requestChangeProduct();
             return;
         }
+
         requestCreateProduct()
     }
 
     async function requestCreateProduct() {
         try {
+
+            if (!await fileExists()) {
+                toast.error("Adicione ao menos uma imagem");
+                return;
+            }
+
             let Product = {
                 name: name,
                 evaluation: evaluation,
                 description: description,
                 price: price,
                 quantity: stock
-            }
-            const Response = await createProduct(Product)
-            if (Response.status == 200) {
-                toast.success("Produto cadastrado com sucesso!")
+            };
+
+            const createProductResponse = await createProduct(Product);
+
+            if (createProductResponse.status == 200) {
+                toast.success("Produto cadastrado com sucesso!");
+
+                const id = createProductResponse.data.id;
+
+                const formData = await convertFilesToFormData();
+                
+                const saveImages = await upImages(formData, id);
+                
+                if(saveImages.status == 200) {
+                    toast.success("Imagens adicionadas com sucesso!");
+                    removeAll();
+                }
             }
         } catch (error) {
             const errorMessage = getErrorMessage(error.response.data.message);
@@ -128,8 +149,8 @@ export default function ProductForm() {
 
     const addImage = () => {
         navigate(`/admin/product/gallery${productid
-                ? `/${productid}`
-                : ""}`);
+            ? `/${productid}`
+            : ""}`);
     };
     const cancel = () => {
         navigate(-1);

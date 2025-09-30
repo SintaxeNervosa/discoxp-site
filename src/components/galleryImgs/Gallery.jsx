@@ -10,14 +10,18 @@ import "./Gallery.scss";
 
 import "../ui/button.scss";
 import ApiService from "../../connection/apiService";
+import { add, convertFilesToFormData, removeAll } from "../../config/dexie";
+import { useNavigate } from "react-router-dom";
 
-export default function Gallery({ onSave, onCancel, existingImages = [] , productId}) {
+export default function Gallery({ onSave, onCancel, existingImages = [], productId }) {
     const [images, setImagens] = useState(existingImages);
     const [favoriteIndex, setFavoriteIndex] = useState(0);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const fileInputRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
     const [files, setFiles] = useState([]);
+
+    const navigate = useNavigate();
 
     function exibirImagem(file) {
         if (file instanceof File) {
@@ -60,17 +64,19 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
         return reordenarImages;
     }
 
-      function handleCancel() {
+    function handleCancel() {
         if (window.confirm("Tem certeza que deseja cancelar? As alterações não serão salvas.")) {
-            onCancel();
+            removeAll(); // remove todas as imagens do banco;
+            navigate(-1);
+            // onCancel();
         }
     }
 
-        async function handleSave() {
+    async function handleSave() {
         setIsLoading(true)
         try {
             const imagensToEnviar = imageFavorita()
-            
+
             await salveImages(imagensToEnviar)
 
             onSave(imagensToEnviar, favoriteIndex)
@@ -78,7 +84,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
             console.error("Erro ao salvar imagens:", error);
             alert("Erro ao salvar imagens. Tente novamente.");
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     }
@@ -86,24 +92,25 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
 
     async function salveImages(imagesToUpar) {
         try {
-            const nwefiles = imagesToUpar.filter(img => img instanceof File)//only files
+            const newFiles = imagesToUpar.filter(img => img instanceof File)//only files
+            await add(newFiles);
 
-            if (nwefiles.length > 0) {
-                const formData = new FormData
+            // if (newFiles.length > 0) {
+            //     const formData = new FormData
 
-                //colocar cada file no FormData
-                nwefiles.forEach( file =>{
-                    formData.append("file", file)
-                })
+            //colocar cada file no FormData
+            // newFiles.forEach(file => {
+            //     formData.append("file", file)
+            //     })
 
-                console.log("Produto: ", productId, " Images = ", nwefiles)
+            //     //                console.log("Produto: ", productId, " Images = ", nwefiles)
 
-                console.log(formData);
-                await ApiService.product.upImages(formData, 5)
-                console.log("enviou imgs")
-            } else{
-                console.log("nenhuma img")
-            }
+
+            //     // await ApiService.product.upImages(formData, 5)
+            //     console.log("enviou imgs")
+            // } else {
+            //     console.log("nenhuma img")
+            // }
         } catch (error) {
             console.error(error);
             throw new Error("Falha")
@@ -242,13 +249,13 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
                         onClick={() => fileInputRef.current?.click()}
                         disabled={isLoading}
                     >
-                         📷 Adicionar mais imagens
+                        📷 Adicionar mais imagens
                     </button>
                     <div className="footer-actions">
                         <button className="btn-cancel" onClick={handleCancel} disabled={isLoading}>
                             Cancelar
                         </button>
-                        <button className="btn-save" onClick={handleSave} disabled={isLoading || images.length === 0 }>
+                        <button className="btn-save" onClick={handleSave} disabled={isLoading || images.length === 0}>
                             {isLoading ? "Salvando..." : "💾 Salvar"}
                         </button>
                     </div>

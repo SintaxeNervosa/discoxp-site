@@ -3,7 +3,7 @@ import api from "../config/axiosConfig";
 //POST
 export const createProduct = async (product) => {
     try {
-        const response = await api.post("/createProduct", product);
+        const response = await api.post("/admin/createProduct", product);
         return response;
     } catch (error) {
         throw error;
@@ -70,13 +70,14 @@ export const getProductItems = async (id) => {
 };
 
 export const upImages = async (files, id) => {
+    
     try {
         const response = await api.post(`/images/${id}`, files, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
-        return response.data;
+        return response;
     } catch (error) {
         console.error('Erro em inserir as imagens de produto:', {
             Details: error.response?.data,

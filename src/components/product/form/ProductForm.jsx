@@ -3,8 +3,9 @@ import emptyImage from '../../../../public/img/empty.webp';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { changeProduct, createProduct, getImage, getImageFile, getProductById, upImages } from "../../../connection/productPaths";
-import { convertFilesToFormData, fileExists, removeAll } from "../../../config/dexie";
+import { changeProduct, createProduct, deleteAllImagesByProduct, getImage, getImageFile, getProductById, upImages } from "../../../connection/productPaths";
+import { convertFilesToFormData, fileExists, findByFavoriteImage, removeAll } from "../../../config/dexie";
+import { base64ToFile } from "../../functions/ConvertFiles";
 
 export default function ProductForm() {
 
@@ -36,13 +37,15 @@ export default function ProductForm() {
                 setDescription(data.description);
                 setEvaluetion(data.evaluation);
 
-                const favoriteImage = await getImage(productid);
+                const allImages = await getImage(productid);
+                const favoriteImageData = allImages.data[0];
+                const favoriteImageInBase64 = favoriteImageData.imageData;
+                const imageFile = await base64ToFile([favoriteImageInBase64]);
 
-                console.log(favoriteImage);
-                if (favoriteImage == null || favoriteImage == "") { return; }
+                if (imageFile.length <= 0) { return; }
 
-                const idFavoriteImage = favoriteImage[0].id;
-                await findFavoriteImageByProduct(idFavoriteImage);
+                setImage(URL.createObjectURL(imageFile[0]));
+
                 return;
             };
 
@@ -57,6 +60,13 @@ export default function ProductForm() {
     async function findFavoriteImageByProduct(idImage) {
         const response = await getImageFile(idImage);
         setImage(response);
+    }
+
+    // metódodo para buscar a imagem favorita salva no IndexedDB
+    async function findFavoriteImageByProductFromImageDB() {
+        const favoriteImageFile = await findByFavoriteImage();
+
+        setImage(favoriteImageFile);
     }
 
     function getErrorMessage(message) {
@@ -92,8 +102,12 @@ export default function ProductForm() {
     };
 
     useEffect(() => {
-        if (productid) { fetchProductData(); }
+        if (productid) {
+            fetchProductData();
+            return;
+        }
 
+        findFavoriteImageByProductFromImageDB();
     }, []);
 
     async function persist() {
@@ -128,12 +142,11 @@ export default function ProductForm() {
 
                 const id = createProductResponse.data.id;
                 const formData = await convertFilesToFormData();
-                
+
                 const saveImages = await upImages(formData, id);
-                
-                if(saveImages.status == 200) {
-                    toast.success("Imagens adicionadas com sucesso!");
-                    removeAll();
+
+                if (saveImages.status == 200) {
+                    removeAll();    
                 }
             }
         } catch (error) {
@@ -151,7 +164,9 @@ export default function ProductForm() {
             ? `/${productid}`
             : ""}`);
     };
+
     const cancel = () => {
+        removeAll(); // remove todas as imagens do IndexedDB
         navigate(-1);
     };
 

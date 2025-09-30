@@ -70,7 +70,7 @@ export const getProductItems = async (id) => {
 };
 
 export const upImages = async (files, id) => {
-    
+
     try {
         const response = await api.post(`/images/${id}`, files, {
             headers: {
@@ -93,9 +93,8 @@ export const getImage = async (id) => {
     try {
         const response = await api.get(`/product/${id}/images`);
 
-        const urls = response.data.map(img => img.imageData);
-        console.log("URLs das imagens:", urls);
-        return urls;
+        // const urls = response.data.map(img => img.imageData);
+        return response;
     } catch (error) {
         console.error("Erro ao buscar imagens do produto:", error);
         throw error;
@@ -125,3 +124,12 @@ export const deleteImage = async (idProduct, idImg) => {
         throw error.data.message;
     }
 };
+
+export const deleteAllImagesByProduct = async (id) => {
+    try {
+        const response = await api.delete(`/product/${id}/images`);
+        return response;
+    } catch (error) {
+        throw error.data.message;
+    }
+}

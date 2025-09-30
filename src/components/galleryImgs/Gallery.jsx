@@ -10,8 +10,11 @@ import "./Gallery.scss";
 
 import "../ui/button.scss";
 import ApiService from "../../connection/apiService";
-import { add, convertFilesToFormData, removeAll } from "../../config/dexie";
-import { useNavigate } from "react-router-dom";
+import { add, convertFilesToFormData, fileExists, findAll, removeAll } from "../../config/dexie";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteAllImagesByProduct, getImage } from "../../connection/productPaths";
+import { base64ToFile } from "../functions/ConvertFiles";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Gallery({ onSave, onCancel, existingImages = [], productId }) {
     const [images, setImagens] = useState(existingImages);
@@ -22,6 +25,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
     const [files, setFiles] = useState([]);
 
     const navigate = useNavigate();
+    const { productid } = useParams();
 
     function exibirImagem(file) {
         if (file instanceof File) {
@@ -66,7 +70,6 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
 
     function handleCancel() {
         if (window.confirm("Tem certeza que deseja cancelar? As alterações não serão salvas.")) {
-            removeAll(); // remove todas as imagens do banco;
             navigate(-1);
             // onCancel();
         }
@@ -77,48 +80,117 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
         try {
             const imagensToEnviar = imageFavorita()
 
-            await salveImages(imagensToEnviar)
+            await salveImages(imagensToEnviar);
 
             onSave(imagensToEnviar, favoriteIndex)
         } catch (error) {
-            console.error("Erro ao salvar imagens:", error);
-            alert("Erro ao salvar imagens. Tente novamente.");
+            console.log("ERROR: " + error);
+            toast.error(error);
         }
         finally {
             setIsLoading(false);
         }
     }
 
+    const parseImagesToFormData = (newFiles) => {
+        const formData = new FormData();
+
+        newFiles.forEach((file) => {
+            formData.append("file", file);
+        });
+
+        return formData;
+    }
 
     async function salveImages(imagesToUpar) {
-        try {
-            const newFiles = imagesToUpar.filter(img => img instanceof File)//only files
-            await add(newFiles);
+        const newFiles = imagesToUpar.filter(img => img instanceof File)//only files
 
-            // if (newFiles.length > 0) {
-            //     const formData = new FormData
-
-            //colocar cada file no FormData
-            // newFiles.forEach(file => {
-            //     formData.append("file", file)
-            //     })
-
-            //     //                console.log("Produto: ", productId, " Images = ", nwefiles)
-
-
-            //     // await ApiService.product.upImages(formData, 5)
-            //     console.log("enviou imgs")
-            // } else {
-            //     console.log("nenhuma img")
-            // }
-        } catch (error) {
-            console.error(error);
-            throw new Error("Falha")
+        // caso tenha imagens já salvas no banco, 
+        // limpa-o e adiciona as novas imagens
+        if (newFiles.length <= 0) {
+            throw "Informe ao menos uma imagem.";
         }
+
+        if (productid) {
+            const responseDeleteAllImages = await deleteAllImagesByProduct(productid);
+            console.log("Response: " + responseDeleteAllImages);
+
+            if (responseDeleteAllImages.status == 200) {
+                const formData = parseImagesToFormData(newFiles);
+
+                const responseAddImages = await ApiService.product.upImages(formData, productid);
+
+                if (responseAddImages.status == 200) {
+                    toast.success("Imagens salvas com sucesso");
+                }
+            }
+        } else {
+            if (fileExists()) { removeAll(); }
+            await add(newFiles);
+        }
+
+        // if (newFiles.length > 0) {
+        //     const formData = new FormData
+
+        //colocar cada file no FormData
+        // newFiles.forEach(file => {
+        //     formData.append("file", file)
+        //     })
+
+        //     //                console.log("Produto: ", productId, " Images = ", nwefiles)
+
+
+        //     // await ApiService.product.upImages(formData, 5)
+        //     console.log("enviou imgs")
+        // } else {
+        //     console.log("nenhuma img")
+        // }
+
     }
+
+    // função para cerregar as imagens do indexedDB
+    const fetchImageProductFromImageDB = async () => {
+        const response = await findAll();
+
+        let files = [];
+
+        if (response.length > 0) {
+            response.forEach(file => {
+                files = [...files, file];
+            });
+        }
+
+        setImagens(files);
+    }
+
+    // carregar imagens da API
+    const fetchImageProductFromApi = async () => {
+        const response = await getImage(productid);
+        const data = response.data;
+
+        let base64EncodedFormats = [];
+
+        data.forEach((item) => {
+            base64EncodedFormats = [...base64EncodedFormats, item.imageData];
+        });
+
+        const files = await base64ToFile(base64EncodedFormats);
+
+        setImagens([...files]);
+    }
+
+    useEffect(() => {
+        if (productid) {
+            fetchImageProductFromApi();
+            return;
+        }
+
+        fetchImageProductFromImageDB();
+    }, []);
 
     return (
         <div className="gallery-container">
+            <ToastContainer />
             <div id="Gallery">
                 <nav className="Gallery-nav">
                     <h1>Galeria de imagens</h1>
@@ -163,7 +235,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                                                     title="Remover imagem"
                                                     disabled={isLoading}
                                                 >
-                                                    ×vdhfiohiovfoi
+                                                    ×
                                                 </button>
                                             </div>
                                             {/* */}

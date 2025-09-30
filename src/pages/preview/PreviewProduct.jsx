@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getImage, getProductById } from "../../connection/productPaths";
 import { toast } from "react-toastify";
 import { Rating } from "react-simple-star-rating";
+import { base64ToFile } from "../../components/functions/ConvertFiles";
 
 export default function PreviewProduct() {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -44,11 +45,24 @@ export default function PreviewProduct() {
 
     async function fetchProductImages() {
         try {
-            const imagesUrls = await getImage(productid);
-            console.log("imagens recebidas da api:", imagesUrls);
+            const response = await getImage(productid);
+            const data = response.data;
 
-            if (imagesUrls && imagesUrls.length > 0) {
-                setImages(imagesUrls);
+            const filesInBase64 = [];
+            data.forEach(file => {
+                filesInBase64.push(file.imageData);
+            });
+
+            const files = await base64ToFile(filesInBase64);
+
+            if (files.length > 0) {
+                const filesToObjectUrl = [];
+
+                files.forEach((file) => {
+                    filesToObjectUrl.push(URL.createObjectURL(file))
+                });
+
+                setImages(filesToObjectUrl);
             } else {
                 toast.info("Nenhuma imagem encontrada para este produto");
             }

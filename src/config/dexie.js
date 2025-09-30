@@ -1,4 +1,5 @@
 import Dexie from "dexie";
+import { any } from "prop-types";
 
 const db = new Dexie('images_db');
 db.version(1).stores({
@@ -16,12 +17,19 @@ export const fileExists = async () => {
     return files.length > 0;
 }
 
-export const remove = (name) => {
-
+export const findAll = async () => {
+    return await db.image.toArray();
 }
 
 export const removeAll = () => {
     db.image.clear();
+}
+
+export const findByFavoriteImage = async () => {
+    const allImages = await db.image.toArray();
+    const favorite = allImages[0];
+    
+    return URL.createObjectURL(favorite);
 }
 
 export const convertFilesToFormData = async () => {
@@ -35,4 +43,8 @@ export const convertFilesToFormData = async () => {
     });
 
     return formData;
+}
+
+export const remove = (name) => {
+
 }

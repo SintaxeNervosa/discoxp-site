@@ -6,6 +6,7 @@ export default function ProductListingAdminButtons({ p, changeStatusConfirm }) {
         <td className="actions">
             <button
                 className="btn-view"
+                onClick={() => navigate(`/admin/product/${p.id}`)}
             >
                 View
             </button>

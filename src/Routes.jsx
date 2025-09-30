@@ -68,6 +68,13 @@ export default function RouteWeb() {
               </ProtectRoutes>
             }>
             </Route>
+            {/*Produto*/}
+            <Route path="/admin/product/gallery/:productid" element={
+              <ProtectRoutes requiredType={["ADMIN"]}>
+                <Gallery />
+              </ProtectRoutes>
+            }>
+            </Route>
             <Route path="/admin/product/:productid" element={<PreviewProduct />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

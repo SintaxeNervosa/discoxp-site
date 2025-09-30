@@ -12,6 +12,7 @@ import AlertConfirm from "react-alert-confirm";
 import "react-alert-confirm/lib/style.css";
 import ProductListingAdminButtons from "../../components/listProducts/admin/ProductListingAdminButtons";
 import ProductListingStockistButtons from "../../components/listProducts/stockist/ProductListingStockistButtons";
+import { getUserGrop } from "../../components/functions/SessionStorageMethods";
 
 function ListProduct() {
   const [productsList, setProductList] = useState([]);
@@ -30,7 +31,7 @@ function ListProduct() {
   async function fetchProducts() {
     try {
       const products = await getProducts(page);
-      
+
       setTotalPages(products.totalPages);
 
       setProductList(products.content);
@@ -42,15 +43,12 @@ function ListProduct() {
 
   // carregar botão de acordo com o tipo de usuário
   const loadButtom = (p) => {
-    const userData = sessionStorage.getItem("user-data");
-
     let component = null;
 
-    if (userData) {
+    const userGroup = getUserGrop();
+    if (userGroup != null) {
 
-      const userType = JSON.parse(userData);
-
-      userType.group == "ADMIN"
+      userGroup == "ADMIN"
         ? component = <ProductListingAdminButtons
           p={p}
           changeStatusConfirm={() => changeStatusConfirm({
@@ -156,7 +154,9 @@ function ListProduct() {
             type="text"
             placeholder="Pesquisar Produtos"
           />
-          <button onClick={() => navigate("/admin/product/create")}>
+          <button
+            hidden={getUserGrop() == "ADMIN" ? false : true}
+            onClick={() => navigate("/admin/product/create")}>
             <img
               src={iconProduct}
               alt="Adicionar Produto"

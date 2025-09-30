@@ -110,7 +110,6 @@ export default function PreviewProduct() {
                 <aside className="PreviewProduct-aside">
                     <div className="PreviewProduct-aside-titulo">
                         <h1>{name}</h1>
-                        {images[0] ? <img src={images[0]} alt="Produto mini" /> : <img src="/img/placeholder.jpg" alt="placeholder" />}
                         <h3>
                             <Rating
                                 initialValue={evaluation}
@@ -140,7 +139,7 @@ export default function PreviewProduct() {
                         modules={[Thumbs]}
                         className="preview-thumbs-swiper"
                     >
-                        {productImagesFallback.map((image, index) => (
+                        {imagesToShow.map((image, index) => (
                             <SwiperSlide key={index}>
                                 <img
                                     className={`footer-images ${index === activeIndex ? "active" : ""

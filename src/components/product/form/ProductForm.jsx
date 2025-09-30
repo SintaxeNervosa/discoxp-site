@@ -103,8 +103,8 @@ export default function ProductForm() {
         requestCreateProduct()
     }
 
-    async function requestCreateProduct(){
-        try{
+    async function requestCreateProduct() {
+        try {
             let Product = {
                 name: name,
                 evaluation: evaluation,
@@ -113,10 +113,10 @@ export default function ProductForm() {
                 quantity: stock
             }
             const Response = await createProduct(Product)
-            if(Response.status == 200){
+            if (Response.status == 200) {
                 toast.success("Produto cadastrado com sucesso!")
             }
-        } catch (error){
+        } catch (error) {
             const errorMessage = getErrorMessage(error.response.data.message);
             for (let err of errorMessage) {
                 if (err != null && err != "") {
@@ -126,8 +126,14 @@ export default function ProductForm() {
         }
     }
 
-    const addImage = () => { };
-    const cancel = () => { };
+    const addImage = () => {
+        navigate(`/admin/product/gallery${productid
+                ? `/${productid}`
+                : ""}`);
+    };
+    const cancel = () => {
+        navigate(-1);
+    };
 
     return (
         <div className="container-form-product">
@@ -167,10 +173,10 @@ export default function ProductForm() {
                     </div>
                     <div className="buttons">
                         <div>
-                            <button onClick={() => addImage()}>{textForm.imageButtonText}</button>
+                            <button onClick={() => addImage()}>Galeria de Imagens</button>
                             <button onClick={() => cancel()}>Cancelar</button>
                         </div>
-                        <button onClick={() => persist()}>Editar</button>
+                        <button onClick={() => persist()}>Salvar</button>
 
                     </div>
                 </div>

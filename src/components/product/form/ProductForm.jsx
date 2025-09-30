@@ -127,7 +127,6 @@ export default function ProductForm() {
                 toast.success("Produto cadastrado com sucesso!");
 
                 const id = createProductResponse.data.id;
-
                 const formData = await convertFilesToFormData();
                 
                 const saveImages = await upImages(formData, id);

@@ -11,6 +11,8 @@ const ProductFormCreate = lazy(() => import("./pages/form/product/create/Product
 const ProductFormPageEdit = lazy(() => import("./pages/form/product/edit/ProductFormPageEdit.jsx"));
 const ListProduct = lazy(() => import("./pages/listProduct/listProduc.jsx"));
 
+const Home = lazy(() => import("./pages/home/home.jsx"));
+
 const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
 const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
 

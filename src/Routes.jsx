@@ -26,6 +26,8 @@ export default function RouteWeb() {
             {/*Usuarios*/}
             <Route path="/" element={<Login />} />
 
+            <Route path="/home" element={<Home />} />
+
             <Route path="/choice" element={
               <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                 <Choice />

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./home.scss";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
 
@@ -175,6 +176,52 @@ function Home() {
                     </div>
                 </div>
             </section>
+
+            <footer className="footer">
+                <div className="footer-content">
+                    <div className="footer-column">
+                        <h4>ATENDIMENTO AO CLIENTE</h4>
+                        <a href="">Central de Ajuda</a>
+                        <a href="">Garantia DiscoXP Store</a>
+                        <a href="">Ouvidoria</a>
+                        <a href="">Fale Conosco</a>
+                    </div>
+
+                    <div className="footer-column">
+                        <h4>SOBRE A DISCO XP STORE</h4>
+                        <a href="">Central de Ajuda</a>
+                        <a href="">Garantia Strument Store</a>
+                        <a href="">Ouvidoria</a>
+                        <a href="">Fale Conosco</a>
+                    </div>
+
+                    <div className="footer-column">
+                        <h4>PAGAMENTO</h4>
+                        <div className="logos">
+                            <img src="" alt="" />
+                            <img src="" alt="" />
+                            <img src="" alt="" />
+                            <img src="" alt="" />
+                            <img src="" alt="" />
+                            <img src="" alt="" />
+                            <img src="" alt="" />
+                        </div>
+                    </div>
+
+                    <div className="footer-column">
+                        <h4>SIGA-NOS</h4>
+                        <div className="social">
+                            <a href=""><img src="" alt="" /> Instagram</a>
+                            <a href=""><img src="" alt="" /> Facebook</a>
+                            <a href=""><img src="" alt="" /> Linkedin</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="footer-bottom">
+                    © 2024 DiscoXP Store. Todos os direitos reservados
+                </div>
+            </footer>
         </main>
     );
 }

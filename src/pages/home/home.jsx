@@ -12,8 +12,8 @@ function Home() {
                 </div>
 
                 <div className="search">
+                    <input type="text" placeholder="O que você proucura?" />
                     <button>
-                        <input type="text" placeholder="O que você proucura?" />
                         <img src="" alt="" />
                     </button>
                 </div>

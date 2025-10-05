@@ -26,17 +26,44 @@
         .search {
             display: flex;
             align-items: center;
+            justify-content: center;
+            max-width: 500px;
+            width: 100%;
+            margin: 1rem auto;
 
-            .button {
-                padding: 0.5rem;
+            input {
+                flex: 1;
+                padding: 0.7rem 1rem;
+                font-size: 1rem;
                 border: none;
-                background: #333;
-                color: white;
-                border-radius: 0 4px 4px 0;
-                cursor: pointer;
+                border-radius: 25px 0 0 25px;
+                outline: none;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             }
 
+            button {
+                padding: 0.7rem 1rem;
+                border: none;
+                background: #EB8F25;
+                color: white;
+                cursor: pointer;
+                border-radius: 0 25px 25px 0;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    width: 18px;
+                    height: 18px;
+                }
+
+                &:hover {
+                    background: #cc5200;
+                }
+            }
         }
+
 
         .user {
             a {
@@ -53,94 +80,89 @@
     }
 
     .gallery {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  height: 80vh;
-  overflow: hidden;
-  background-color: #0d0d0d;
-  perspective: 1000px;
-  position: relative;
-  padding: 20px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        height: 80vh;
+        overflow: hidden;
+        background-color: #0d0d0d;
+        perspective: 1000px;
+        position: relative;
+        padding: 20px 0;
 
-  // 🎥 vinheta sutil ao redor
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.85) 100%);
-    pointer-events: none;
-    z-index: 2;
-  }
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.85) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
 
-  .row {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    transform: rotateX(8deg);
-    position: relative;
-    animation: scroll-down 18s linear infinite;
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transform: rotateX(8deg);
+            position: relative;
+            animation: scroll-down 18s linear infinite;
 
-    img {
-      width: 180px;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease;
+            img {
+                width: 180px;
+                height: 250px;
+                object-fit: cover;
+                border-radius: 12px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+                transition: transform 0.3s ease;
+            }
+
+            img:hover {
+                transform: scale(1.05);
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                background: inherit;
+            }
+        }
+
+        .row::after {
+            animation: inherit;
+        }
+
+        .row-up {
+            animation: scroll-up 18s linear infinite;
+        }
+
+        @keyframes scroll-down {
+            0% {
+                transform: translateY(0) rotateX(8deg);
+            }
+
+            100% {
+                transform: translateY(-50%) rotateX(8deg);
+            }
+        }
+
+        @keyframes scroll-up {
+            0% {
+                transform: translateY(-50%) rotateX(8deg);
+            }
+
+            100% {
+                transform: translateY(0) rotateX(8deg);
+            }
+        }
     }
-
-    img:hover {
-      transform: scale(1.05);
-    }
-
-    // duplicação das imagens p/ loop contínuo
-    &::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      background: inherit;
-    }
-  }
-
-  // aplica a mesma animação à duplicação
-  .row::after {
-    animation: inherit;
-  }
-
-  // linha do meio sobe
-  .row-up {
-    animation: scroll-up 18s linear infinite;
-  }
-
-  // Animações suaves e contínuas
-  @keyframes scroll-down {
-    0% {
-      transform: translateY(0) rotateX(8deg);
-    }
-    100% {
-      transform: translateY(-50%) rotateX(8deg);
-    }
-  }
-
-  @keyframes scroll-up {
-    0% {
-      transform: translateY(-50%) rotateX(8deg);
-    }
-    100% {
-      transform: translateY(0) rotateX(8deg);
-    }
-  }
-}
-
-
 
     .section {
         padding: 2rem;

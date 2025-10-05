@@ -1,0 +1,208 @@
+.container-information-product {
+  font-family: Arial, sans-serif;
+  background: #f8f8f8;
+  color: #333;
+  min-height: 100vh;
+
+  /* ---------- HEADER ---------- */
+  .header {
+    background: #eb8f25;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+
+    .logo img {
+      width: 100px;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      width: 40%;
+
+      input {
+        flex: 1;
+        padding: 0.8rem 1rem;
+        border: none;
+        
+        outline: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      button {
+        background: #eb8f25;
+        border: none;
+        padding: 0.7rem 1rem;
+        cursor: pointer;
+
+        img {
+          width: 18px;
+          height: 18px;
+        }
+
+        &:hover {
+          background: #cc5200;
+        }
+      }
+    }
+
+    .user {
+      color: white;
+
+      a {
+        color: white;
+        font-weight: bold;
+        margin: 0 0.3rem;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  /* ---------- CORPO ---------- */
+  .body-information-product {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 25%, rgba(235, 143, 37, 1) 100%);
+    display: flex;
+    justify-content: center;
+    padding: 2.9rem 0;
+
+    .images-product {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      padding: 3.6rem;
+
+      /* ---------- IMAGEM E INFO ---------- */
+      .thumbnails {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 2rem;
+
+        .product-photo {
+          flex: 1;
+          min-width: 350px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+          }
+        }
+
+        .thumbnails-information {
+          flex: 1;
+          min-width: 350px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          h1 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+          }
+
+          h2 {
+            font-size: 1.8rem;
+            color: #eb8f25;
+            margin-bottom: 0.3rem;
+          }
+
+          p {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 1rem;
+          }
+
+          .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+
+            button {
+              padding: 0.8rem;
+              font-size: 1rem;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              transition: 0.2s ease;
+            }
+
+            .buy {
+              background: #eb8f25;
+              color: #fff;
+
+              &:hover {
+                background: #cc5200;
+              }
+            }
+
+            .cart {
+              background: #f2f2f2;
+
+              &:hover {
+                background: #ddd;
+              }
+            }
+          }
+        }
+      }
+
+      /* ---------- OUTROS PRODUTOS ---------- */
+      .other-products {
+        margin-top: 3rem;
+
+        h3 {
+          font-size: 1.2rem;
+          margin-bottom: 1rem;
+        }
+
+        .list {
+          display: flex;
+          gap: 2rem;
+          flex-wrap: wrap;
+
+          .item {
+            text-align: center;
+
+            img {
+              width: 100px;
+              height: 100px;
+              object-fit: contain;
+              margin-bottom: 0.5rem;
+            }
+
+            p {
+              font-weight: bold;
+              color: #eb8f25;
+            }
+          }
+        }
+      }
+
+      /* ---------- DESCRIÇÃO ---------- */
+      .description {
+        margin-top: 3rem;
+
+        h3 {
+          font-size: 1.3rem;
+          margin-bottom: 1rem;
+        }
+
+        p {
+          line-height: 1.5;
+          color: #555;
+        }
+      }
+    }
+  }
+}

@@ -8,7 +8,7 @@ function Home() {
         <main className="home">
             <header className="header">
                 <div className="logo">
-                    <img src="" alt="" />
+                    <img src="./img/Logo.png" alt="Logo" />
                 </div>
 
                 <div className="search">
@@ -24,7 +24,7 @@ function Home() {
             </header>
 
             <div className="banner">
-                <img src="" alt="" />
+                <img src="/img/gta.png" alt="" />
             </div>
 
             <section className="section">
@@ -32,28 +32,28 @@ function Home() {
 
                 <div className="grid">
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/forza5.jpg" alt="capa01" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/granTurismo7.jpg" alt="capa02" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/Legend_of_Zelda.png" alt="capa03" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/SpiderMan.jpeg" alt="" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
@@ -61,15 +61,15 @@ function Home() {
                 </div>
             </section>
 
-            <section className="secition-destaque">
+            <section className="section-destaque">
                 <div className="card-destaque-1">
-                    <img src="" alt="" />
+                    <img src="/img/S.jpeg" alt="capa" />
                     <h3>Marvel's Spider-Man 2</h3>
                     <button>Click aqui</button>
                 </div>
 
                 <div className="card-destaque-2">
-                    <img src="" alt="" />
+                    <img src="/img/MarioKart.jpg" alt="capa" />
                     <h3>Mario Kart 8 Deluxe</h3>
                     <button>Click aqui</button>
                 </div>
@@ -80,28 +80,28 @@ function Home() {
 
                 <div className="grid">
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/forza5.jpg" alt="capa01" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/forza5.jpg" alt="capa02" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/forza5.jpg" alt="capa03" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/forza5.jpg" alt="capa04" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
@@ -114,28 +114,28 @@ function Home() {
 
                 <div className="grid">
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/Legend_of_Zelda.png" alt="capa01" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/Legend_of_Zelda.png" alt="capa02" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/Legend_of_Zelda.png" alt="capa03" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/Legend_of_Zelda.png" alt="capa04" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
@@ -143,33 +143,33 @@ function Home() {
                 </div>
             </section>
 
-            <section className="section-xbox">
-                <h2>XBOX SERIES</h2>
+            <section className="section-play">
+                <h2>PLAYSTATION</h2>
 
                 <div className="grid">
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/granTurismo7.jpg" alt="capa01" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/granTurismo7.jpg" alt="capa02" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/granTurismo7.jpg" alt="capa03" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>
                     </div>
 
                     <div className="card">
-                        <img src="" alt="" />
+                        <img src="/img/granTurismo7.jpg" alt="capa04" />
                         <h3>Jogo PS2 - Gran Turismo 4</h3>
                         <p>R$ 699,90</p>
                         <button>Comprar</button>

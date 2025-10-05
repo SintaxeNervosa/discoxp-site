@@ -23,8 +23,40 @@ function Home() {
                 </div>
             </header>
 
-            <div className="banner">
+            {/* <div className="banner">
                 <img src="/img/gta.png" alt="" />
+            </div> */}
+
+            <div className="gallery">
+                {/* Linha 1 (move para baixo) */}
+                <div className="row row-down">
+                    <img src="/img/Legend_of_Zelda.png" alt="capa01" />
+                    <img src="/img/Legend_of_Zelda.png" alt="capa02" />
+                    <img src="/img/Legend_of_Zelda.png" alt="capa03" />
+                    <img src="/img/Legend_of_Zelda.png" alt="capa04" />
+                    <img src="/img/Legend_of_Zelda.png" alt="capa05" />
+                    <img src="/img/Legend_of_Zelda.png" alt="capa06" />
+                </div>
+
+                {/* Linha 2 (move para cima) */}
+                <div className="row row-up">
+                    <img src="/img/SpiderMan.jpeg" alt="capa07" />
+                    <img src="/img/SpiderMan.jpeg" alt="capa08" />
+                    <img src="/img/SpiderMan.jpeg" alt="capa09" />
+                    <img src="/img/SpiderMan.jpeg" alt="capa10" />
+                    <img src="/img/SpiderMan.jpeg" alt="capa11" />
+                    <img src="/img/SpiderMan.jpeg" alt="capa12" />
+                </div>
+
+                {/* Linha 3 (move para baixo) */}
+                <div className="row row-down">
+                    <img src="/img/granTurismo7.jpg" alt="capa13" />
+                    <img src="/img/granTurismo7.jpg" alt="capa14" />
+                    <img src="/img/granTurismo7.jpg" alt="capa15" />
+                    <img src="/img/granTurismo7.jpg" alt="capa16" />
+                    <img src="/img/granTurismo7.jpg" alt="capa17" />
+                    <img src="/img/granTurismo7.jpg" alt="capa18" />
+                </div>
             </div>
 
             <section className="section">

@@ -14,7 +14,10 @@ const ListProduct = lazy(() => import("./pages/listProduct/listProduc.jsx"));
 const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
 const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
 
+const PageCart = lazy(() => import("./pages/cartTest/CartTest.jsx"))
+
 const NotFound = lazy(() => import("./pages/notFound/NotFound.jsx"));
+
 export default function RouteWeb() {
   return (
     <>
@@ -76,6 +79,7 @@ export default function RouteWeb() {
             }>
             </Route>
             <Route path="/admin/product/:productid" element={<PreviewProduct />} />
+            <Route path="/cart" element={<PageCart />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

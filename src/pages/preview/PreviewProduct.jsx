@@ -50,7 +50,7 @@ export default function PreviewProduct() {
 
             const filesInBase64 = [];
             data.forEach(file => {
-                filesInBase64.push(file.imageData);
+                filesInBase64.push(file.imaegData);
             });
 
             const files = await base64ToFile(filesInBase64);

@@ -9,20 +9,43 @@ import truck from '../../assets/images/cart/truck.svg';
 import schedule from '../../assets/images/cart/schedule.svg';
 import axios from 'axios';
 import { AnimatePresence, motion } from 'motion/react';
+import { addProductInCart, findAllProductsByCart } from '../../config/dexie.js';
+import { base64ToFile } from '../functions/ConvertFiles.js';
 
 export default function Cart({ visibility, closeCart }) {
     const [zipCode, setZipCode] = useState("");
     const [address, setAddress] = useState("");
+    const [products, setProducts] = useState([]);
 
-    const zipCodeSearch = async () => {
-        console.log(zipCode);
+    const zipCodeSearch = async (e) => {
+        if (e !== undefined && e.key != 'Enter') {
+            return;
+        }
+
         const response = await axios.get(`https://viacep.com.br/ws/${zipCode}/json/`);
 
-        if (response.status == 200) {
-            const data = response.data;
-            setAddress(data.logradouro + ", " + data.estado + " - " + data.uf);
-        }
+        const data = response.data;
+        setAddress(data.logradouro + ", " + data.estado + " - " + data.uf);
     }
+
+    async function findProduct() {
+        const response = await findAllProductsByCart();
+
+        let productItens = [];
+
+        for (let i = 0; i < response.length; i++) {
+            productItens = [...productItens, response[i]];
+        }
+
+        setProducts(productItens);
+    }
+
+    useEffect(() => {
+        findProduct();
+    }, [])
+
+    useEffect(() => {
+    }, [products])
 
     return (
         <AnimatePresence >
@@ -44,11 +67,9 @@ export default function Cart({ visibility, closeCart }) {
                         </header>
                         <section className="content">
                             <div className="items">
-                                <Item />
-                                <Item />
-                                <Item />
-                                <Item />
-                                <Item />
+                                {products.map(product => (
+                                    <Item key={product.id} product={product} />
+                                ))}
                             </div>
                             <div className="cart-summary">
                                 {address != "" && (
@@ -91,11 +112,13 @@ export default function Cart({ visibility, closeCart }) {
                                         <p>Calcular frete e prazo</p>
                                         <div className="input-buttom">
                                             <input
+                                                onKeyDown={zipCodeSearch}
                                                 value={zipCode}
                                                 onChange={(e) => setZipCode(e.target.value)}
                                                 type="text"
                                                 placeholder="Digite seu CEP" />
-                                            <button onClick={() => zipCodeSearch()}>OK</button>
+                                            <button
+                                                onClick={() => zipCodeSearch()}>OK</button>
                                         </div>
                                     </div>
                                 )}

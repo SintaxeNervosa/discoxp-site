@@ -15,6 +15,7 @@ export default function ProductForm() {
     const [description, setDescription] = useState("");
     const [evaluation, setEvaluetion] = useState(0);
     const [image, setImage] = useState(emptyImage);
+    const [userGroup, setUserGoup] = useState("");
 
     const { productid } = useParams();
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function ProductForm() {
         titleForm: productid ? "Editar" : "Cadastro de Produto",
         imageButtonText: productid ? "Editar Imagem" : "Adicionar Imagem"
     };
+
 
     async function fetchProductData() {
         try {
@@ -101,6 +103,12 @@ export default function ProductForm() {
         }
     };
 
+    const getUserGroup = () => {
+        const dataUser = sessionStorage.getItem("user-data");
+        const dataUserToJson = JSON.parse(dataUser);
+        return dataUserToJson.group;
+    };
+
     useEffect(() => {
         if (productid) {
             fetchProductData();
@@ -108,6 +116,7 @@ export default function ProductForm() {
         }
 
         findFavoriteImageByProductFromImageDB();
+        setUserGoup(getUserGroup());
     }, []);
 
     async function persist() {
@@ -146,7 +155,7 @@ export default function ProductForm() {
                 const saveImages = await upImages(formData, id);
 
                 if (saveImages.status == 200) {
-                    removeAll();    
+                    removeAll();
                 }
             }
         } catch (error) {
@@ -179,12 +188,14 @@ export default function ProductForm() {
                     <div className="product-name">
                         <p>Nome do Produto</p>
                         <input type="text"
+                            disabled={userGroup != "ADMIN"}
                             value={name}
                             onChange={(e) => setName(e.target.value)} />
                     </div>
                     <div className="product-price">
                         <p>Preço</p>
                         <input type="text"
+                            disabled={userGroup != "ADMIN"}
                             value={price}
                             onChange={(e) => setPrice(e.target.value)} />
                     </div>
@@ -197,18 +208,22 @@ export default function ProductForm() {
                     <div className="product-description">
                         <p>Descrição Detalhada</p>
                         <input type="text"
+                            disabled={userGroup != "ADMIN"}
                             value={description}
                             onChange={(e) => setDescription(e.target.value)} />
                     </div>
                     <div className="product-evaluation">
                         <p>Avaliação</p>
                         <input type="number"
+                            disabled={userGroup != "ADMIN"}
                             value={evaluation}
                             onChange={(e) => setEvaluetion(e.target.value)} />
                     </div>
                     <div className="buttons">
                         <div>
-                            <button onClick={() => addImage()}>Galeria de Imagens</button>
+                            <button
+                                disabled={userGroup != "ADMIN"}
+                                onClick={() => addImage()}>Galeria de Imagens</button>
                             <button onClick={() => cancel()}>Cancelar</button>
                         </div>
                         <button onClick={() => persist()}>Salvar</button>

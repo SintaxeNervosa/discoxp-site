@@ -1,11 +1,39 @@
 import Dexie from "dexie";
-import { any } from "prop-types";
+import { getImage, getProductById } from "../connection/productPaths";
 
-const db = new Dexie('images_db');
+const db = new Dexie('db_discoxp');
 db.version(1).stores({
-    image: '++id,file'
+    image: '++id,file',
+    cart: 'id, name, quantity, price, file'
 });
 
+export const addProductInCart = async (product) => {
+    const tempProduct = await getProductById(13);
+    const data = tempProduct.data;
+
+    const tempImage = await getImage(data.id);
+    const imageInBase64 = tempImage.data[0].imageData;
+
+    const obj = {
+        id: data.id,
+        name: data.name,
+        quantity: 1,
+        price: data.price,
+        file: imageInBase64
+    }
+
+    try {
+        console.log(await db.cart.add(obj));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const findAllProductsByCart = async () => {
+    return await db.cart.toArray();
+}
+
+// image
 export const add = async (files) => {
     files.forEach(async file => {
         console.log(await db.image.add(file));
@@ -28,7 +56,7 @@ export const removeAll = () => {
 export const findByFavoriteImage = async () => {
     const allImages = await db.image.toArray();
     const favorite = allImages[0];
-    
+
     return URL.createObjectURL(favorite);
 }
 

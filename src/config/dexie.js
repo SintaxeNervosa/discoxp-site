@@ -8,7 +8,7 @@ db.version(1).stores({
 });
 
 export const addProductInCart = async (product) => {
-    const tempProduct = await getProductById(13);
+    const tempProduct = await getProductById(14);
     const data = tempProduct.data;
 
     const tempImage = await getImage(data.id);
@@ -27,6 +27,22 @@ export const addProductInCart = async (product) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+export const putProductQuantity = async (id, newQuantity) => {
+    if (newQuantity < 1) {
+        return await deleleItem(id);
+    }
+
+    const product = await db.cart.get(id);
+    product.quantity = newQuantity;
+
+    return await db.cart.put(product);
+}
+
+export const deleleItem = async (id) => {
+    const response = db.cart.delete(id);
+    console.log(response);
 }
 
 export const findAllProductsByCart = async () => {

@@ -17,6 +17,7 @@ const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
 const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
 
 const NotFound = lazy(() => import("./pages/notFound/NotFound.jsx"));
+const Teste = lazy(() => import("./components/layout/BestSellersSection.jsx"))
 export default function RouteWeb() {
   return (
     <>
@@ -27,6 +28,7 @@ export default function RouteWeb() {
             <Route path="/" element={<Login />} />
 
             <Route path="/home" element={<Home />} />
+            <Route path="teste" element={<Teste/>}/>
 
             <Route path="/choice" element={
               <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>

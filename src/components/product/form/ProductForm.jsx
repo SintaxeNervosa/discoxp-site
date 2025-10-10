@@ -110,13 +110,14 @@ export default function ProductForm() {
     };
 
     useEffect(() => {
+        setUserGoup(getUserGroup());
+
         if (productid) {
             fetchProductData();
             return;
         }
 
         findFavoriteImageByProductFromImageDB();
-        setUserGoup(getUserGroup());
     }, []);
 
     async function persist() {
@@ -125,7 +126,7 @@ export default function ProductForm() {
             return;
         }
 
-        requestCreateProduct()
+        requestCreateProduct();
     }
 
     async function requestCreateProduct() {

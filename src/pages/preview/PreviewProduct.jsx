@@ -50,7 +50,7 @@ export default function PreviewProduct() {
 
             const filesInBase64 = [];
             data.forEach(file => {
-                filesInBase64.push(file.imaegData);
+                filesInBase64.push(file.imageData);
             });
 
             const files = await base64ToFile(filesInBase64);
@@ -109,7 +109,7 @@ export default function PreviewProduct() {
                         className="preview-main-swiper"
                         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                     >
-                        {imagesToShow.map((imageData, index) => (
+                        {images.map((imageData, index) => (
                             <SwiperSlide key={`main-${index}`}>
                                 <img
                                     className='principal'

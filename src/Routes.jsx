@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { ProtectRoutes } from "./context/ProtectRoutes.jsx";
+import { CartProvider } from "./context/CartContext.jsx";
 
 const Login = lazy(() => import("./pages/login/login.jsx"));
 const ListUser = lazy(() => import("./pages/listUser/listUser.jsx"));
@@ -25,72 +26,70 @@ export default function RouteWeb() {
   return (
     <>
       <BrowserRouter>
-        <Suspense fallback={<div>Carregando...</div>}>
-          <Routes>
-            {/*Usuarios*/}
-            <Route path="/" element={<Login />} />
+        <CartProvider>
+          <Suspense fallback={<div>Carregando...</div>}>
+            <Routes>
+              {/*Usuarios*/}
+              <Route path="/" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/product/:productid" element={<InformationProduct />} />
+              <Route path="/choice" element={
+                <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
+                  <Choice />
+                </ProtectRoutes>} />
+              <Route path="/list-products" element={
+                <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
+                  <ListProduct />
+                </ProtectRoutes>} />
+              <Route path="/admin/product/edit/:productid" element={
+                <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
+                  <ProductFormPageEdit />
+                </ProtectRoutes>} />
 
-            <Route path="/home" element={<Home />} />
-
-            <Route path="/product/:productid" element={<InformationProduct />} />
-
-
-            <Route path="/choice" element={
-              <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
-                <Choice />
-              </ProtectRoutes>} />
-            <Route path="/list-products" element={
-              <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
-                <ListProduct />
-              </ProtectRoutes>} />
-            <Route path="/admin/product/edit/:productid" element={
-              <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
-                <ProductFormPageEdit />
-              </ProtectRoutes>} />
-
-            <Route path="/admin/users" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <ListUser />
-              </ProtectRoutes>} />
-            <Route path="/admin/user/register" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <UserRegister />
-              </ProtectRoutes>} />
-            <Route path="/admin/user/edit/:userid" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <UserFormEdit />
-              </ProtectRoutes>} />
-            <Route path="/admin/product/create" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <ProductFormCreate />
-              </ProtectRoutes>} />
-            <Route path="admin/register" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <UserRegister />
-              </ProtectRoutes>} />
-            <Route path="admin/edit/:userid" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <UserFormEdit />
-              </ProtectRoutes>} />
-            {/*Produto*/}
-            <Route path="/admin/product/gallery" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <Gallery />
-              </ProtectRoutes>
-            }>
-            </Route>
-            {/*Produto*/}
-            <Route path="/admin/product/gallery/:productid" element={
-              <ProtectRoutes requiredType={["ADMIN"]}>
-                <Gallery />
-              </ProtectRoutes>
-            }>
-            </Route>
-            <Route path="/admin/product/:productid" element={<PreviewProduct />} />
-            <Route path="/cart" element={<PageCart />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+              <Route path="/admin/users" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <ListUser />
+                </ProtectRoutes>} />
+              <Route path="/admin/user/register" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <UserRegister />
+                </ProtectRoutes>} />
+              <Route path="/admin/user/edit/:userid" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <UserFormEdit />
+                </ProtectRoutes>} />
+              <Route path="/admin/product/create" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <ProductFormCreate />
+                </ProtectRoutes>} />
+              <Route path="admin/register" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <UserRegister />
+                </ProtectRoutes>} />
+              <Route path="admin/edit/:userid" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <UserFormEdit />
+                </ProtectRoutes>} />
+              {/*Produto*/}
+              <Route path="/admin/product/gallery" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <Gallery />
+                </ProtectRoutes>
+              }>
+              </Route>
+              {/*Produto*/}
+              <Route path="/admin/product/gallery/:productid" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <Gallery />
+                </ProtectRoutes>
+              }>
+              </Route>
+              <Route path="/admin/product/:productid" element={<PreviewProduct />} />
+              <Route path="/cart" element={<PageCart />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </CartProvider>
       </BrowserRouter>
     </>
   );

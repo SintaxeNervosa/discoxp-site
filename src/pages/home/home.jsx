@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import "./home.scss";
-import { useNavigate } from "react-router-dom";
 import HomeEfets from "../../components/layout/HomeEfeets"
 import { Header } from "../../components/layout/Header";
 import { BestSellersSection } from "../../components/layout/BestSellersSection"
@@ -8,20 +6,14 @@ import { XboxSection } from '../../components/layout/XboxSection';
 import { NintendoSection } from '../../components/layout/NintendoSection';
 import { PlayStationSection } from '../../components/layout/PlayStationSection';
 import { Footer } from '../../components/layout/FooterFodastico'
-import ApiService from "../../connection/apiService";
-import Cart from "../../components/cart/Cart";
 import { CartProvider } from "../../context/CartContext";
 function Home() {
 
     return (
-        <CartProvider>
+        <>
             <Header />
             <HomeEfets>
                 <main className="home">
-                    {/* <div className="banner">
-                <img src="/img/gta.png" alt="" />
-            </div> */}
-
                     <div className="gallery">
                         <div className="row row-down">
                             <img src="/img/capa/Black_ops_2_cover.jpg" alt="capa01" />
@@ -81,7 +73,7 @@ function Home() {
                     <Footer />
                 </main>
             </HomeEfets>
-        </CartProvider>
+        </>
     );
 }
 

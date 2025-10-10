@@ -80,7 +80,6 @@ function ListProduct() {
       items.push(i);
     }
 
-    console.log(totalPages);
     return items;
   }
 
@@ -114,7 +113,6 @@ function ListProduct() {
 
   useEffect(() => {
     fetchProducts();
-    console.log("Page: " + page);
   }, [page]);
 
   useEffect(() => {

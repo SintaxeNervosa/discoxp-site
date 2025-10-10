@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../../components/layout/Header";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Thumbs } from "swiper/modules";
@@ -7,10 +6,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./informationProduct.scss";
-import { CartProvider } from "../../context/CartContext";
+import { CartProvider, useCart } from "../../context/CartContext";
 import ApiService from '../../connection/apiService';
 import { base64ToFile } from "../../components/functions/ConvertFiles";
 import { motion } from "framer-motion";
+import { Header } from "../../components/layout/Header";
+import { addProductInCart } from "../../config/dexie";
 
 function InformationProduct() {
   const { productid } = useParams(); // pega o id da URL
@@ -19,6 +20,13 @@ function InformationProduct() {
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [images, setImagens] = useState([]);
+
+  const { toggleCart } = useCart();
+
+  const addInCart = async () => {
+    await addProductInCart(productid);
+    toggleCart();
+  }
 
   useEffect(() => {
     async function fetchProduct() {
@@ -78,10 +86,9 @@ function InformationProduct() {
   };
 
   return (
-    <CartProvider>
+    <>
       <Header />
       <main className="container-information-product">
-
         <div className="body-information-product">
           <section className="images-product">
             <section className="thumbnails">
@@ -125,7 +132,7 @@ function InformationProduct() {
 
                 <div className="buttons">
                   <button className="buy">Comprar agora</button>
-                  <button className="cart">Adicionar ao carrinho</button>
+                  <button className="cart" onClick={() => addInCart()}>Adicionar ao carrinho</button>
                 </div>
               </div>
             </section>
@@ -176,7 +183,7 @@ function InformationProduct() {
           </section>
         </div>
       </main>
-    </CartProvider>
+    </>
   );
 }
 

@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { Header } from "../../components/layout/Header";
 import { useParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Thumbs } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "./informationProduct.scss";
+import { CartProvider } from "../../context/CartContext";
 
 function InformationProduct() {
   const { productid } = useParams(); // pega o id da URL
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [images, setImagens] = useState([]);
 
   useEffect(() => {
   async function fetchProduct() {
@@ -24,33 +34,54 @@ function InformationProduct() {
   fetchProduct();
 }, [productid]);
 
+  const carregarImagens = async () => {
+    const response = await getImage(productid);
+          const data = response.data;
+    
+          let base64EncodedFormats = [];
+    
+            data.forEach((item) => {
+                base64EncodedFormats = [...base64EncodedFormats, item.imageData];
+            });
+    
+            const files = await base64ToFile(base64EncodedFormats);
+    
+            setImagens([...files]);
+  }
+
   if (loading) return <p>Carregando produto...</p>;
   if (!product) return <p>Produto não encontrado.</p>;
 
   return (
-    <main className="container-information-product">
-      <header className="header">
-        <div className="logo">
-          <img src="../img/Logo.png" alt="Logo" />
-        </div>
-
-        <div className="search">
-          <input type="text" placeholder="O que você procura?" />
-          <button>
-            <img src="/img/loupe.png" alt="lupa" />
-          </button>
-        </div>
-
-        <div className="user">
-          <a href="">Entre</a> ou <a href="">Cadastre-se</a>
-        </div>
-      </header>
-
+  <CartProvider>
+    <Header />
+      <main className="container-information-product">
+      
       <div className="body-information-product">
         <section className="images-product">
           <section className="thumbnails">
             <div className="product-photo">
-              <img src="../img/175144648.jpg"  />
+              <Swiper
+                                spaceBetween={10}
+                                navigation={true}
+                                pagination={{ clickable: true }}
+                                thumbs={{ swiper: thumbsSwiper }}
+                                modules={[Navigation, Pagination, Thumbs]}
+                                className="main-swiper"
+                                initialSlide={0}// Começa [0] das imagens
+                            >
+                                {images.map((image, index) => (
+                                    <SwiperSlide key={index}>
+                                        <div className="slide-content">
+                                            <img
+                                                src={exibirImagem(image)}
+                                                alt={`Imagem ${index + 1}`}
+                                                className="main-image"
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
             </div>
 
             <div className="thumbnails-information">
@@ -95,6 +126,7 @@ function InformationProduct() {
         </section>
       </div>
     </main>
+  </CartProvider>
   );
 }
 

@@ -20,7 +20,6 @@ const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
 const PageCart = lazy(() => import("./pages/cartTest/CartTest.jsx"))
 
 const NotFound = lazy(() => import("./pages/notFound/NotFound.jsx"));
-const Teste = lazy(() => import("./components/layout/BestSellersSection.jsx"))
 
 export default function RouteWeb() {
   return (

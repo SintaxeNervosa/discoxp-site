@@ -1,17 +1,17 @@
 import { motion } from 'framer-motion';
 import { useRef, useEffect } from 'react';
+import { useProducts } from '../hooks/useProducts';
 
 export function BestSellersSection() {
   const sectionRef = useRef(null);
-  const cardsRef = useRef([]);
+  const{
+    produtosList,
+    loading,
+    error,
+  } = useProducts(15);
 
-  
-  const products = [
-    { id: 1, img: "/img/forza5.jpg", title: "Forza Horizon 5", price: "R$ 699,90" },
-    { id: 2, img: "/img/granTurismo7.jpg", title: "Gran Turismo 7", price: "R$ 699,90" },
-    { id: 3, img: "/img/Legend_of_Zelda.png", title: "The Legend of Zelda", price: "R$ 699,90" },
-    { id: 4, img: "/img/SpiderMan.jpeg", title: "Spider-Man 2", price: "R$ 699,90" }
-  ];
+  if (loading) return <div>Carregando...</div>;
+  if (error) return <div>Erro: {error}</div>;
 
   // Animação de entrada com o stagger
   const containerVariants = {
@@ -112,31 +112,29 @@ export function BestSellersSection() {
         className="grid"
         variants={containerVariants}
       >
-        {products.map((product, index) => (
-          <motion.div
-            key={product.id}
-            className="card"
-            variants={itemVariants}
-            whileHover="hover"
-            whileTap="tap"
-            custom={index}
-          >
-            <motion.div 
-              className="image-container"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}
+        {produtosList.length > 0 ? (
+          produtosList.map((product) => (
+            <motion.div
+              key={product.id}
+              className="card"
+              variants={itemVariants}
+              whileHover="hover"
+              whileTap="tap"
             >
-              <motion.img 
-                src={product.img} 
-                alt={product.title}
+              <motion.div 
+              className='image-container'
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}>
+                <motion.img 
+                src={product.imageUrl}
+                alt={product.name}
                 whileHover="hover"
-                variants={imageVariants}
-              />
-            </motion.div>
-            
-            <h3>{product.title}</h3>
-            
-            <motion.p 
+                variants={imageVariants}/>
+              </motion.div> 
+
+              <h3>{product.name}</h3>
+
+              <motion.p 
               className="price"
               whileHover={{ scale: 1.1, color: "#ff6b35" }}
             >
@@ -151,8 +149,11 @@ export function BestSellersSection() {
             >
               Comprar
             </motion.button>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))
+        ) : (
+          <div>Nenhum produto encontrado</div>
+        )}
       </motion.div>
     </motion.section>
   );

@@ -1,14 +1,13 @@
-// hooks/useProducts.js
+// hooks/useProducts.js - VERSÃO CORRIGIDA
 import { useState, useEffect } from 'react';
 import ApiService from '../../connection/apiService'; 
 
 export function useProducts(initialLimit = 10) {
   const [produtosList, setProdutosList] = useState([]);
-  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-   async function fetchProdutos(page = 0, limit = initialLimit) { 
+  async function fetchProdutos(page = 0, limit = initialLimit) { 
     setLoading(true);
     setError(null);
     
@@ -16,23 +15,70 @@ export function useProducts(initialLimit = 10) {
       console.log('Buscando produtos...', { page, limit });
       
       const produtos = await ApiService.product.getProducts(page);
-  
-      console.log('Produtos recebidos:', produtos);
       
       setProdutosList(produtos.content || []);
 
-      produtos.content.map(async (product) => {
-        try {
-          console.log('Buscando imagem para o produto ID:', product.id);
-          const imageFile = await ApiService.product.getImageFile(product.id);
-          console.log('Imagem recebida para o produto ID:', product.id, imageFile);
+      // Buscar imagens para CADA produtoo
+      if (produtos.content && produtos.content.length > 0) {
+        const produtosComImagensPromises = produtos.content.map(async (product) => {
+          try {
+            console.log('Buscando imagem para o produto ID:', product.id);
+            
+            const responseImages = await ApiService.product.getImage(product.id);
+            console.log('Resposta da API (getImage):', responseImages);
+            
+            const imagensDoProduto = responseImages.data;
+            
+            if (imagensDoProduto && imagensDoProduto.length > 0) {
+              const primeiraImagem = imagensDoProduto[0];
+              console.log('Primeira imagem:', primeiraImagem);
+              
+              //  imageData DIRETAMENTE 
+              if (primeiraImagem.imageData) {
+                console.log('Usando imageData diretamente da API');
+                return {
+                  ...product,
+                  imageUrl: primeiraImagem.imageData //  URL da imagem!
+                };
+              } else {
+                // Fallback: se não tiver imageData, tenta buscar por getImageFile...
+                console.log('⚠️ Sem imageData, tentando getImageFile...');
+                try {
+                  const imageFile = await ApiService.product.getImageFile(primeiraImagem.id);
+                  return {
+                    ...product,
+                    imageUrl: imageFile
+                  };
+                } catch (fileError) {
+                  console.error('❌ Erro ao buscar arquivo:', fileError);
+                  return {
+                    ...product,
+                    imageUrl: "/img/forza5.jpg"
+                  };
+                }
+              }
+            } else {
+              console.log('⚠️ Nenhuma imagem encontrada para o produto', product.id);
+              return {
+                ...product,
+                imageUrl: "/img/forza5.jpg"//error imagem
+              };
+            }
+          } catch (error) {
+            console.error('❌ Erro ao buscar imagem do produto:', error);
+            return {
+              ...product,
+              imageUrl: "/img/forza5.jpg" //error imagem
+            };
+          }
+        });
 
-          setImage(imageFile);
-          console.log('Imagem do produto:', imageFile);
-        } catch (error) {
-          console.error('Erro ao buscar imagem do produto:', error);
-        }
-      });
+        const produtosComImagensResult = await Promise.all(produtosComImagensPromises);
+        
+        //  ATUALIZA a lista de produtos com as imagens
+        setProdutosList(produtosComImagensResult);
+        console.log('🎉 TODOS os produtos com imagens:', produtosComImagensResult);
+      }
       
     } catch (err) {
       console.error('❌ Erro ao buscar produtos:', err);
@@ -46,14 +92,12 @@ export function useProducts(initialLimit = 10) {
     fetchProdutos(0); 
   }, []);
 
-  // tentando recarregar os1 produtos
   const reloadProdutos = (page = 0, limit = initialLimit) => {
     fetchProdutos(page, limit);
   };
 
   return {
     produtosList,
-    image,
     loading,
     error,
     reloadProdutos,

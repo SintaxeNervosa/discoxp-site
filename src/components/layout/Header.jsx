@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import "./Header.css"
-import Cart from '../cart/Cart';
+import Cart from '../../components/cart/Cart';
 import { useCart } from '../../context/CartContext';
 
 export function Header() {
@@ -11,7 +11,7 @@ export function Header() {
 
   return (
     <>
-      <Cart />
+      <Cart />  
       <motion.header
         className="header"
         initial={{ y: -100, opacity: 0 }}

@@ -7,10 +7,10 @@ import { StarsParticles } from "./StarsParticles";
 export function XboxSection() {
 
     const products = [
-    { id: 1, img: "/img/granTurismo7.jpg", title: "Gran Turismo 7", price: "R$ 699,90" },
-    { id: 2, img: "/img/granTurismo7.jpg", title: "Spider-Man 2", price: "R$ 599,90" },
-    { id: 3, img: "/img/granTurismo7.jpg", title: "God of War", price: "R$ 549,90" },
-    { id: 4, img: "/img/granTurismo7.jpg", title: "The Last of Us", price: "R$ 749,90" }
+    { id: 1, img: "/img/Minecraft_capa.png", title: "Minecraft", price: "R$ 79,90" },
+    { id: 2, img: "/img/Halo-_Reach_box_art.jpg", title: "Halo Reach", price: "R$ 199,90" },
+    { id: 3, img: "/img/forza-horizon-1.jpg", title: "Forza Horizon", price: "R$ 190,90" },
+    { id: 4, img: "/img/Gears_5_capa.jpeg", title: "Gears 5", price: "R$ 259,99" }
   ];
 
   const imageVariants = {

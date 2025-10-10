@@ -6,9 +6,9 @@ export function PlayStationSection() {
 
   const products = [
     { id: 1, img: "/img/granTurismo7.jpg", title: "Gran Turismo 7", price: "R$ 699,90" },
-    { id: 2, img: "/img/granTurismo7.jpg", title: "Spider-Man 2", price: "R$ 599,90" },
-    { id: 3, img: "/img/granTurismo7.jpg", title: "God of War", price: "R$ 549,90" },
-    { id: 4, img: "/img/granTurismo7.jpg", title: "The Last of Us", price: "R$ 749,90" }
+    { id: 2, img: "/img/capa/SpiderMan.jpeg", title: "Spider-Man 2", price: "R$ 599,90" },
+    { id: 3, img: "/img/God_of_War_2005_capa.png", title: "God of War", price: "R$ 549,90" },
+    { id: 4, img: "/img/The_Last_of_Us_capa.png", title: "The Last of Us", price: "R$ 749,90" }
   ];
 
   const imageVariants = {

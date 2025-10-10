@@ -12,19 +12,19 @@ export function NintendoSection() {
     },
     {
       id: 2,
-      img: "/img/Legend_of_Zelda.png",
+      img: "/img/Super_Mario_Odyssey_Capa.png",
       title: "Super Mario Odyssey",
       price: "R$ 599,90",
     },
     {
       id: 3,
-      img: "/img/Legend_of_Zelda.png",
+      img: "/img/Animal_Crossing_New_Horizons_capa.png",
       title: "Animal Crossing",
       price: "R$ 549,90",
     },
     {
       id: 4,
-      img: "/img/Legend_of_Zelda.png",
+      img: "/img/Pokemon.jpeg",
       title: "Pokémon Scarlet",
       price: "R$ 749,90",
     },

@@ -8,7 +8,7 @@ db.version(1).stores({
 });
 
 export const addProductInCart = async (product) => {
-    const tempProduct = await getProductById(14);
+    const tempProduct = await getProductById(13);
     const data = tempProduct.data;
 
     const tempImage = await getImage(data.id);

@@ -20,6 +20,7 @@ export default function Cart({ visibility, closeCart }) {
     const [total, setTotal] = useState(0);
     const [existItems, setExistItems] = useState(false);
     const [loaderVisibility, setLoaderVisibility] = useState(false);
+    const [delivery, setDelivery] = useState(0);
 
     const zipCodeSearch = async (e) => {
         if (e !== undefined && e.key != 'Enter') {
@@ -42,7 +43,7 @@ export default function Cart({ visibility, closeCart }) {
     }
 
     async function findProduct() {
-        //await addProductInCart('');
+        // await addProductInCart('');
         const response = await findAllProductsByCart();
 
         let productItens = [];
@@ -65,12 +66,23 @@ export default function Cart({ visibility, closeCart }) {
             t += p.quantity * p.price;
         });
 
-        setTotal(t);
+        setTotal(t + Number.parseFloat(delivery));
     }
 
     useEffect(() => {
         findProduct();
     }, [])
+
+    useEffect(() => {
+
+        let t = 0;
+        products.forEach((p) => {
+            t += p.quantity * p.price;
+        });
+
+        setTotal(t + Number.parseFloat(delivery));
+
+    }, [delivery])
 
     useEffect(() => {
         totalCalculate();
@@ -106,7 +118,7 @@ export default function Cart({ visibility, closeCart }) {
                                     </div>
                                     <div className="cart-summary">
                                         {address != null && address != "" && (
-                                            <motion.div
+                                            <motion.form
                                                 initial={{ opacity: 0, y: 100 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: 100 }}
@@ -118,6 +130,7 @@ export default function Cart({ visibility, closeCart }) {
                                                 </div>
                                                 <div className='pick-up-in-store'>
                                                     <div>
+                                                        <input type="radio" name='option' defaultChecked value={0} onChange={(e) => setDelivery(e.target.value)} />
                                                         <img src={store} alt="" />
                                                         <p>pronto em até 2 horas</p>
                                                     </div>
@@ -125,6 +138,7 @@ export default function Cart({ visibility, closeCart }) {
                                                 </div>
                                                 <div className='delivery'>
                                                     <div>
+                                                        <input type="radio" name='option' value={9.9} onChange={(e) => setDelivery(e.target.value)} />
                                                         <img src={truck} alt="" />
                                                         <p>receber em até 1 dia útil</p>
                                                     </div>
@@ -132,12 +146,13 @@ export default function Cart({ visibility, closeCart }) {
                                                 </div>
                                                 <div className='to-schedule'>
                                                     <div>
+                                                        <input type="radio" name='option' value={15.99} onChange={(e) => setDelivery(e.target.value)} />
                                                         <img src={schedule} alt="" />
                                                         <p>agendar sua entrega</p>
                                                     </div>
                                                     <p>R$ 15,99</p>
                                                 </div>
-                                            </motion.div>
+                                            </motion.form>
                                         )}
                                         {address == "" && (
                                             <div

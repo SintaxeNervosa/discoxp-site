@@ -11,7 +11,7 @@ export function Header() {
 
   return (
     <>
-      <Cart />  
+      <Cart />
       <motion.header
         className="header"
         initial={{ y: -100, opacity: 0 }}
@@ -39,6 +39,7 @@ export function Header() {
             }}
           />
         </div>
+        <span className="logo-text">DISCO XP</span>
 
         <motion.div
           className="search"

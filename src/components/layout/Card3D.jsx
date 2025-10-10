@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { useCart } from '../../context/CartContext';
-import { addProductInCart } from '../../config/dexie';
+import { addProductInCart, findAllProductsByCart } from '../../config/dexie';
 
 export function Card3D({ product, platformColor }) {
   const [isHovered, setIsHovered] = useState(false);
   const imgRef = useRef(null);
 
-  const { openCart } = useCart();
+  const { toggleCart } = useCart();
 
   const cardVariants = {
     hidden: {
@@ -59,7 +59,8 @@ export function Card3D({ product, platformColor }) {
 
   const addInCart = async () => {
     await addProductInCart(product.id);
-    openCart()
+    await findAllProductsByCart();
+    toggleCart();
   }
 
   return (

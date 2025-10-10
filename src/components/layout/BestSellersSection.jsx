@@ -1,14 +1,20 @@
 import { motion } from 'framer-motion';
 import { useRef, useEffect } from 'react';
 import { useProducts } from '../hooks/useProducts';
+import { useCart } from '../../context/CartContext';
+import { addProductInCart, findAllProductsByCart } from '../../config/dexie';
+import { useNavigate } from 'react-router-dom';
 
 export function BestSellersSection() {
   const sectionRef = useRef(null);
-  const{
+  const {
     produtosList,
     loading,
     error,
   } = useProducts(15);
+
+  const navigate = useNavigate();
+  const { toggleCart } = useCart();
 
   if (loading) return <div>Carregando...</div>;
   if (error) return <div>Erro: {error}</div>;
@@ -25,14 +31,14 @@ export function BestSellersSection() {
   };
 
   const itemVariants = {
-    hidden: { 
-      y: 100, 
+    hidden: {
+      y: 100,
       opacity: 0,
       rotateX: -45,
       scale: 0.8
     },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
       rotateX: 0,
       scale: 1,
@@ -46,13 +52,13 @@ export function BestSellersSection() {
   };
 
   const titleVariants = {
-    hidden: { 
-      y: 50, 
+    hidden: {
+      y: 50,
       opacity: 0,
       scale: 0.5
     },
-    visible: { 
-      y: 0, 
+    visible: {
+      y: 0,
       opacity: 1,
       scale: 1,
       transition: {
@@ -76,7 +82,7 @@ export function BestSellersSection() {
   };
 
   const buttonVariants = {
-    hover: { 
+    hover: {
       scale: 1.1,
       backgroundColor: "#cc5200",
       transition: { type: "spring", stiffness: 400, damping: 10 }
@@ -92,8 +98,13 @@ export function BestSellersSection() {
     }
   };
 
+  const addInCart = async (id) => {
+    await addProductInCart(id);
+    toggleCart();
+  }
+
   return (
-    <motion.section 
+    <motion.section
       ref={sectionRef}
       className="section"
       variants={containerVariants}
@@ -101,14 +112,14 @@ export function BestSellersSection() {
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
     >
-      <motion.h2 
+      <motion.h2
         className="section-title"
         variants={titleVariants}
       >
         MAIS VENDIDOS
       </motion.h2>
 
-      <motion.div 
+      <motion.div
         className="grid"
         variants={containerVariants}
       >
@@ -121,34 +132,36 @@ export function BestSellersSection() {
               whileHover="hover"
               whileTap="tap"
             >
-              <motion.div 
-              className='image-container'
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}>
-                <motion.img 
-                src={product.imageUrl}
-                alt={product.name}
-                whileHover="hover"
-                variants={imageVariants}/>
-              </motion.div> 
+              <motion.div
+                onClick={() => navigate(`/product/${product.id}`)}
+                className='image-container'
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 300 }}>
+                <motion.img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  whileHover="hover"
+                  variants={imageVariants} />
+              </motion.div>
 
               <h3>{product.name}</h3>
 
-              <motion.p 
-              className="price"
-              whileHover={{ scale: 1.1, color: "#ff6b35" }}
-            >
-              {product.price}
-            </motion.p>
-            
-            <motion.button
-              className="buy-button"
-              whileHover="hover"
-              whileTap="tap"
-              variants={buttonVariants}
-            >
-              Comprar
-            </motion.button>
+              <motion.p
+                className="price"
+                whileHover={{ scale: 1.1, color: "#ff6b35" }}
+              >
+                {product.price}
+              </motion.p>
+
+              <motion.button
+                className="buy-button"
+                whileHover="hover"
+                whileTap="tap"
+                variants={buttonVariants}
+                onClick={() => addInCart(product.id)}
+              >
+                Comprar
+              </motion.button>
             </motion.div>
           ))
         ) : (

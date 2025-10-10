@@ -1,6 +1,6 @@
 // Header.jsx
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import "./Header.css"
 import Cart from '../../components/cart/Cart';
 import { useCart } from '../../context/CartContext';
@@ -21,7 +21,7 @@ export function Header() {
 
         <div className="logo">
           <motion.img
-            src="./img/DISCO_XP__1_-removebg-preview.png"
+            src="/img/DISCO_XP__1_-removebg-preview.png"
             alt="Logo"
             ref={logoRef}
             animate={{ rotate: 360 }}
@@ -81,7 +81,7 @@ export function Header() {
           >
             Cadastra-se
           </motion.a>
-          <img id='cart' src="./img/cart.svg" alt=""
+          <img id='cart' src="/img/cart.svg" alt=""
             onClick={toggleCart} />
         </motion.div>
       </motion.header>

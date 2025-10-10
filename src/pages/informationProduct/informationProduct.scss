@@ -1,11 +1,13 @@
+
 .container-information-product {
   font-family: Arial, sans-serif;
   background: #f8f8f8;
   color: #333;
   height: 100%;
+  padding-top: 120px;
+  z-index: -1;
 
   .body-information-product {
-    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 25%, rgba(235, 143, 37, 1) 100%);
     display: flex;
     justify-content: center;
     padding: 2.9rem 0;
@@ -18,6 +20,7 @@
       max-width: 1200px;
       padding: 3rem 2rem;
       animation: fadeIn 0.5s ease-in-out;
+
       .thumbnails {
         display: flex;
         justify-content: space-between;
@@ -25,7 +28,7 @@
         flex-wrap: wrap;
         gap: 2rem;
 
-         .product-photo {
+        .product-photo {
           flex: 1;
           min-width: 400px;
           display: flex;
@@ -40,13 +43,13 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            
+
             .swiper-slide {
               display: flex;
               align-items: center;
               justify-content: center;
               background: transparent;
-              
+
               .slide-content {
                 display: block;
                 width: 100%;
@@ -55,14 +58,14 @@
                 align-items: center;
                 justify-content: center;
                 padding: 1.5rem;
-                
+
                 .main-image {
                   width: 100%;
                   height: 400px;
                   object-fit: contain;
                   border-radius: 10px;
                   transition: transform 0.3s ease;
-                  
+
                   &:hover {
                     transform: scale(1.05);
                   }
@@ -79,13 +82,13 @@
               backdrop-filter: blur(10px);
               transition: all 0.3s ease;
               box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-              
+
               &::after {
                 font-size: 1.2rem;
                 color: white;
                 font-weight: bold;
               }
-              
+
               &:hover {
                 background: rgba(0, 0, 0, 0.9);
                 transform: scale(1.1);
@@ -99,10 +102,10 @@
             .swiper-button-prev {
               left: 20px;
             }
-y
-            .swiper-pagination {
+
+            y .swiper-pagination {
               bottom: 15px;
-              
+
               .swiper-pagination-bullet {
                 width: 12px;
                 height: 12px;
@@ -110,12 +113,12 @@ y
                 opacity: 1;
                 transition: all 0.3s ease;
                 border: 2px solid transparent;
-                
+
                 &:hover {
                   background: rgba(235, 143, 37, 0.8);
                   transform: scale(1.2);
                 }
-                
+
                 &.swiper-pagination-bullet-active {
                   background: #eb8f25;
                   border-color: white;
@@ -137,11 +140,13 @@ y
             animation: pulse 1.5s ease-in-out infinite;
             width: 100%;
             max-width: 400px;
-            
+
             &::before {
               content: "🔄 ";
               margin-right: 0.5rem;
-            }}}
+            }
+          }
+        }
 
         .thumbnails-information {
           flex: 1;
@@ -207,7 +212,7 @@ y
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 2rem;
-          
+
           .recommended-item {
             background: white;
             border-radius: 15px;
@@ -215,18 +220,19 @@ y
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             position: relative;
-            
+
             .item-image {
               position: relative;
               overflow: hidden;
-              
+
               img {
                 width: 100%;
                 height: 200px;
                 object-fit: cover;
                 transition: transform 0.3s ease;
+                background-size: cover;
               }
-              
+
               .item-overlay {
                 position: absolute;
                 top: 0;
@@ -239,7 +245,7 @@ y
                 justify-content: center;
                 opacity: 0;
                 transition: opacity 0.3s ease;
-                
+
                 .quick-view {
                   background: #eb8f25;
                   color: white;
@@ -250,28 +256,28 @@ y
                   font-weight: 600;
                 }
               }
-              
+
               &:hover {
                 img {
                   transform: scale(1.1);
                 }
-                
+
                 .item-overlay {
                   opacity: 1;
                 }
               }
             }
-            
+
             .item-info {
               padding: 1.5rem;
-              
+
               h4 {
                 font-size: 1.1rem;
                 font-weight: 600;
                 color: #2c3e50;
                 margin-bottom: 0.5rem;
               }
-              
+
               .item-price {
                 font-size: 1.2rem;
                 font-weight: 700;
@@ -280,7 +286,8 @@ y
               }
             }
           }
-        }}
+        }
+      }
 
 
       .description {
@@ -299,17 +306,8 @@ y
     }
   }
 
-  
+
   @media (max-width: 1024px) {
-    .header {
-      flex-direction: column;
-      align-items: flex-start;
-
-      .search {
-        width: 100%;
-      }
-    }
-
     .body-information-product .images-product {
       width: 95%;
       padding: 2rem;
@@ -317,16 +315,6 @@ y
   }
 
   @media (max-width: 768px) {
-    .header {
-      .logo img {
-        width: 80px;
-      }
-
-      .user {
-        font-size: 0.9rem;
-      }
-    }
-
     .thumbnails {
       flex-direction: column;
       align-items: center;
@@ -353,23 +341,6 @@ y
   }
 
   @media (max-width: 480px) {
-    .header {
-      padding: 0.8rem 1rem;
-      gap: 0.5rem;
-
-      .search {
-        width: 100%;
-
-        input {
-          font-size: 0.9rem;
-        }
-      }
-
-      .user {
-        text-align: center;
-        width: 100%;
-      }
-    }
 
     .body-information-product {
       padding: 1.5rem 0;
@@ -387,6 +358,7 @@ y
         h1 {
           font-size: 1rem;
         }
+
         h2 {
           font-size: 1.3rem;
         }

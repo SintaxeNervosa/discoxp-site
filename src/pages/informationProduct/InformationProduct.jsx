@@ -24,7 +24,7 @@ function InformationProduct() {
   const { toggleCart } = useCart();
 
   const addInCart = async () => {
-    await addProductInCart(productid);
+    await addProductInCart(parseInt(productid));
     toggleCart();
   }
 

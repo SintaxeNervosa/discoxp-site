@@ -1,5 +1,6 @@
 * {
   margin: 0;
+  padding: 0px;
   box-sizing: border-box;
 }
 
@@ -11,4 +12,9 @@
 @font-face {
   font-family: 'AlbertSans-medium';
   src: url('./assets/fonts/AlbertSans/AlbertSans-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'inter';
+  src: url('/public/fonts/inter/Inter/Inter-VariableFont_opsz\,wght.ttf');
 }

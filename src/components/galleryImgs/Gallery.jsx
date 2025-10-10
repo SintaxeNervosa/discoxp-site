@@ -10,14 +10,22 @@ import "./Gallery.scss";
 
 import "../ui/button.scss";
 import ApiService from "../../connection/apiService";
+import { add, convertFilesToFormData, fileExists, findAll, removeAll } from "../../config/dexie";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteAllImagesByProduct, getImage } from "../../connection/productPaths";
+import { base64ToFile } from "../functions/ConvertFiles";
+import { toast, ToastContainer } from "react-toastify";
 
-export default function Gallery({ onSave, onCancel, existingImages = [] , productId}) {
+export default function Gallery({ onSave, onCancel, existingImages = [], productId }) {
     const [images, setImagens] = useState(existingImages);
     const [favoriteIndex, setFavoriteIndex] = useState(0);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const fileInputRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
     const [files, setFiles] = useState([]);
+
+    const navigate = useNavigate();
+    const { productid } = useParams();
 
     function exibirImagem(file) {
         if (file instanceof File) {
@@ -60,58 +68,129 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
         return reordenarImages;
     }
 
-      function handleCancel() {
+    function handleCancel() {
         if (window.confirm("Tem certeza que deseja cancelar? As alterações não serão salvas.")) {
-            onCancel();
+            navigate(-1);
+            // onCancel();
         }
     }
 
-        async function handleSave() {
+    async function handleSave() {
         setIsLoading(true)
         try {
             const imagensToEnviar = imageFavorita()
-            
-            await salveImages(imagensToEnviar)
+
+            await salveImages(imagensToEnviar);
 
             onSave(imagensToEnviar, favoriteIndex)
         } catch (error) {
-            console.error("Erro ao salvar imagens:", error);
-            alert("Erro ao salvar imagens. Tente novamente.");
+            console.log("ERROR: " + error);
+            toast.error(error);
         }
-        finally{
+        finally {
             setIsLoading(false);
         }
     }
 
+    const parseImagesToFormData = (newFiles) => {
+        const formData = new FormData();
+
+        newFiles.forEach((file) => {
+            formData.append("file", file);
+        });
+
+        return formData;
+    }
 
     async function salveImages(imagesToUpar) {
-        try {
-            const nwefiles = imagesToUpar.filter(img => img instanceof File)//only files
+        const newFiles = imagesToUpar.filter(img => img instanceof File)//only files
 
-            if (nwefiles.length > 0) {
-                const formData = new FormData
-
-                //colocar cada file no FormData
-                nwefiles.forEach( file =>{
-                    formData.append("file", file)
-                })
-
-                console.log("Produto: ", productId, " Images = ", nwefiles)
-
-                console.log(formData);
-                await ApiService.product.upImages(formData, 5)
-                console.log("enviou imgs")
-            } else{
-                console.log("nenhuma img")
-            }
-        } catch (error) {
-            console.error(error);
-            throw new Error("Falha")
+        // caso tenha imagens já salvas no banco, 
+        // limpa-o e adiciona as novas imagens
+        if (newFiles.length <= 0) {
+            throw "Informe ao menos uma imagem.";
         }
+
+        if (productid) {
+            const responseDeleteAllImages = await deleteAllImagesByProduct(productid);
+            console.log("Response: " + responseDeleteAllImages);
+
+            if (responseDeleteAllImages.status == 200) {
+                const formData = parseImagesToFormData(newFiles);
+
+                const responseAddImages = await ApiService.product.upImages(formData, productid);
+
+                if (responseAddImages.status == 200) {
+                    toast.success("Imagens salvas com sucesso");
+                }
+            }
+        } else {
+            if (fileExists()) { removeAll(); }
+            await add(newFiles);
+        }
+
+        // if (newFiles.length > 0) {
+        //     const formData = new FormData
+
+        //colocar cada file no FormData
+        // newFiles.forEach(file => {
+        //     formData.append("file", file)
+        //     })
+
+        //     //                console.log("Produto: ", productId, " Images = ", nwefiles)
+
+
+        //     // await ApiService.product.upImages(formData, 5)
+        //     console.log("enviou imgs")
+        // } else {
+        //     console.log("nenhuma img")
+        // }
+
     }
+
+    // função para cerregar as imagens do indexedDB
+    const fetchImageProductFromImageDB = async () => {
+        const response = await findAll();
+
+        let files = [];
+
+        if (response.length > 0) {
+            response.forEach(file => {
+                files = [...files, file];
+            });
+        }
+
+        setImagens(files);
+    }
+
+    // carregar imagens da API
+    const fetchImageProductFromApi = async () => {
+        const response = await getImage(productid);
+        const data = response.data;
+
+        let base64EncodedFormats = [];
+
+        data.forEach((item) => {
+            base64EncodedFormats = [...base64EncodedFormats, item.imageData];
+        });
+
+        const files = await base64ToFile(base64EncodedFormats);
+
+        setImagens([...files]);
+    }
+
+    useEffect(() => {
+        if (productid) {
+            fetchImageProductFromApi();
+            return;
+        }
+
+        fetchImageProductFromImageDB();
+    }, []);
 
     return (
         <div className="gallery-container">
+            <ToastContainer />
             <div id="Gallery">
                 <nav className="Gallery-nav">
                     <h1>Galeria de imagens</h1>
@@ -156,7 +235,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
                                                     title="Remover imagem"
                                                     disabled={isLoading}
                                                 >
-                                                    ×vdhfiohiovfoi
+                                                    ×
                                                 </button>
                                             </div>
                                             {/* */}
@@ -242,13 +321,13 @@ export default function Gallery({ onSave, onCancel, existingImages = [] , produc
                         onClick={() => fileInputRef.current?.click()}
                         disabled={isLoading}
                     >
-                         📷 Adicionar mais imagens
+                        📷 Adicionar mais imagens
                     </button>
                     <div className="footer-actions">
                         <button className="btn-cancel" onClick={handleCancel} disabled={isLoading}>
                             Cancelar
                         </button>
-                        <button className="btn-save" onClick={handleSave} disabled={isLoading || images.length === 0 }>
+                        <button className="btn-save" onClick={handleSave} disabled={isLoading || images.length === 0}>
                             {isLoading ? "Salvando..." : "💾 Salvar"}
                         </button>
                     </div>

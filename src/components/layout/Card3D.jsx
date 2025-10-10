@@ -1,9 +1,13 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+import { useCart } from '../../context/CartContext';
+import { addProductInCart } from '../../config/dexie';
 
 export function Card3D({ product, platformColor }) {
   const [isHovered, setIsHovered] = useState(false);
   const imgRef = useRef(null);
+
+  const { openCart } = useCart();
 
   const cardVariants = {
     hidden: {
@@ -26,18 +30,18 @@ export function Card3D({ product, platformColor }) {
   // Efeito 3D CSS funciona pfvr
   const handleMouseMove = (e) => {
     if (!imgRef.current || !isHovered) return;
-    
+
     const card = imgRef.current;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     const rotateY = ((x - centerX) / centerX) * 15; //rotação 
-    const rotateX = ((centerY - y) / centerY) * 15; 
-    
+    const rotateX = ((centerY - y) / centerY) * 15;
+
     card.style.transform = `
       perspective(1000px) 
       rotateX(${rotateX}deg) 
@@ -52,6 +56,11 @@ export function Card3D({ product, platformColor }) {
     }
     setIsHovered(false);
   };
+
+  const addInCart = async () => {
+    await addProductInCart(product.id);
+    openCart()
+  }
 
   return (
     <motion.div
@@ -71,7 +80,7 @@ export function Card3D({ product, platformColor }) {
       onMouseMove={handleMouseMove}
     >
       {/* Container image com efeito 3D e CSS */}
-      <div 
+      <div
         className="image-container-3d"
       >
         <motion.img
@@ -88,10 +97,10 @@ export function Card3D({ product, platformColor }) {
             transition: { type: "spring", stiffness: 300, damping: 20 }
           }}
         />
-        
+
         {/* Efeito de brilho dinâmica */}
         {isHovered && (
-          <div 
+          <div
             className="hover-glow"
             style={{
               background: `radial-gradient(circle at center, ${platformColor}20 0%, transparent 70%)`
@@ -109,6 +118,7 @@ export function Card3D({ product, platformColor }) {
       </motion.p>
 
       <motion.button
+        onClick={() => (addInCart())}
         className="buy-button"
         whileHover={{
           scale: 1.1,

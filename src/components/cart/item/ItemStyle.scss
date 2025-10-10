@@ -1,0 +1,68 @@
+.item-container {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    border-radius: 20px;
+    gap: 30px;
+    box-shadow: 1px 3px 6px 0px #9c9c9ca0;
+    min-width: 400px;
+
+    img {
+        width: 80px;
+    }
+
+    .content {
+        font-size: 17px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 50px;
+
+        .name-delete {
+            display: flex;
+            justify-content: space-between;
+
+            p {
+                max-width: 200px;
+            }
+
+            p:nth-child(2) {
+                color: #EB8F25;
+                cursor: pointer;
+            }
+        }
+
+        .quantity-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                font-size: 17px;
+                box-shadow: 1px 3px 6px 0px #9c9c9ca0;
+                border-radius: 10px;
+                padding: 5px 10px;
+
+                button {
+                    font-size: 28px;
+                    border: none;
+                    background-color: transparent;
+                    cursor: pointer;
+                }
+
+                button:nth-child(1) {
+                    color: #9C9C9C;
+                }
+
+                button:nth-child(3) {
+                    color: #EB8F25;
+                }
+            }
+
+        }
+    }
+}

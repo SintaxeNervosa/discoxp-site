@@ -1,0 +1,33 @@
+.empty-cart-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    max-width: 320px;
+    text-align: center;
+    gap: 20px;
+    color: #8B8B8B;
+    margin: 0 auto;
+
+    h1 {
+        font-size: 23px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    button {
+        background-color: #EB8F25;
+        font-weight: bold;
+        color: white;
+        border: 2px solid #EB8F25;
+        width: 70%;
+        min-width: 200px;
+        padding: 5px;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+}

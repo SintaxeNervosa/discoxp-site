@@ -1,14 +1,15 @@
-html,body {
-  margin: 0 !important;
-  padding: 0 !important;
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: hidden;
     height: 100%;
 }
 
-#root{
-min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .home {
@@ -16,7 +17,8 @@ min-height: 100vh;
     color: #333;
     flex: 1; // Ocupa todo o espaço disponível tirando até a barra do lado
     width: 100%;
-    
+    padding-top: 120px;
+
     .gallery {
         display: flex;
         justify-content: center;
@@ -163,7 +165,9 @@ min-height: 100vh;
     }
 
 
-    .section-play,.section-nitendo,.section-xbox {
+    .section-play,
+    .section-nitendo,
+    .section-xbox {
         padding: 2rem;
         max-width: 70%;
         margin: 0 auto;

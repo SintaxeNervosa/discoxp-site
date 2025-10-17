@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './CartStyle.scss';
 import Item from "./item/Item.jsx";
 
-import cart from '../../../public/img/cart.svg';
 import location from '../../assets/images/cart/location.svg';
 import store from '../../assets/images/cart/store.svg';
 import truck from '../../assets/images/cart/truck.svg';
@@ -111,7 +110,6 @@ export default function Cart() {
                         className="cart">
                         <header>
                             <div>
-                                <img src={cart} alt="" />
                                 <h1>Meu carrinho</h1>
                             </div>
                             <h1 onClick={closeCart}>X</h1>

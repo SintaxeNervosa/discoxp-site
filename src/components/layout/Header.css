@@ -129,3 +129,7 @@ body {
   filter: brightness(1.2);
 }
 
+#cart {
+  width: 50px;
+  cursor: pointer;
+}

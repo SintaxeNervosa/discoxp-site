@@ -88,7 +88,6 @@ export default function Cart() {
     useEffect(() => {
         if (visibilityCart) {
             findProduct(); // busca produtos sempre que o cart abrir
-            console.log("oi")
         }
     }, [visibilityCart]);
 

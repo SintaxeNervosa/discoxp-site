@@ -1,13 +1,24 @@
 // Header.jsx
 import { motion } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import "./Header.css"
 import Cart from '../../components/cart/Cart';
 import { useCart } from '../../context/CartContext';
+import { findAllProductsByCart } from '../../config/dexie';
 
 export function Header() {
   const logoRef = useRef(null);
   const { toggleCart, visibilityCart } = useCart();
+  const [quantityItensInCart, setQuantityInCart] = useState(0);
+
+  async function changeQuantityCart() {
+    const itens = await findAllProductsByCart();
+    setQuantityInCart(itens.length);
+  }
+
+  useEffect(() => {
+    changeQuantityCart();
+  }, [toggleCart]);
 
   return (
     <>
@@ -81,8 +92,13 @@ export function Header() {
           >
             Cadastra-se
           </motion.a>
-          <img id='cart' src="/img/cart.svg" alt=""
-            onClick={toggleCart} />
+          <div className='quantity-cart'>
+            { quantityItensInCart > 0 &&
+              <p>{quantityItensInCart}</p>
+            }
+            <img id='cart' src="/img/cart.svg" alt=""
+              onClick={toggleCart} />
+          </div>
         </motion.div>
       </motion.header>
     </>

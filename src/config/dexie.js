@@ -9,9 +9,7 @@ db.version(1).stores({
 
 export const addProductInCart = async (id) => {
     const responseProductFindById = await findProductCartById(id);
-
-    console.log(responseProductFindById);
-    console.log("ID" + id);
+    
     if (responseProductFindById != undefined) {
         console.log("caiu aqui!");
         await putProductQuantity(id, responseProductFindById.quantity + 1);

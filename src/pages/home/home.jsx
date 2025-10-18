@@ -1,14 +1,70 @@
 import "./home.scss";
+import { lazy, Suspense, useEffect, useState } from "react";
 import HomeEfets from "../../components/layout/HomeEfeets"
-import { Header } from "../../components/layout/Header";
-import { BestSellersSection } from "../../components/layout/BestSellersSection"
-import { XboxSection } from '../../components/layout/XboxSection';
-import { NintendoSection } from '../../components/layout/NintendoSection';
-import { PlayStationSection } from '../../components/layout/PlayStationSection';
-import { Footer } from '../../components/layout/FooterFodastico'
-import { CartProvider } from "../../context/CartContext";
-function Home() {
+import { Header } from "../../components/layout/Header";;
 
+//Loaders dos componentes pesados
+const BestSellersSection = lazy(() => 
+  import('../../components/layout/BestSellersSection').then(module => ({
+    default: module.BestSellersSection
+  }))
+);
+
+const XboxSection = lazy(() => 
+  import('../../components/layout/XboxSection').then(module => ({
+    default: module.XboxSection
+  }))
+);
+
+const NintendoSection = lazy(() => 
+  import('../../components/layout/NintendoSection').then(module => ({
+    default: module.NintendoSection
+  }))
+);
+
+const PlayStationSection = lazy(() => 
+  import('../../components/layout/PlayStationSection').then(module => ({
+    default: module.PlayStationSection
+  }))
+);
+
+const Footer = lazy(() => 
+  import('../../components/layout/FooterFodastico').then(module => ({
+    default: module.Footer
+  }))
+);
+
+const Optimizador = ({ src, alt, ...props }) => (
+    <img src={src} alt={alt} loading="lazy" {...props} decoding="async" {...props} />
+)
+
+//loading
+const SetionLoander = () => (
+    <div className="loader-container">
+        CARREGANDO...
+    </div>
+)
+function Home() {
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(true);
+        }, 1000); // Simula um carregamento de 2 segundos
+
+        return () => clearTimeout(timer);
+    }, [])
+
+    ///alison vai fazer o resto daqui
+    const imagesGallery1 = [
+        { src: "/img/capa/Black_ops_2_cover.jpg", alt: "capa01" },
+    ]
+    const imagesGallery2 = [
+        { src: "/img/capa/Capa_de_Forza_Horizon_5.jpg", alt: "capa07" },
+    ]
+    const imagesGallery3 = [
+        { src: "/img/capa/Need-for-speed.jpg", alt: "capa13" },
+    ]
     return (
         <>
             <Header />
@@ -64,13 +120,16 @@ function Home() {
                         </div>
                     </div>
 
-                    <BestSellersSection />
-
-                    <XboxSection />
-                    <NintendoSection />
-                    <PlayStationSection />
-
-                    <Footer />
+                    {/* Seções com lanzig loading e suspense para carregar melhor*/}
+                    {isLoading && (
+                        <Suspense fallback={<SetionLoander />}>
+                            <BestSellersSection />
+                            <XboxSection />
+                            <NintendoSection />
+                            <PlayStationSection />
+                            <Footer />
+                        </Suspense>
+                    )}
                 </main>
             </HomeEfets>
         </>

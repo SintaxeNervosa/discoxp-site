@@ -1,9 +1,13 @@
-// components/Footer.jsx
 import { motion } from 'framer-motion';
 import { StarsParticles } from './StarsParticles';
+import { Observer } from "../hooks/observer";
+import { Suspense } from "react";
+
 import './Footer.css';
 
 export function Footer() {
+    const [sectionRef, isVisible] = Observer();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -54,16 +58,21 @@ export function Footer() {
   return (
     <motion.footer 
       className="footer-enhanced"
+      ref={sectionRef}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
       variants={containerVariants}
     >
       {/* Partculas de fundo */}
-      <StarsParticles 
-        count={60} 
+       {isVisible && (
+          <Suspense fallback={null}>
+            <StarsParticles 
+        count={200} 
         color="rgba(255, 255, 255, 0.3)" 
       />
+          </Suspense>
+        )}
       
       {/* efeito de brilho */}
       <div className="footer-glow" />

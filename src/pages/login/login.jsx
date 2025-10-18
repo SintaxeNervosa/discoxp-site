@@ -1,37 +1,15 @@
 import "./login.scss";
-import ApiService from "../../connection/apiService";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { useLogin } from "../../components/hooks/useLogin";
+import {ToastContainer } from "react-toastify";
 
 function login() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [erro, setErro] = useState("");
-  const navigate = useNavigate();
-
-  async function Loginzao(e) {
-    e.preventDefault();
-    try {
-      const response = await ApiService.user.loginUser(email, senha);//id 1 para
-
-      if (response.status == 200) {
-        toast.success("OK");
-
-        const data = response.data;
-        const dataToString = JSON.stringify(data);
-        sessionStorage.setItem("user-data", dataToString);
-
-        setTimeout(() => {
-          navigate("/choice");
-        }, [1000]);
-      }
-    } catch (err) {
-      toast.error(");");
-    }
-
-  }
-
+  const {
+    email,
+    setEmail,
+    senha,
+    setSenha,
+    Loginzao
+  } = useLogin()
 
   return (
     <div className="container-mae">
@@ -65,8 +43,6 @@ function login() {
               placeholder="Digite sua senha"
             />
           </div>
-
-          {erro && <div className="mensagem-erro">{erro}</div>}
 
           <div className="botao">
             <button type="submit">Confirmar</button>

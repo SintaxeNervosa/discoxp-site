@@ -1,8 +1,12 @@
 import { motion } from 'framer-motion';
 import { StarsParticles } from "./StarsParticles";
 import { Card3D } from "./Card3D";
+import { Observer } from "../hooks/observer";
+import { Suspense } from "react";
 
 export function PlayStationSection() {
+
+    const [sectionRef, isVisible] = Observer();
 
   const products = [
     { id: 1, img: "/img/granTurismo7.jpg", title: "Gran Turismo 7", price: "R$ 699,90" },
@@ -28,6 +32,7 @@ export function PlayStationSection() {
   return (
     <motion.section 
       className="section-play"
+      ref={sectionRef}
       whileInView={{ 
         opacity: 1,
       }}
@@ -37,10 +42,14 @@ export function PlayStationSection() {
       }}
       viewport={{ once: true }}
     >
-        <StarsParticles 
+        {isVisible && (
+          <Suspense fallback={null}>
+            <StarsParticles 
         count={380} 
         color="rgba(255, 255, 255, 0.8)" 
       />
+          </Suspense>
+        )}
       <motion.h2
         initial={{ scale: 0.5, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}

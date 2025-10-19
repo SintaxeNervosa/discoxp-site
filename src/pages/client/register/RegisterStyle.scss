@@ -1,0 +1,102 @@
+.swiper-pagination-progressbar-fill {
+    background-color: #EB8F25 !important;
+}
+
+.container_register {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100vh;
+
+    .menu {
+        width: 60%;
+        background-color: #EB8F25;
+        border-top-right-radius: 230px;
+        border-bottom-right-radius: 2   30px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px;
+        width: 60%;
+        color: #2c2c2c;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            gap: 20px;
+
+            >div {
+                max-height: 450px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                width: 100%;
+                overflow: auto;
+
+                >div {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+            }
+
+            .gender-birthOfDay {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 40px;
+
+                div {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    gap: 5px;
+                }
+            }
+
+            input,
+            select {
+                border: 1px solid #a0a0a0;
+                border-radius: 5px;
+                width: 100%;
+                outline: none;
+                padding: 10px;
+                transition: 0.3s;
+                color: #2c2c2c;
+            }
+
+            input:focus,
+            select:focus {
+                border: 1px solid #EB8F25;
+            }
+
+            button {
+                margin: 0 auto;
+                width: 60%;
+                border-radius: 5px;
+                border: none;
+                outline: none;
+                padding: 10px;
+                color: white;
+            }
+
+            button:enabled {
+                background-color: #EB8F25;
+                cursor: pointer;
+            }
+
+            button:disabled {
+                background-color: rgb(182, 182, 182);
+            }
+        }
+    }
+}

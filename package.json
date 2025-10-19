@@ -20,6 +20,7 @@
     "gsap": "^3.13.0",
     "locomotive-scroll": "^4.1.4",
     "motion": "^12.23.22",
+    "node-cpf": "^1.2.4",
     "prop-types": "^15.8.1",
     "react": "^19.1.1",
     "react-alert-confirm": "^4.1.8",

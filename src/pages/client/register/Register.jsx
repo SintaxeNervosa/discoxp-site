@@ -7,19 +7,25 @@ import './RegisterStyle.scss';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Register() {
-    let isFirstLoad = useRef(true);
     const [page, setPage] = useState(0);
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [formUserPersonalData, setUserPersonalData] = useState({});
+    const [formUserPersonalData, setUserPersonalData] = useState(null);
 
     const nextPage = () => {
         setPage(page + 1);
     }
 
+    const saveDataInSession = (sessionName) => {
+        sessionStorage.setItem(sessionName, JSON.stringify(formUserPersonalData));
+    }
+
     useEffect(() => {
-        if (!isFirstLoad.current) {
+        if (!buttonDisabled) {
+            let sessionName;
+
             switch (page) {
                 case 1:
+                    sessionName = "personalData";
                     // chamar a função para salvar os dados do usuário
                     break;
                 case 2:
@@ -31,6 +37,8 @@ export default function Register() {
                 default:
                     console.log("Ocorreu um erro");
             }
+
+            if (sessionName != null) { saveDataInSession(sessionName); }
         }
 
     }, [page]);

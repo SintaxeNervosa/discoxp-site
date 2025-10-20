@@ -6,6 +6,8 @@ import { validate, unMask } from 'node-cpf';
 export default function FormPersonalData({ setButtonDisabled, setUserPersonalData }) {
     let isFirstLoad = useRef(true);
 
+    const sessionName = "personalData";
+
     const [completeName, setCompleteName] = useState(null);
     const [errorName, setErrorName] = useState({
         show: false,
@@ -214,7 +216,7 @@ export default function FormPersonalData({ setButtonDisabled, setUserPersonalDat
     }
 
     function verifyFields() {
-        const valid = completeName != null && !errorName.show && email != null && !errorEmail.show && password != null && !errorPassword.show && cpf != null && !errorCpf.show && gender != null && !errorGender.show && dateOfBirth != null && !errorDateOfBirth.show
+        const valid = completeName != null && !errorName.show && email != null && !errorEmail.show && password != null && !errorPassword.show && cpf != null && !errorCpf.show && gender != null && !errorGender.show && dateOfBirth != null && !errorDateOfBirth.show;
 
         if (valid) {
             let obj = generateUserObj();
@@ -226,12 +228,30 @@ export default function FormPersonalData({ setButtonDisabled, setUserPersonalDat
         setButtonDisabled(true);
     }
 
+    function loadUserData() {
+        let value = sessionStorage.getItem(sessionName);
+
+        if (value == null) return;
+
+        const userDataParseToJson = JSON.parse(value);
+
+        setCompleteName(userDataParseToJson.name);
+        setEmail(userDataParseToJson.email);
+        setCpf(userDataParseToJson.cpf);
+        setPassword(userDataParseToJson.password);
+        setGender(userDataParseToJson.gender);
+        setDateOfBirth(userDataParseToJson.dateOfBirth);
+
+        setButtonDisabled(false);
+    }
+
     useEffect(() => {
         if (!isFirstLoad.current) { verifyFields(); }
 
     }, [errorName, errorEmail, errorCpf, errorPassword, errorGender, errorDateOfBirth]);
 
     useEffect(() => {
+        loadUserData();
         if (isFirstLoad.current) { isFirstLoad.current = false; }
     }, []);
 
@@ -275,7 +295,7 @@ export default function FormPersonalData({ setButtonDisabled, setUserPersonalDat
                 <div className="gender-birthOfDay">
                     <div>
                         <p>Gênero</p>
-                        <select onChange={(e) => validateGender(e.target.value)}>
+                        <select value={gender} onChange={(e) => validateGender(e.target.value)}>
                             <option value="null">Selecionar</option>
                             <option value="HOMEM">Homem</option>
                             <option value="MULHER">Mulher</option>

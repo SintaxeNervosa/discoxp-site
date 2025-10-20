@@ -29,7 +29,6 @@ export default function BillingAddress({ nextPage }) {
                     <p>Complemeto</p>
                     <input type="text" name="" id="" />
                 </div>
-                <button onClick={nextPage}>Próximo</button>
             </motion.div>
         </AnimatePresence>
     );

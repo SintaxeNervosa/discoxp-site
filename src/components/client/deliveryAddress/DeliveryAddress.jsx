@@ -2,8 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 export default function DeliveryAddress() {
-    const [validFields, setValidFields] = useState(true);
-
+    const [validFields, setValidFields] = useState(false);
+    
     return (
         <AnimatePresence mode="wait">
             <motion.div
@@ -32,7 +32,6 @@ export default function DeliveryAddress() {
                         <input type="text" name="" id="" />
                     </div>
                 </div>
-                <button disabled={!validFields}>Próximo</button>
             </motion.div>
         </AnimatePresence>
     );

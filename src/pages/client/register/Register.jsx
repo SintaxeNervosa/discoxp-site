@@ -1,6 +1,7 @@
 import BillingAddres from '../../../components/client/billingAddress/BillingAddress';
 import FormPersonalData from '../../../components/client/formPersonalData/FormPersonalData';
 import DeliveryAddress from '../../../components/client/deliveryAddress/DeliveryAddress';
+import { AnimatePresence, motion } from "framer-motion";
 import './RegisterStyle.scss';
 
 import { useState } from 'react';
@@ -14,28 +15,42 @@ export default function Register() {
     }
 
     const pages = [
-        <FormPersonalData nextPage={nextPage} />,
+        <FormPersonalData setButtonDisabled={setButtonDisabled}/>,
         <BillingAddres nextPage={nextPage} />,
         <DeliveryAddress />
     ];
 
     return (
-        <div className='container_register'>
-            <section className='menu'>
-                <h1>Bem-vindo de volta!</h1>
-                <p>Insira seus dados pessoais para usar todos os recursos do site</p>
-                <button>Entrar</button>
-            </section>
-            <section className='form'>
-                <h1>Cadastro</h1>
-                <div className='content'>
-                    {page > 0 &&
-                        <p onClick={() => setPage(page - 1)}>Voltar</p>
-                    }
-                    {pages[page]}
-                    <button disabled={buttonDisabled} onClick={nextPage}>Próximo</button>
-                </div>
-            </section>
-        </div>
-    )
+        <AnimatePresence mode="wait">
+            <div className='container_register'>
+                <motion.section className='menu'
+                    key="form-personal-data"
+                    initial={{ x: -500 }}
+                    animate={{ x: 0 }}
+                    transition={{ duration: 0.5 }}>
+                    <img src="./img/DISCO_XP__1_-removebg-preview.png" alt="" />
+                    <h1>Bem-vindo de volta!</h1>
+                    <p>Insira seus dados pessoais para usar todos os recursos do site</p>
+                    <button>Entrar</button>
+                </motion.section>
+                <section className='form'>
+                    <h1>Cadastro</h1>
+                    <div className='content'>
+                        {page > 0 &&
+                            <p onClick={() => setPage(page - 1)}>Voltar</p>
+                        }
+                        {pages[page]}
+                        <motion.button
+                            disabled={buttonDisabled}
+                            initial={{ opacity: 0, x: 300 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -300 }}
+                            transition={{ duration: 1 }}
+                            onClick={nextPage}>Próximo
+                        </motion.button>
+                    </div>
+                </section>
+            </div>
+        </AnimatePresence>
+    );
 }

@@ -4,6 +4,7 @@ import "./Header.css"
 import Cart from '../../components/cart/Cart';
 import { useCart } from '../../context/CartContext';
 import { findAllProductsByCart } from '../../config/dexie';
+import { toast, ToastContainer } from "react-toastify";
 
 export function Header() {
   const logoRef = useRef(null);
@@ -13,6 +14,17 @@ export function Header() {
   async function changeQuantityCart() {
     const itens = await findAllProductsByCart();
     setQuantityInCart(itens.length);
+  }
+
+  function logout() {
+    try {
+      sessionStorage.removeItem("user-data");
+      toast.done('Logout realizado com sucesso!')
+    } catch (error) {
+      console.error("Erro ao realizar logout:", error);
+      toast.error('Erro ao realizar logout. Tente novamente mais tarde.')
+    }
+
   }
 
   useEffect(() => {
@@ -76,23 +88,46 @@ export function Header() {
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <motion.a
-            href=""
-            whileHover={{ scale: 1.1, color: "#f0f0f0" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Entre
-          </motion.a>
-          ou
-          <motion.a
-            href=""
-            whileHover={{ scale: 1.1, color: "#f0f0f0" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Cadastra-se
-          </motion.a>
+          {sessionStorage.getItem("user-data") ? (
+            //user logged
+            <div className='user-logged'>
+              <motion.span
+                whileHover={{ scale: 1.1, color: "#f0f0f0" }}
+                whileTap={{ scale: 0.95 }}>
+                Olá, {sessionStorage.getItem("user-data")
+                  ? JSON.parse(sessionStorage.getItem("user-data")).name
+                  : "Usuário"}
+              </motion.span>
+
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: "#cc5200" }}
+                whileTap={{ scale: 0.9 }}
+                onClick={logout}>
+                Sair
+              </motion.button>
+            </div>
+          ) : (
+            //user not logged
+            <>
+              <motion.a
+                href=""
+                whileHover={{ scale: 1.1, color: "#f0f0f0" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Entre
+              </motion.a>
+              ou
+              <motion.a
+                href=""
+                whileHover={{ scale: 1.1, color: "#f0f0f0" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Cadastra-se
+              </motion.a>
+            </>
+          )}
           <div className='quantity-cart'>
-            { quantityItensInCart > 0 &&
+            {quantityItensInCart > 0 &&
               <p>{quantityItensInCart}</p>
             }
             <img id='cart' src="/img/cart.svg" alt=""

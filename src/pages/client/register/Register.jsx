@@ -4,18 +4,39 @@ import DeliveryAddress from '../../../components/client/deliveryAddress/Delivery
 import { AnimatePresence, motion } from "framer-motion";
 import './RegisterStyle.scss';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Register() {
+    let isFirstLoad = useRef(true);
     const [page, setPage] = useState(0);
     const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [formUserPersonalData, setUserPersonalData] = useState({});
 
     const nextPage = () => {
-        setPage(page + 1)
+        setPage(page + 1);
     }
 
+    useEffect(() => {
+        if (!isFirstLoad.current) {
+            switch (page) {
+                case 1:
+                    // chamar a função para salvar os dados do usuário
+                    break;
+                case 2:
+                    // chamar a funcão para salvar os dados de faturamento
+                    break;
+                case 3:
+                    // chamar a funcão "final"
+                    break;
+                default:
+                    console.log("Ocorreu um erro");
+            }
+        }
+
+    }, [page]);
+
     const pages = [
-        <FormPersonalData setButtonDisabled={setButtonDisabled}/>,
+        <FormPersonalData setButtonDisabled={setButtonDisabled} setUserPersonalData={setUserPersonalData} />,
         <BillingAddres nextPage={nextPage} />,
         <DeliveryAddress />
     ];

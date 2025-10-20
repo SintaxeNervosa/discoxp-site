@@ -1,42 +1,42 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { existUserByCpf, existUserByEmail } from "../../../connection/ClientPath";
-import { validate } from 'node-cpf';
+import { validate, unMask } from 'node-cpf';
 
-export default function FormPersonalData({ setButtonDisabled }) {
-    const isFirstLoad = useRef(true);
+export default function FormPersonalData({ setButtonDisabled, setUserPersonalData }) {
+    let isFirstLoad = useRef(true);
 
-    const [completeName, setCompleteName] = useState("");
+    const [completeName, setCompleteName] = useState(null);
     const [errorName, setErrorName] = useState({
         show: false,
         message: " "
     });
 
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(null);
     const [errorEmail, setErrorEmail] = useState({
         show: false,
         message: " "
     })
 
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState(null);
     const [errorPassword, setErrorPassword] = useState({
         show: false,
         message: " "
     })
 
-    const [cpf, setCpf] = useState("");
+    const [cpf, setCpf] = useState(null);
     const [errorCpf, setErroCpf] = useState({
         show: false,
         message: " "
     })
 
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState(null);
     const [errorGender, setErrorGender] = useState({
         show: false,
         message: " "
     })
 
-    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState(null);
     const [errorDateOfBirth, setErrorDateOfBirth] = useState({
         show: false,
         message: " "
@@ -64,15 +64,13 @@ export default function FormPersonalData({ setButtonDisabled }) {
                 message: errorMessage
             });
 
-            return false;
+            return;
         }
 
         setErrorName({
             show: false,
             message: " "
         });
-
-        return true;
     };
 
     async function validateEmail(value) {
@@ -96,15 +94,13 @@ export default function FormPersonalData({ setButtonDisabled }) {
                 message: errorMessage
             });
 
-            return false;
+            return;
         }
 
         setErrorEmail({
             show: false,
             message: " "
         });
-
-        return true;
     }
 
     function validatePassword(value) {
@@ -122,15 +118,13 @@ export default function FormPersonalData({ setButtonDisabled }) {
                 message: "* Use letra maiúscula, minúscula, número, caractere especial e mínimo 8 caracters"
             });
 
-            return false;
+            return;
         }
 
         setErrorPassword({
             show: false,
             message: " "
         });
-
-        return true;
     }
 
     async function validateCpf(value) {
@@ -154,15 +148,13 @@ export default function FormPersonalData({ setButtonDisabled }) {
                 message: errorMessage
             });
 
-            return false;
+            return;
         }
 
         setErroCpf({
             show: false,
             message: " "
         });
-
-        return true;
     }
 
     function validateGender(value) {
@@ -174,15 +166,13 @@ export default function FormPersonalData({ setButtonDisabled }) {
                 message: "* Informe o gênero."
             })
 
-            return false;
+            return;
         }
 
         setErrorGender({
             show: false,
             message: " "
         });
-
-        return true;
     }
 
     function validateDateOfBirth(date) {
@@ -203,38 +193,47 @@ export default function FormPersonalData({ setButtonDisabled }) {
                 message: errorMessage
             });
 
-            return false;
+            return;
         }
 
         setErrorDateOfBirth({
             show: false,
             message: " "
         });
-
-        return true;
     }
 
-    async function verifyFields() {
-        let vName = validateName(completeName);
-        let vEmail = await validateEmail(email);
-        let vPassword = validatePassword(password);
-        let vCpf = await validateCpf(cpf);
-        let vGender = validateGender(gender);
-        let vDateOfbirth = validateDateOfBirth(dateOfBirth);
-
-        if (vName && vEmail && vPassword && vCpf && vGender && vDateOfbirth) {
-            setButtonDisabled(false);
+    function generateUserObj() {
+        return {
+            name: completeName,
+            email: email,
+            cpf: unMask(cpf),
+            password: password,
+            gender: gender,
+            dateOfBirth: dateOfBirth
         }
     }
 
-    // useEffect(() => {
-    //     if (isFirstLoad.current) {
-    //         isFirstLoad.current = false;
-    //         return;
-    //     }
+    function verifyFields() {
+        const valid = completeName != null && !errorName.show && email != null && !errorEmail.show && password != null && !errorPassword.show && cpf != null && !errorCpf.show && gender != null && !errorGender.show && dateOfBirth != null && !errorDateOfBirth.show
 
-    //     verifyFields();
-    // }, []);
+        if (valid) {
+            let obj = generateUserObj();
+            setUserPersonalData(obj);
+            setButtonDisabled(false);
+            return;
+        }
+
+        setButtonDisabled(true);
+    }
+
+    useEffect(() => {
+        if (!isFirstLoad.current) { verifyFields(); }
+
+    }, [errorName, errorEmail, errorCpf, errorPassword, errorGender, errorDateOfBirth]);
+
+    useEffect(() => {
+        if (isFirstLoad.current) { isFirstLoad.current = false; }
+    }, []);
 
     return (
         <AnimatePresence mode="wait">

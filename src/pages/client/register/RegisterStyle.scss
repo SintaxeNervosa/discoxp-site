@@ -18,10 +18,17 @@
         background-color: #EB8F25;
         border-top-right-radius: 230px;
         border-bottom-right-radius: 230px;
-        
-        > p {
-            font-size: 25px;
+        padding: 20px 60px;
+
+        h1,
+        p {
+            text-align: center;
         }
+
+        >p {
+            font-size: 22px;
+        }
+
         img {
             width: 200px;
         }

@@ -1,12 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useState, useEffect } from 'react';
 import ApiService from '../../connection/apiService';
 
 export function useLogin() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+
     const navigate = useNavigate();
+    const location = useLocation();
 
     async function Loginzao(e) {
         if (e) e.preventDefault();
@@ -15,15 +17,22 @@ export function useLogin() {
             const response = await ApiService.user.loginUser(email, senha);//
 
             if (response.status === 200 && response) {
-                toast.success("Login bem-sucedido!");
-
+                
                 const data = response.data;
                 //salva no session storage
                 const dataToString = JSON.stringify(data);
-                sessionStorage.setItem("user-data", dataToString);
+                
 
                 const userJs = JSON.parse(dataToString);
                 const userGroup = userJs.group;
+
+                if (location.pathname === "/login" && userGroup !== "CLIENT") {
+                    toast.warn("Aqui loga apenas cliente!");
+                    navigate("/");
+                    return
+                }
+                toast.info("Login bem-sucedido!");
+                sessionStorage.setItem("user-data", dataToString);
 
                 //se for admin ou stockist choice senão home
                 setTimeout(() => {

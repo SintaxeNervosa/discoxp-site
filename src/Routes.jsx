@@ -4,7 +4,7 @@ import { ProtectRoutes } from "./context/ProtectRoutes.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
 
 const Login = lazy(() => import("./pages/login/login.jsx"));
-const LoginUser = lazy(() => import("./pages/login-user/LoginUsuario.jsx"));
+const ClientLogin = lazy(() => import("./pages/user-login/clientLogin.jsx"));
 const ListUser = lazy(() => import("./pages/listUser/listUser.jsx"));
 const Choice = lazy(() => import("./pages/choice/choice.jsx"));
 const UserRegister = lazy(() => import("./pages/userForm/create/UserFormPage.jsx"));
@@ -80,7 +80,7 @@ export default function RouteWeb() {
               </Route>
 
               {/*<ProtectRoutes requiredType={["CLIENT"]} > </ProtectRoutes> */}
-              <Route path="/login-user" element={<LoginUser />} />
+              <Route path="/login" element={<ClientLogin />} />
               
 
               {/*Produto*/}
@@ -92,6 +92,7 @@ export default function RouteWeb() {
               </Route>
               <Route path="/admin/product/:productid" element={<PreviewProduct />} />
               <Route path="/cart" element={<PageCart />} />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

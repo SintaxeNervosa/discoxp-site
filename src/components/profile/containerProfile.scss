@@ -1,0 +1,42 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 320px;
+
+    .sidebar-item {
+        padding: 15px;
+        gap: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.2s;
+
+        button {
+            border: none;
+            text-align: start;
+            font-size: 15px;
+            cursor: pointer;
+            background-color: white;
+
+            strong {
+                font-weight: 700;
+            }
+
+            &:hover {
+                background-color: #EB8F25;
+                color: white;
+            }
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        &:hover {
+            background-color: #EB8F25;
+            color: white;
+        }
+    }
+}

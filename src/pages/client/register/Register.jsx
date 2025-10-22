@@ -5,48 +5,60 @@ import { AnimatePresence, motion } from "framer-motion";
 import './RegisterStyle.scss';
 
 import { useEffect, useRef, useState } from 'react';
+import BillingAddress from '../../../components/client/billingAddress/BillingAddress';
 
 export default function Register() {
     const [page, setPage] = useState(0);
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [formUserPersonalData, setUserPersonalData] = useState(null);
+    const [formUserPersonalData, setFormUserPersonalData] = useState(null);
+    const [formBillingAddress, setFormBillingAddress] = useState(null);
+    const [formDeliveryAddress, setFormDeliveryAddress] = useState(null);
 
     const nextPage = () => {
         setPage(page + 1);
     }
 
-    const saveDataInSession = (sessionName) => {
-        sessionStorage.setItem(sessionName, JSON.stringify(formUserPersonalData));
+    const saveDataInSession = () => {
+        sessionStorage.setItem("personalData", JSON.stringify(formUserPersonalData));
+    }
+
+    const saveBillingAddressInSession = () => {
+        console.log(formBillingAddress);
+        sessionStorage.setItem("billingAddress", JSON.stringify(formBillingAddress));
+    }
+
+    const saveDeliveryAddressInSession = () => {
+        sessionStorage.setItem("deliveryAddress", JSON.stringify(formDeliveryAddress));
     }
 
     useEffect(() => {
         if (!buttonDisabled) {
-            let sessionName;
-
             switch (page) {
+                case 0:
                 case 1:
-                    sessionName = "personalData";
-                    // chamar a função para salvar os dados do usuário
+                    saveDataInSession();
                     break;
                 case 2:
-                    // chamar a funcão para salvar os dados de faturamento
+                    saveBillingAddressInSession();
                     break;
                 case 3:
-                    // chamar a funcão "final"
+                    saveDeliveryAddressInSession();
                     break;
+                case 4:
+                    console.log(page);
+
                 default:
+                    console.log(page);
                     console.log("Ocorreu um erro");
             }
-
-            if (sessionName != null) { saveDataInSession(sessionName); }
         }
 
     }, [page]);
 
     const pages = [
-        <FormPersonalData setButtonDisabled={setButtonDisabled} setUserPersonalData={setUserPersonalData} />,
-        <BillingAddres nextPage={nextPage} />,
-        <DeliveryAddress />
+        <FormPersonalData setButtonDisabled={setButtonDisabled} setFormUserPersonalData={setFormUserPersonalData} />,
+        <BillingAddress setButtonDisabled={setButtonDisabled} setFormBillingAddress={setFormBillingAddress} />,
+        <DeliveryAddress setButtonDisabled={setButtonDisabled} setFormDeliveryAddress={setFormDeliveryAddress} />
     ];
 
     return (

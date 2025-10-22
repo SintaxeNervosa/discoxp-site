@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { existUserByCpf, existUserByEmail } from "../../../connection/ClientPath";
 import { validate, unMask } from 'node-cpf';
 
-export default function FormPersonalData({ setButtonDisabled, setUserPersonalData }) {
+export default function FormPersonalData({ setButtonDisabled, setFormUserPersonalData }) {
     let isFirstLoad = useRef(true);
 
     const sessionName = "personalData";
@@ -220,7 +220,7 @@ export default function FormPersonalData({ setButtonDisabled, setUserPersonalDat
 
         if (valid) {
             let obj = generateUserObj();
-            setUserPersonalData(obj);
+            setFormUserPersonalData(obj);
             setButtonDisabled(false);
             return;
         }
@@ -231,7 +231,7 @@ export default function FormPersonalData({ setButtonDisabled, setUserPersonalDat
     function loadUserData() {
         let value = sessionStorage.getItem(sessionName);
 
-        if (value == null) return;
+        if (value == null || value == 'null') return;
 
         const userDataParseToJson = JSON.parse(value);
 

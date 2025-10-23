@@ -1,6 +1,30 @@
+import { useEffect, useState } from "react";
 import "./infoProfile.scss"
+import { getUsersById } from "../../connection/userPaths";
 
 export function InfoProfile() {
+    const [name, setName] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [gender, setGender] = useState("");
+    const [email, setEmail] = useState("");
+
+    async function loadUserData() {
+        const userId = sessionStorage.getItem("userId");
+
+        const userIdToJson = JSON.parse(userId);
+        const response = await getUsersById(userIdToJson.id);
+
+        setName(response.name);
+        setCpf(response.cpf);
+        setDateOfBirth(response.dateOfBirth);
+        setGender(response.gender);
+        setEmail(response.email);
+    }
+
+    useEffect(() => {
+        loadUserData();
+    }, []);
 
     return (
         <>
@@ -10,23 +34,28 @@ export function InfoProfile() {
                     <div className="dados-usuario">
                         <div className="campo">
                             <span>Nome completo</span>
-                            Alisson Santos
+                            <p>{name}</p>
                         </div>
                         <div className="campo">
                             <span>CPF</span>
-                            668.738.610-73
+                            <p>{cpf}</p>
                         </div>
                         <div className="campo">
                             <span>Data de nascimento</span>
-                            26/11/2000
+                            {dateOfBirth}
                         </div>
                         <div className="campo">
                             <span>Gênero</span>
-                            Masculino
+                            <select value={gender}>
+                                <option value="Selecionar">SELECIONAR</option>
+                                <option value="HOMEM">HOMEM</option>
+                                <option value="MULHER">MULHER</option>
+                                <option value="OUTRO">OUTRO</option>
+                            </select>
                         </div>
                         <div className="campo">
                             <span>Email</span>
-                            alisson@gmail.com
+                            <p>{email}</p>
                         </div>
                     </div>
                 </div>

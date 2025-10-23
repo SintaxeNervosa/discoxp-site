@@ -6,15 +6,21 @@ import { InfoProfile } from "../../components/profile/infoProfile";
 import { FormProfile } from "../../components/profile/formProfile";
 
 function Profile() {
+    const [component, setComponent] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
 
-    function handleEditClick(){
+    function handleEditClick() {
         setIsEditing(true);
     }
 
-    function handleSave(){
+    function handleSave() {
         setIsEditing(false);
     }
+
+    const components = [
+        <FormProfile />,
+        <InfoProfile />
+    ];
 
     return (
         <>
@@ -36,13 +42,13 @@ function Profile() {
                     <ContainerProfile />
 
                     <div className="card">
-                        {isEditing ?(
+                        {isEditing ? (
                             <FormProfile onSave={handleSave} />
                         ) : (
-                            <InfoProfile/>
+                            <InfoProfile />
                         )}
 
-                        {!isEditing &&(
+                        {!isEditing && (
                             <button className="botao" onClick={handleEditClick}>Editar</button>
                         )}
                     </div>

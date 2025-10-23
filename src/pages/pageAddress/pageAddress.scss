@@ -1,0 +1,209 @@
+.pageAddress-container {
+  font-family: "Arial", sans-serif;
+  background: #f7f8fa;
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .pageAddress-header {
+    background-color: #eb8f25;
+    padding: 1rem 2.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+    .pageAddress-logo {
+      width: 110px;
+      height: auto;
+    }
+  }
+
+  .pageAddress-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2rem 4rem;
+    gap: 3rem;
+
+    .pageAddress-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 260px;
+      gap: 1.3rem;
+
+      .pageAddress-iconHome img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .pageAddress-user {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-top: 0.5rem;
+
+        img {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background: #fff;
+        }
+
+        h2 {
+          font-size: 1.1rem;
+          font-weight: 600;
+          span {
+            font-weight: normal;
+          }
+        }
+      }
+
+      .pageAddress-btn {
+        background: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 1.2rem;
+        text-align: left;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+
+        strong {
+          display: block;
+          font-weight: 700;
+          color: #000;
+          margin-bottom: 0.3rem;
+        }
+
+        span {
+          color: #666;
+          font-size: 0.9rem;
+        }
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        &.active {
+          border-left: 4px solid #eb8f25;
+          padding-left: calc(1.2rem - 4px);
+        }
+
+        &.logout {
+          margin-top: 1rem;
+          background: #fff3ed;
+          color: #eb8f25;
+        }
+      }
+    }
+
+    .pageAddress-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .pageAddress-titleRow {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 1.8rem;
+
+        h3 {
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: #222;
+        }
+
+        .pageAddress-add {
+          background: #eb8f25;
+          border: none;
+          color: #fff;
+          font-weight: 600;
+          cursor: pointer;
+          font-size: 0.95rem;
+          padding: 0.6rem 1.2rem;
+          border-radius: 8px;
+          transition: 0.2s ease;
+
+          &:hover {
+            background: #d97f18;
+          }
+        }
+      }
+
+      .pageAddress-addressList {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+        .pageAddress-card {
+          position: relative;
+          font-family: "Arial", sans-serif;
+          background: #fff;
+          border-radius: 14px;
+          padding: 1.4rem 1.6rem;
+          width: 280px;
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+          border: 2px solid transparent;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+
+          &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.18);
+          }
+
+          &.default {
+            border-color: #eb8f25;
+            background: #f0f7ff;
+          }
+
+          .pageAddress-defaultBadge {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: #eb8f25;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+          }
+
+          .address-line {
+            font-size: 0.95rem;
+            line-height: 1.5rem;
+            color: #333;
+
+            .highlight {
+              color: #eb8f25; 
+              font-weight: 600;
+            }
+          }
+
+          .pageAddress-editBtn {
+            margin-top: 0.6rem;
+            border: none;
+            background: none;
+            color: #eb8f25;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

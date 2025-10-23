@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./informationProduct.scss";
+import { Rating } from "react-simple-star-rating";
 
 function InformationProduct() {
   const { productid } = useParams(); // pega o id da URL
@@ -61,7 +62,15 @@ function InformationProduct() {
                   currency: "BRL",
                 })}
               </h2>
-              <p>Quantidade: {product.quantity}</p>
+              <p>
+                            <Rating
+  initialValue={product.evaluation}
+  size={40}
+  fillColor="gold"
+  readonly
+  allowFraction
+/>
+                        </p>
 
               <div className="buttons">
                 <button className="buy">Comprar agora</button>

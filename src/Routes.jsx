@@ -12,7 +12,9 @@ const ProductFormPageEdit = lazy(() => import("./pages/form/product/edit/Product
 const ListProduct = lazy(() => import("./pages/listProduct/listProduc.jsx"));
 
 const Home = lazy(() => import("./pages/home/home.jsx"));
-const InformationProduct = lazy(() => import("./pages/informationProduct/InformationProduct.jsx"));
+const InformationProduct = lazy(() => import("./pages/informationProduct/informationProduct.jsx"));
+const PageAddress = lazy(() => import("./pages/pageAddress/pageAddress.jsx"));
+const RegisterAddress = lazy(() => import("./pages/registerAddress/registerAddress.jsx"));
 
 const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
 const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
@@ -29,6 +31,10 @@ export default function RouteWeb() {
 
             <Route path="/home" element={<Home />} />
             <Route path="/product/:productid" element={<InformationProduct />} />
+            
+            <Route path="/my-address" element={<PageAddress />} />
+            <Route path="/register-address" element={<RegisterAddress />} />
+            <Route path="/register-address/:id" element={<RegisterAddress />} />
 
             <Route path="/choice" element={
               <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>

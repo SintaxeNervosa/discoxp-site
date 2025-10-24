@@ -14,7 +14,7 @@ export function FormProfile({ onSave }) {
         const userId = sessionStorage.getItem("userId");
 
         const userIdToJson = JSON.parse(userId);
-        const response = await getUsersById(3);
+        const response = await getUsersById(userIdToJson.id);
 
         setName(response.name);
         setCpf(response.cpf);

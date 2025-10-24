@@ -1,0 +1,36 @@
+.dados {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .info {
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+            h2 {
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
+
+            .dados-usuario {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(250px, 1fr));
+                gap: 20px;
+
+                .campo {
+                    display: flex;
+                    flex-direction: column;
+
+                    span {
+                        font-size: 14px;
+                        font-weight: 500;
+                        margin-bottom: 6px;
+                    }
+                }
+            }
+
+        }
+    }

@@ -1,10 +1,28 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState} from 'react';
 
 export function StarsParticles({ count, color }) {
   const containerRef = useRef(null);
+  const [isVisible, setVisible] = useState(false);
+
+  useEffect(()=> {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!isVisible ||!containerRef.current) return;
 
     const container = containerRef.current;
     
@@ -48,7 +66,7 @@ export function StarsParticles({ count, color }) {
     return () => {
       container.innerHTML = '';
     };
-  }, [count, color]);
+  }, [count, color, isVisible]);
 
   return <div ref={containerRef} className="stars-container" />;
 }

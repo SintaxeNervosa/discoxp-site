@@ -1,4 +1,3 @@
-// hooks/useProducts.js - VERSÃO CORRIGIDA
 import { useState, useEffect } from 'react';
 import ApiService from '../../connection/apiService'; 
 

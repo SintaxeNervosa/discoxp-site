@@ -1,10 +1,13 @@
-// components/XboxSection.jsx
 import { motion } from "framer-motion";
 import { Card3D } from "./Card3D";
 import "./GamesEfets.css";
 import { StarsParticles } from "./StarsParticles";
+import { Observer } from "../hooks/observer";
+import { Suspense } from "react";
 
 export function XboxSection() {
+
+  const [sectionRef, isVisible] = Observer();
 
     const products = [
     { id: 1, img: "/img/Minecraft_capa.png", title: "Minecraft", price: "R$ 79,90" },
@@ -13,23 +16,11 @@ export function XboxSection() {
     { id: 4, img: "/img/Gears_5_capa.jpeg", title: "Gears 5", price: "R$ 259,99" }
   ];
 
-  const imageVariants = {
-    hover: {
-      scale: 1.12,
-      rotateY: 20,
-      rotateX: -5,
-      z: 50,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 20
-      }
-    }
-  };
 
   return (
     <motion.section
       className="section-xbox"
+      ref={sectionRef}
       initial={{
         opacity: 0,
       }}
@@ -42,10 +33,14 @@ export function XboxSection() {
       }}
       viewport={{ once: true }}
     >
-        <StarsParticles 
+        {isVisible && (
+          <Suspense fallback={null}>
+            <StarsParticles 
         count={380} 
         color="rgba(255, 255, 255, 0.8)" 
       />
+          </Suspense>
+        )}
       <motion.h2
         initial={{ scale: 0.5, opacity: 0, y: 50 }}
         whileInView={{ scale: 1, opacity: 1, y: 0 }}

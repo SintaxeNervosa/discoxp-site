@@ -1,10 +1,10 @@
-// Header.jsx
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import "./Header.css"
 import Cart from '../../components/cart/Cart';
 import { useCart } from '../../context/CartContext';
 import { findAllProductsByCart } from '../../config/dexie';
+import { toast, ToastContainer } from "react-toastify";
 
 export function Header() {
   const logoRef = useRef(null);
@@ -14,6 +14,20 @@ export function Header() {
   async function changeQuantityCart() {
     const itens = await findAllProductsByCart();
     setQuantityInCart(itens.length);
+  }
+
+  function logout() {
+    try {
+      sessionStorage.removeItem("user-data");
+      toast.done('Logout realizado com sucesso!')
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    } catch (error) {
+      console.error("Erro ao realizar logout:", error);
+      toast.error('Erro ao realizar logout. Tente novamente mais tarde.')
+    }
+
   }
 
   useEffect(() => {
@@ -50,7 +64,30 @@ export function Header() {
             }}
           />
         </div>
-        <span className="logo-text">DISCO XP</span>
+      <motion.span 
+  className="logo-text"
+  initial={{ opacity: 0.8 }}
+  animate={{ 
+    opacity: [0.8, 1, 0.8],
+    textShadow: [
+      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #EB8F25, 0 0 20px #EB8F25",
+      "0 0 10px #fff, 0 0 20px #fff, 0 0 30px #EB8F25, 0 0 40px #EB8F25", 
+      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #EB8F25, 0 0 20px #EB8F25"
+    ]
+  }}
+  transition={{ 
+    duration: 2,
+    repeat: Infinity,
+    ease: "easeInOut"
+  }}
+  whileHover={{
+    scale: 1.05,
+    textShadow: "0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff4da6, 0 0 50px #ff4da6",
+    transition: { duration: 0.3 }
+  }}
+>
+  DISCO XP
+</motion.span>
 
         <motion.div
           className="search"
@@ -77,23 +114,53 @@ export function Header() {
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <motion.a
-            href=""
-            whileHover={{ scale: 1.1, color: "#f0f0f0" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Entre
-          </motion.a>
-          ou
-          <motion.a
-            href=""
-            whileHover={{ scale: 1.1, color: "#f0f0f0" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Cadastra-se
-          </motion.a>
+          {sessionStorage.getItem("user-data") ? (
+            //user logged
+            <div className='user-logged'>
+              <motion.img
+                src="/svg/user.svg"
+                alt="User Icon"
+                whileHover={{
+                  scale: 1.1,
+                  filter: "brightness(1.3) drop-shadow(0 0 5px rgba(255,255,255,0.5))"
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              />
+              <motion.span
+                whileHover={{ scale: 1.1, color: "#f0f0f0" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Olá, {
+                  sessionStorage.getItem("user-data")
+                    ? JSON.parse(sessionStorage.getItem("user-data")).name || "Usuário"
+                    : "Usuário"
+                }
+              </motion.span>
+              <img src="/img/logout.png" alt="" className='logout-image' onClick={logout} />
+            </div>
+          ) : (
+            //user not logged
+            <>
+              <motion.a
+                href=""
+                whileHover={{ scale: 1.1, color: "#f0f0f0" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Entre
+              </motion.a>
+              ou
+              <motion.a
+                href=""
+                whileHover={{ scale: 1.1, color: "#f0f0f0" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Cadastra-se
+              </motion.a>
+            </>
+          )}
           <div className='quantity-cart'>
-            { quantityItensInCart > 0 &&
+            {quantityItensInCart > 0 &&
               <p>{quantityItensInCart}</p>
             }
             <img id='cart' src="/img/cart.svg" alt=""

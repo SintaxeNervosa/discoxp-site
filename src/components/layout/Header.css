@@ -46,7 +46,7 @@
   font-family: fantasy;
   font-size: 2.5rem;
   font-weight: bold;
-  color: black;
+  color: rgb(255, 244, 240);
 }
 
 .search {
@@ -96,10 +96,23 @@
 
 .user {
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 1rem;
-  margin-right: 2rem;
+  height: 40px;
+  width: auto;
+  margin-right: 60px;
 }
+
+.user-logged span {
+  color: white;
+  font-weight: bold;
+  white-space: nowrap; 
+  margin: 0;
+  padding: 0;
+}
+
+
 
 .user a {
   color: white;
@@ -117,6 +130,42 @@
   transform: scale(1.05);
 }
 
+.user-logged{
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
+  max-height:40px;
+}
+.logout-image {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+  animation: pulse 2s infinite;
+}
+
+.logout-image:hover {
+  transform: scale(1.2) rotate(180deg);
+  background-color: white;
+  border-radius: 30px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
 
 body {
   padding-top: 140px;

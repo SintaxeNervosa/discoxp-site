@@ -1,8 +1,13 @@
 import { StarsParticles } from "./StarsParticles";
 import { motion } from "framer-motion";
 import { Card3D } from "./Card3D";
+import { Observer } from "../hooks/observer"; 
+import { Suspense } from "react";
 
 export function NintendoSection() {
+
+    const [sectionRef, isVisible] = Observer();
+
   const products = [
     {
       id: 1,
@@ -75,6 +80,7 @@ export function NintendoSection() {
   return (
     <motion.section
       className="section-nitendo"
+      ref={sectionRef}
       initial={{
         opacity: 0,
       }}
@@ -87,10 +93,14 @@ export function NintendoSection() {
       }}
       viewport={{ once: true }}
     >
-        <StarsParticles 
+ {isVisible && (
+          <Suspense fallback={null}>
+            <StarsParticles 
         count={380} 
         color="rgba(255, 255, 255, 0.8)" 
       />
+          </Suspense>
+        )}
       <motion.h2
         initial={{ scale: 0.5, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}

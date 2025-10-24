@@ -4,6 +4,8 @@ import { HeaderProfile } from "../../components/layout/HeaderProfile";
 import { ContainerProfile } from "../../components/profile/containerProfile";
 import { InfoProfile } from "../../components/profile/infoProfile";
 import { FormProfile } from "../../components/profile/formProfile";
+import { Address } from "../../components/profile/address";
+import { AddAddress } from "../../components/profile/addAddress";
 
 function Profile() {
     const [component, setComponent] = useState(0);
@@ -52,6 +54,10 @@ function Profile() {
                             <button className="botao" onClick={handleEditClick}>Editar</button>
                         )}
                     </div>
+
+                    {/* <Address /> */}
+
+                    {/* <AddAddress /> */}
                 </div>
 
 

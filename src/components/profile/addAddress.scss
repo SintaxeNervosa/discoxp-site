@@ -1,0 +1,78 @@
+.add-endereco-container {
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .endereco-form {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .form-row {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        label {
+          font-weight: 600;
+          margin-bottom: 0.4rem;
+        }
+
+        input,
+        textarea {
+          border: 2px solid #f7931e;
+          border-radius: 8px;
+          padding: 0.6rem 0.8rem;
+          font-size: 1rem;
+          outline: none;
+          resize: none;
+          transition: border 0.2s ease, box-shadow 0.2s ease;
+
+          &::placeholder {
+            color: #aaa;
+          }
+
+          &:focus {
+            border-color: #d9790f;
+            box-shadow: 0 0 0 3px rgba(247, 147, 30, 0.2);
+          }
+        }
+      }
+    }
+
+    .btn-adicionar {
+      background-color: #f7931e;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      align-self: center;
+      transition: background 0.3s ease, transform 0.1s ease;
+
+      &:hover {
+        background-color: #d9790f;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+
+}

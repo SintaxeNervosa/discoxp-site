@@ -11,6 +11,7 @@ const UserFormEdit = lazy(() => import("./pages/userForm/edit/UserFormEdit.jsx")
 const ProductFormCreate = lazy(() => import("./pages/form/product/create/ProductFormCreate.jsx"));
 const ProductFormPageEdit = lazy(() => import("./pages/form/product/edit/ProductFormPageEdit.jsx"));
 const ListProduct = lazy(() => import("./pages/listProduct/listProduc.jsx"));
+const ClientResgister = lazy(() => import("./pages/client/register/Register.jsx"));
 
 const Home = lazy(() => import("./pages/home/home.jsx"));
 const InformationProduct = lazy(() => import("./pages/informationProduct/InformationProduct.jsx"));
@@ -86,6 +87,7 @@ export default function RouteWeb() {
               </Route>
               <Route path="/admin/product/:productid" element={<PreviewProduct />} />
               <Route path="/cart" element={<PageCart />} />
+              <Route path="/register" element={<ClientResgister />}></Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -1,0 +1,179 @@
+.addAddress-container {
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  /* HEADER */
+  .addAddress-header {
+    background-color: #eb8f25;
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    .addAddress-logo {
+      width: 110px;
+      height: auto;
+    }
+  }
+
+  /* CONTEÚDO */
+  .addAddress-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2rem 4rem;
+    gap: 4rem;
+
+    /* SIDEBAR */
+    .addAddress-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 260px;
+      gap: 1.5rem;
+
+      .addAddress-iconHome {
+        img {
+          width: 28px;
+          height: 28px;
+          filter: brightness(0) saturate(100%) invert(54%) sepia(86%) saturate(1003%) hue-rotate(352deg) brightness(97%) contrast(92%);
+        }
+      }
+
+      .addAddress-user {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-top: 0.5rem;
+
+        img {
+          width: 35px;
+          height: 35px;
+        }
+
+        h2 {
+          font-size: 1.25rem;
+          font-weight: bold;
+
+          span {
+            font-weight: normal;
+          }
+        }
+      }
+
+      .addAddress-btn {
+        background: #fff;
+        border: none;
+        text-align: left;
+        border-radius: 10px;
+        padding: 0.9rem 1.1rem;
+        cursor: pointer;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+        transition: all 0.2s ease-in-out;
+
+        strong {
+          display: block;
+          font-weight: 700;
+          margin-bottom: 0.3rem;
+          color: #000;
+        }
+
+        span {
+          color: #555;
+          font-size: 0.9rem;
+        }
+
+        &:hover {
+          background-color: #f7f7f7;
+        }
+
+        &.active {
+          border-left: 4px solid #eb8f25;
+          padding-left: calc(1.1rem - 4px);
+        }
+
+        &.logout {
+          margin-top: 1rem;
+        }
+      }
+    }
+
+    /* SEÇÃO PRINCIPAL */
+    .addAddress-main {
+      flex: 1;
+
+      h3 {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+      }
+
+      .addAddress-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+        width: 540px;
+
+        .addAddress-row {
+          display: flex;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-bottom: 1.2rem;
+
+          .addAddress-field {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            label {
+              font-size: 0.9rem;
+              margin-bottom: 0.3rem;
+            }
+
+            input,
+            textarea {
+              border: 1.5px solid #eb8f25;
+              border-radius: 6px;
+              padding: 0.5rem;
+              font-size: 0.9rem;
+              resize: none;
+              outline: none;
+
+              &:focus {
+                box-shadow: 0 0 0 2px rgba(235, 143, 37, 0.3);
+              }
+            }
+
+            textarea {
+              height: 85px;
+            }
+
+            &.small {
+              flex: 1;
+            }
+          }
+        }
+
+        .addAddress-submit {
+          background-color: #eb8f25;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          padding: 0.7rem 1.5rem;
+          font-weight: 600;
+          cursor: pointer;
+          font-size: 0.95rem;
+          transition: 0.2s ease;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+}

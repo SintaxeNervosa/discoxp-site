@@ -10,15 +10,29 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
         message: null
     });
 
-    const [street, setStreet] = useState("");
-    const [number, setNumber] = useState(null);
+    const [logradouro, setLogradouro] = useState("");
+    const [bairro, setBairro] = useState("");
+    const [cidade, setCidade] = useState("");
+    const [numero, setNumero] = useState(null);
+    const [estado, setEstado] = useState("");
     const [complement, setComplement] = useState("");
+    
+    /**    {
+        "id": "1",
+        "cep": "04854250",
+        "logradouro": "caso do shr ze",
+        "bairro": "SLA",
+        "cidade": "SP",
+        "numero": "2",
+        "estado": "SP",
+        "complemento": "sla"
+    } */
 
     const verifyCep = async (value) => {
         if (/[^0-9]/.test(value) || value.length > 8) return;
 
         setCep(value);
-        setStreet("");
+        setLogradouro("");
         if (value.length == 8) {
             // buscar os dados daco cep
             const response = await axios.get(`https://viacep.com.br/ws/${value}/json/`);
@@ -26,13 +40,17 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
             if (response.status == 200) {
                 const error = response.data.erro;
 
+                setBairro(response.data.bairro);
+                setCidade(response.data.cidade);
+                setEstado(response.data.estado);
+
                 if (error == 'true') {
                     setErrorCep({
                         show: true,
                         message: "* CEP inválido."
                     })
 
-                    setStreet("");
+                    setLogradouro("");
                     return;
                 }
 
@@ -43,7 +61,7 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
                     });
                 }
 
-                setStreet(response.data.logradouro);
+                setLogradouro(response.data.logradouro);
             }
         }
     }
@@ -51,20 +69,25 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
     const verifyNumber = (value) => {
         if (/[^a-zA-Z0-9]/.test(value)) return;
 
-        setNumber(value);
+        setNumero(value);
     }
 
     function generateJson() {
         return {
             cep: cep,
-            street: street,
-            number: number,
+            logradouro: logradouro,
+            logradouro: logradouro,
+            bairro: bairro,
+            cidade: cidade,
+            numero: numero,
+            estado: estado,
             complement: complement
+
         }
     }
 
     function verifyFields() {
-        const isValid = street != "" && number != null && number != "";
+        const isValid = logradouro != "" && numero != null && numero != "";
 
         if (isValid) {
             const obj = generateJson();
@@ -85,14 +108,14 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
         const dataToJson = JSON.parse(data);
 
         setCep(dataToJson.cep);
-        setStreet(dataToJson.street);
-        setNumber(dataToJson.number);
+        setLogradouro(dataToJson.logradouro);
+        setNumero(dataToJson.numero);
         setComplement(dataToJson.complement);
     }
 
     useEffect(() => {
         verifyFields();
-    }, [street, number]);
+    }, [logradouro, numero]);
 
     useEffect(() => {
         loadBillingAddressInSession();
@@ -120,16 +143,16 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
                     <p>Logradouro</p>
                     <input
                         disabled={true}
-                        value={street}
-                        onChange={(e) => setStreet(e.target.value)}
+                        value={logradouro}
+                        onChange={(e) => setLogradouro(e.target.value)}
                         type="text" name="" id="" />
                     <p id='message-false'></p>
                 </div>
                 <div>
                     <p>Número</p>
                     <input
-                        value={number}
-                        onChange={(e) => verifyNumber(e.target.value)}
+                        value={numero}
+                        onChange={(e) => verifyNumero(e.target.value)}
                         type="text" name="" id="" />
                     <p id='message-false'></p>
                 </div>

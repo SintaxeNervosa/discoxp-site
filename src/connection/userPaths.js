@@ -13,6 +13,7 @@ export const getUsers = async () => {
 export const getUsersById = async (id) => {
     try {
         const response = await api.get(`/users/${id}`);
+        console.log(response);
         return response.data;
     } catch (error) {
         console.error("Erro ao buscar usuários:", error);
@@ -65,3 +66,22 @@ export const changeUser = async (user) => {
         throw error.response.data.message;
     }
 };
+
+export const createBillingAddress = async (request) => {
+    try {
+        const response = await api.post(`/billing-address`, request);
+        return response;
+    } catch (error) {
+        throw error.response.data.message;
+    }
+};
+
+export const createDeliveryAddress = async (request) => {
+    try {
+        const response = await api.post(`/delivery-address`, request);
+        return response;
+    } catch (error) {
+        throw error.response.data.message;
+    }
+};
+

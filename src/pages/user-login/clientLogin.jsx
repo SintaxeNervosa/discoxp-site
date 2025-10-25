@@ -3,15 +3,19 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLogin } from "../../components/hooks/useLogin";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+
 
 function loginClient() {
-  const {
+    const {
         email,
         setEmail,
         senha,
         setSenha,
         Loginzao
     } = useLogin();
+
+    const navigate = useNavigate();
 
     return (
         <motion.div
@@ -159,6 +163,7 @@ function loginClient() {
                     </div>
 
                     <motion.button
+                        onClick={() => navigate("/register")}
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0, duration: 0.5 }}

@@ -8,15 +8,18 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
         message: null
     });
 
-    const [street, setStreet] = useState("");
-    const [number, setNumber] = useState(null);
-    const [complement, setComplement] = useState("");
+    const [logradouro, setLogradouro] = useState("");
+    const [bairro, setBairro] = useState("");
+    const [cidade, setCidade] = useState("");
+    const [numero, setNumero] = useState(null);
+    const [estado, setEstado] = useState("");
+    const [complemento, setComplemento] = useState("");
 
     const verifyCep = async (value) => {
         if (/[^0-9]/.test(value) || value.length > 8) return;
 
         setCep(value);
-        setStreet("");
+        setLogradouro("");
         if (value.length == 8) {
             // buscar os dados daco cep
             const response = await axios.get(`https://viacep.com.br/ws/${value}/json/`);
@@ -24,13 +27,17 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
             if (response.status == 200) {
                 const error = response.data.erro;
 
+                setBairro(response.data.bairro);
+                setCidade(response.data.cidade);
+                setEstado(response.data.estado);
+
                 if (error == 'true') {
                     setErrorCep({
                         show: true,
                         message: "* CEP inválido."
                     })
 
-                    setStreet("");
+                    setLogradouro("");
                     return;
                 }
 
@@ -41,28 +48,31 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
                     });
                 }
 
-                setStreet(response.data.logradouro);
+                setLogradouro(response.data.logradouro);
             }
         }
     }
 
-    const verifyNumber = (value) => {
+    const verifynumero = (value) => {
         if (/[^a-zA-Z0-9]/.test(value)) return;
 
-        setNumber(value);
+        setNumero(value);
     }
 
     function generateJson() {
         return {
             cep: cep,
-            street: street,
-            number: number,
-            complement: complement
+            logradouro: logradouro,
+            bairro: bairro,
+            cidade: cidade,
+            numero: numero,
+            estado: estado,
+            complemento: complemento
         }
     }
 
     function verifyFields() {
-        const isValid = street != "" && number != null && number != "";
+        const isValid = logradouro != "" && numero != null && numero != "";
 
         if (isValid) {
             const obj = generateJson();
@@ -76,7 +86,7 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
 
     useEffect(() => {
         verifyFields();
-    }, [street, number]);
+    }, [logradouro, numero]);
 
     useEffect(() => {
 
@@ -89,9 +99,9 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
 
         console.log(addressToJson);
         setCep(addressToJson.cep);
-        setStreet(addressToJson.street);
-        setNumber(addressToJson.number);
-        setComplement(addressToJson.complement);
+        setLogradouro(addressToJson.logradouro);
+        setNumero(addressToJson.numero);
+        setComplemento(addressToJson.complemento);
     };
 
 
@@ -118,16 +128,16 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
                     <div>
                         <p>Logradouro</p>
                         <input
-                            value={street}
-                            onChange={(e) => setStreet(e.target.value)}
+                            value={logradouro}
+                            onChange={(e) => setLogradouro(e.target.value)}
                             type="text" name="" id="" />
                         <p id='message-false'></p>
                     </div>
                     <div>
                         <p>Número</p>
                         <input
-                            value={number}
-                            onChange={(e) => verifyNumber(e.target.value)}
+                            value={numero}
+                            onChange={(e) => verifynumero(e.target.value)}
                             type="text" name="" id="" />
                         <p id='message-false'></p>
                     </div>

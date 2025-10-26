@@ -8,8 +8,9 @@ import { Address } from "../../components/profile/address";
 import { AddAddress } from "../../components/profile/addAddress";
 
 function Profile() {
-    const [component, setComponent] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
+    const [activeSection, setActiveSection] = useState("cadastro");
+    const [showAddAddress, setShowAddAddress] = useState(false); 
 
     function handleEditClick() {
         setIsEditing(true);
@@ -18,11 +19,6 @@ function Profile() {
     function handleSave() {
         setIsEditing(false);
     }
-
-    const components = [
-        <FormProfile />,
-        <InfoProfile />
-    ];
 
     return (
         <>
@@ -41,17 +37,30 @@ function Profile() {
                 </div>
 
                 <div className="content-wrapper">
-                    <ContainerProfile />
+                    <ContainerProfile onSelect={setActiveSection} />
 
                     <div className="card">
-                        {isEditing ? (
-                            <FormProfile onSave={handleSave} />
-                        ) : (
-                            <InfoProfile />
+                        {activeSection === "cadastro" && (
+                            <>
+                                {isEditing ? (
+                                    <FormProfile onSave={handleSave} />
+                                ) : (
+                                    <InfoProfile />
+                                )}
+                                {!isEditing && (
+                                    <button className="botao" onClick={handleEditClick}>
+                                        Editar
+                                    </button>
+                                )}
+                            </>
                         )}
 
-                        {!isEditing && (
-                            <button className="botao" onClick={handleEditClick}>Editar</button>
+                        {activeSection === "enderecos" && (
+                            !showAddAddress ? (
+                                <Address onAddAddress={() => setShowAddAddress(true)} />
+                            ) : (
+                                <AddAddress onBack={() => setShowAddAddress(false)} />
+                            )
                         )}
                     </div>
 

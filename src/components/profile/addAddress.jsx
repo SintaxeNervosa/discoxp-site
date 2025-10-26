@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./addAddress.scss"
 
-export function AddAddress() {
+export function AddAddress({ onBack }) {
     const [form, setForm] = useState({
         cep: "",
         numero: "",
@@ -25,6 +25,7 @@ export function AddAddress() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Endereço adicionado:", form);
+        onBack();
     };
 
     return (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./address.scss"
 
-export function Address() {
+export function Address({ onAddAddress }) {
     const enderecos = [
         {
             id: 1,
@@ -15,7 +15,7 @@ export function Address() {
             bairro: "Santo Amaro – São Paulo – SP",
             cep: "04696-000",
         },
-        
+
     ];
 
     return (
@@ -23,7 +23,10 @@ export function Address() {
             <div className="enderecos">
                 <div className="enderecos__header">
                     <h2>Endereços</h2>
-                    <button className="add-endereco">+ Adicionar endereço</button>
+                    <button className="add-endereco"
+                        onClick={onAddAddress} >
+                        + Adicionar endereço
+                    </button>
                 </div>
 
                 <div className="enderecos__lista">

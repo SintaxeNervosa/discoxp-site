@@ -1,17 +1,17 @@
 import "./containerProfile.scss"
 
-export function ContainerProfile() {
+export function ContainerProfile({ onSelect }) {
 
     return (
         <>
             <section className="sidebar">
                 <div className="sidebar-item">
-                    <button onClick={""}>
+                    <button onClick={() => onSelect("cadastro")}>
                         <strong>Cadastro</strong><br /> Ver e alterar seus dados
                     </button>
                 </div>
                 <div className="sidebar-item">
-                    <button onClick={""}>
+                    <button onClick={() => onSelect("enderecos")}>
                         <strong>Endereços</strong><br /> Ver e alterar seus endereços
                     </button>
                 </div>

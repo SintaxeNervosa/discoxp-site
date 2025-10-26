@@ -67,7 +67,7 @@ export const changeUser = async (user) => {
     }
 };
 
-export const createBillingAddress = async (request) => {
+export const addBillingAddress = async (request) => {
     try {
         const response = await api.post(`/billing-address`, request);
         return response;
@@ -76,7 +76,7 @@ export const createBillingAddress = async (request) => {
     }
 };
 
-export const createDeliveryAddress = async (request) => {
+export const addDeliveryAddress = async (request) => {
     try {
         const response = await api.post(`/delivery-address`, request);
         return response;

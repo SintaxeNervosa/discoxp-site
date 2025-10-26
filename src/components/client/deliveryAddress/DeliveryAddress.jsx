@@ -1,4 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
+import axios from "axios";
+import { AnimatePresence, motion, number } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddress }) {
@@ -8,28 +9,22 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
         message: null
     });
 
-    const [logradouro, setLogradouro] = useState("");
-    const [bairro, setBairro] = useState("");
-    const [cidade, setCidade] = useState("");
-    const [numero, setNumero] = useState(null);
-    const [estado, setEstado] = useState("");
-    const [complemento, setComplemento] = useState("");
+    const [street, setStreet] = useState("");
+    const [number, setNumber] = useState(null);
+    const [complement, setComplement] = useState("");
 
     const verifyCep = async (value) => {
         if (/[^0-9]/.test(value) || value.length > 8) return;
 
         setCep(value);
-        setLogradouro("");
+        setStreet("");
         if (value.length == 8) {
-            // buscar os dados daco cep
+            // busca os dados do cep
             const response = await axios.get(`https://viacep.com.br/ws/${value}/json/`);
+            console.log(response.data);
 
             if (response.status == 200) {
                 const error = response.data.erro;
-
-                setBairro(response.data.bairro);
-                setCidade(response.data.cidade);
-                setEstado(response.data.estado);
 
                 if (error == 'true') {
                     setErrorCep({
@@ -37,7 +32,7 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
                         message: "* CEP inválido."
                     })
 
-                    setLogradouro("");
+                    setStreet("");
                     return;
                 }
 
@@ -48,31 +43,28 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
                     });
                 }
 
-                setLogradouro(response.data.logradouro);
+                setStreet(response.data.logradouro);
             }
         }
     }
 
-    const verifynumero = (value) => {
+    const verifyNumber = (value) => {
         if (/[^a-zA-Z0-9]/.test(value)) return;
 
-        setNumero(value);
+        setNumber(value);
     }
 
     function generateJson() {
         return {
             cep: cep,
-            logradouro: logradouro,
-            bairro: bairro,
-            cidade: cidade,
-            numero: numero,
-            estado: estado,
-            complemento: complemento
+            number: number,
+            street: street,
+            complement: complement
         }
     }
 
     function verifyFields() {
-        const isValid = logradouro != "" && numero != null && numero != "";
+        const isValid = street != "" && number != null && number != "";
 
         if (isValid) {
             const obj = generateJson();
@@ -86,7 +78,7 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
 
     useEffect(() => {
         verifyFields();
-    }, [logradouro, numero]);
+    }, [street, number]);
 
     useEffect(() => {
 
@@ -97,11 +89,10 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
 
         const addressToJson = JSON.parse(getAddressToBilling);
 
-        console.log(addressToJson);
         setCep(addressToJson.cep);
-        setLogradouro(addressToJson.logradouro);
-        setNumero(addressToJson.numero);
-        setComplemento(addressToJson.complemento);
+        setStreet(addressToJson.street);
+        setNumber(addressToJson.number);
+        setComplement(addressToJson.complement);
     };
 
 
@@ -128,16 +119,16 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
                     <div>
                         <p>Logradouro</p>
                         <input
-                            value={logradouro}
-                            onChange={(e) => setLogradouro(e.target.value)}
+                            value={street}
+                            onChange={(e) => setStreet(e.target.value)}
                             type="text" name="" id="" />
                         <p id='message-false'></p>
                     </div>
                     <div>
                         <p>Número</p>
                         <input
-                            value={numero}
-                            onChange={(e) => verifynumero(e.target.value)}
+                            value={number}
+                            onChange={(e) => verifyNumber(e.target.value)}
                             type="text" name="" id="" />
                         <p id='message-false'></p>
                     </div>

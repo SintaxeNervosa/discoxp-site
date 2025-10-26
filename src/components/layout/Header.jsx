@@ -1,15 +1,17 @@
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import "./Header.css"
 import Cart from '../../components/cart/Cart';
 import { useCart } from '../../context/CartContext';
 import { findAllProductsByCart } from '../../config/dexie';
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const logoRef = useRef(null);
   const { toggleCart, visibilityCart } = useCart();
   const [quantityItensInCart, setQuantityInCart] = useState(0);
+  const navigate = useNavigate()
 
   async function changeQuantityCart() {
     const itens = await findAllProductsByCart();
@@ -120,6 +122,7 @@ export function Header() {
               <motion.img
                 src="/svg/user.svg"
                 alt="User Icon"
+                onClick={() => navigate('/profile')}
                 whileHover={{
                   scale: 1.1,
                   filter: "brightness(1.3) drop-shadow(0 0 5px rgba(255,255,255,0.5))"
@@ -146,6 +149,7 @@ export function Header() {
                 href=""
                 whileHover={{ scale: 1.1, color: "#f0f0f0" }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/login')}
               >
                 Entre
               </motion.a>
@@ -154,6 +158,7 @@ export function Header() {
                 href=""
                 whileHover={{ scale: 1.1, color: "#f0f0f0" }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/register')}
               >
                 Cadastra-se
               </motion.a>

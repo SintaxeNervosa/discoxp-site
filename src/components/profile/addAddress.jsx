@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./addAddress.scss"
-import { apiService } from "../../connection/apiService";
+import apiService from "../../connection/apiService";
 
 export function AddAddress() {
     const [form, setForm] = useState({

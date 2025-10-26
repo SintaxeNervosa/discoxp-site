@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./address.scss"
-import { apiService } from "../../connection/apiService";
+import apiService from "../../connection/apiService";
 
 export function Address() {
     const [enderecos, setEnderecos] = useState([]);

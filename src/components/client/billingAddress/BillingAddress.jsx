@@ -10,39 +10,22 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
         message: null
     });
 
-    const [logradouro, setLogradouro] = useState("");
-    const [bairro, setBairro] = useState("");
-    const [cidade, setCidade] = useState("");
-    const [numero, setNumero] = useState(null);
-    const [estado, setEstado] = useState("");
+    const [street, setStreet] = useState("");
+    const [number, setNumber] = useState(null);
     const [complement, setComplement] = useState("");
-    
-    /**    {
-        "id": "1",
-        "cep": "04854250",
-        "logradouro": "caso do shr ze",
-        "bairro": "SLA",
-        "cidade": "SP",
-        "numero": "2",
-        "estado": "SP",
-        "complemento": "sla"
-    } */
 
     const verifyCep = async (value) => {
         if (/[^0-9]/.test(value) || value.length > 8) return;
 
         setCep(value);
-        setLogradouro("");
+        setStreet("");
         if (value.length == 8) {
-            // buscar os dados daco cep
+            // busca os dados do cep
             const response = await axios.get(`https://viacep.com.br/ws/${value}/json/`);
+            console.log(response.data);
 
             if (response.status == 200) {
                 const error = response.data.erro;
-
-                setBairro(response.data.bairro);
-                setCidade(response.data.cidade);
-                setEstado(response.data.estado);
 
                 if (error == 'true') {
                     setErrorCep({
@@ -50,7 +33,7 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
                         message: "* CEP inválido."
                     })
 
-                    setLogradouro("");
+                    setStreet("");
                     return;
                 }
 
@@ -61,7 +44,7 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
                     });
                 }
 
-                setLogradouro(response.data.logradouro);
+                setStreet(response.data.logradouro);
             }
         }
     }
@@ -69,29 +52,23 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
     const verifyNumber = (value) => {
         if (/[^a-zA-Z0-9]/.test(value)) return;
 
-        setNumero(value);
+        setNumber(value);
     }
 
     function generateJson() {
         return {
             cep: cep,
-            logradouro: logradouro,
-            logradouro: logradouro,
-            bairro: bairro,
-            cidade: cidade,
-            numero: numero,
-            estado: estado,
+            number: number,
+            street: street,
             complement: complement
-
         }
     }
 
     function verifyFields() {
-        const isValid = logradouro != "" && numero != null && numero != "";
+        const isValid = street != "" && number != null && number != "";
 
         if (isValid) {
             const obj = generateJson();
-            console.log(obj)
             setFormBillingAddress(obj);
             setButtonDisabled(false);
             return;
@@ -108,14 +85,14 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
         const dataToJson = JSON.parse(data);
 
         setCep(dataToJson.cep);
-        setLogradouro(dataToJson.logradouro);
-        setNumero(dataToJson.numero);
+        setStreet(dataToJson.street);
+        setNumber(dataToJson.number);
         setComplement(dataToJson.complement);
     }
 
     useEffect(() => {
         verifyFields();
-    }, [logradouro, numero]);
+    }, [street, number]);
 
     useEffect(() => {
         loadBillingAddressInSession();
@@ -143,23 +120,23 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
                     <p>Logradouro</p>
                     <input
                         disabled={true}
-                        value={logradouro}
-                        onChange={(e) => setLogradouro(e.target.value)}
+                        value={street}
+                        onChange={(e) => setStreet(e.target.value)}
                         type="text" name="" id="" />
                     <p id='message-false'></p>
                 </div>
                 <div>
                     <p>Número</p>
                     <input
-                        value={numero}
-                        onChange={(e) => verifyNumero(e.target.value)}
+                        value={number}
+                        onChange={(e) => verifyNumber(e.target.value)}
                         type="text" name="" id="" />
                     <p id='message-false'></p>
                 </div>
                 <div>
                     <p>Complemeto</p>
                     <input placeholder='(Opcional)' type="text" name="" id="" />
-                    <p id='message-false'>* Cep inválido</p>
+                    <p id='message-false'>* mmm</p>
                 </div>
             </motion.div>
         </AnimatePresence >

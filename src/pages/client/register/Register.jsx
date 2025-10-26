@@ -1,17 +1,14 @@
-import BillingAddres from '../../../components/client/billingAddress/BillingAddress';
 import FormPersonalData from '../../../components/client/formPersonalData/FormPersonalData';
 import DeliveryAddress from '../../../components/client/deliveryAddress/DeliveryAddress';
 import { AnimatePresence, motion } from "framer-motion";
 import './RegisterStyle.scss';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BillingAddress from '../../../components/client/billingAddress/BillingAddress';
 import { useNavigate } from 'react-router-dom';
-import { createBillingAddress, createDeliveryAddress, createUser } from '../../../connection/userPaths';
-import { p } from 'framer-motion/client';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { cos } from 'three/tsl';
+import { addBillingAddress, addDeliveryAddress } from '../../../connection/userPaths';
+import { toast, ToastContainer } from 'react-toastify';
+import { createClient } from '../../../connection/ClientPath';
 
 export default function Register() {
     const [page, setPage] = useState(0);
@@ -31,7 +28,6 @@ export default function Register() {
     }
 
     const saveBillingAddressInSession = () => {
-        console.log(formBillingAddress);
         sessionStorage.setItem("billingAddress", JSON.stringify(formBillingAddress));
     }
 
@@ -39,63 +35,66 @@ export default function Register() {
         sessionStorage.setItem("deliveryAddress", JSON.stringify(formDeliveryAddress));
     }
 
-    const saveUser = async () => {
-
-        let usuarioLocalStorage = sessionStorage.getItem("personalData");
-        let toJSon = JSON.parse(usuarioLocalStorage);
-        console.log(toJSon);
+    // método para salvar o endereço de faturamento no banco
+    const saveBillingAddress = async (id) => {
+        const getBillingAddressFromSessionStorage = sessionStorage.getItem("billingAddress");
+        const billingAddressToJson = JSON.parse(getBillingAddressFromSessionStorage);
 
         const obj = {
-            "name": toJSon.name,
-            "email": toJSon.email,
-            "group": "CLIENT",
-            "password": toJSon.password,
-            "cpf": toJSon.cpf,
-            "dateOfBirth": toJSon.dateOfBirth,
-            "gender": toJSon.gender
+            id: id,
+            cep: billingAddressToJson.cep,
+            number: billingAddressToJson.number,
+            complement: billingAddressToJson.complement
         }
 
-        const response = await createUser(obj);
-
+        const response = await addBillingAddress(obj);
         if (response.status == 201) {
-            let getBillingAddressFromSessionStorage = sessionStorage.getItem("billingAddress");
-            let toJsonB = JSON.parse(getBillingAddressFromSessionStorage);
-
-            const objAddBillingAdress = {
-                id: response.data.id,
-                cep: toJsonB.cep,
-                logradouro: toJsonB.logradouro,
-                bairro: toJsonB.bairro,
-                cidade: toJsonB.cidade,
-                numero: toJsonB.numero,
-                estado: toJsonB.estado,
-                complemento: toJsonB.complemento,
-            }
-
-            const requesdAddress = await createBillingAddress(objAddBillingAdress);
-
-            console.log(requesdAddress);
-
-            if (response.status == 201) {
-                const response2 = await createDeliveryAddress(toJSon);
-
-                if (response2 == 201) {
-                    toast.success("Usuário cadastrado com sucesso!");
-                }
-            }
-
+            toast.success("Endereço de faturamento cadastrado com sucesso!");
+            return;
         }
+
+        toast.error("Erro ao salvar endereço de faturamento.");
+    }
+    
+    // método para salvar o endereço de entrega no banco
+    const saveDeliveryAddress = async (id) => {
+        const getDeliveryAddressFromSessionStorage = sessionStorage.getItem("deliveryAddress");
+        const deliveryAddressToJson = JSON.parse(getDeliveryAddressFromSessionStorage);
+
+        const obj = {
+            id: id,
+            cep: deliveryAddressToJson.cep,
+            number: deliveryAddressToJson.number,
+            complement: deliveryAddressToJson.complement
+        }
+
+        const response = await addDeliveryAddress(obj);
+        if (response.status == 201) {
+            toast.success("Endereço de entrega cadastrado com sucesso!");
+            return;
+        }
+
+        toast.error("Erro ao salvar endereço entrega.");
     }
 
-    /* {
-        "name": "Italo",
-        "email": "italo@gamil.com",
-        "group": "CLIENT",
-        "password": "@Ita75802309",
-        "cpf": "47958777850",
-        "dateOfBirth": "1998-05-14",
-        "gender": "MULHER"
-    }*/
+    const saveUser = async () => {
+        let usuarioLocalStorage = sessionStorage.getItem("personalData");
+        let userToJson = JSON.parse(usuarioLocalStorage);
+
+        const response = await createClient(userToJson);
+
+        if (response.status == 201) {
+            toast.success("Usuário cadastrado com sucesso!");
+            
+            await saveBillingAddress(response.data.id);
+            await saveDeliveryAddress(response.data.id);
+
+            navigate('/login');
+            return;
+        }
+
+        toast.error("Ocorreu um erro ao salvar o usuário");
+    }
 
     useEffect(() => {
         if (!buttonDisabled) {
@@ -114,7 +113,6 @@ export default function Register() {
                 case 4:
                 default:
                     console.log(page);
-                    console.log("Ocorreu um erro");
             }
         }
 
@@ -128,6 +126,7 @@ export default function Register() {
 
     return (
         <AnimatePresence mode="wait">
+            <ToastContainer />
             <div className='container_register'>
                 <motion.section className='menu'
                     key="form-personal-data"

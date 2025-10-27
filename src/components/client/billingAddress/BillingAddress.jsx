@@ -107,7 +107,7 @@ export default function BillingAddress({ setButtonDisabled, setFormBillingAddres
                 exit={{ opacity: 0, x: -200 }}
                 transition={{ duration: 0.5 }}
                 className="container-billing-address">
-                <h1>Endereço de Faturamento</h1>
+                <h1 id="sub-title">Endereço de Faturamento</h1>
                 <div>
                     <p>CEP</p>
                     <input

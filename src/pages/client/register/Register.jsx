@@ -3,6 +3,9 @@ import DeliveryAddress from '../../../components/client/deliveryAddress/Delivery
 import { AnimatePresence, motion } from "framer-motion";
 import './RegisterStyle.scss';
 
+import left from '../../../assets/images/register/left.svg';
+import loader from '../../../assets/images/cart/Rolling@1x-1.0s-200px-200px.svg';
+
 import { useEffect, useState } from 'react';
 import BillingAddress from '../../../components/client/billingAddress/BillingAddress';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +19,7 @@ export default function Register() {
     const [formUserPersonalData, setFormUserPersonalData] = useState(null);
     const [formBillingAddress, setFormBillingAddress] = useState(null);
     const [formDeliveryAddress, setFormDeliveryAddress] = useState(null);
+    const [showLoader, setShowLoader] = useState(false);
 
     const navigate = useNavigate();
 
@@ -35,6 +39,12 @@ export default function Register() {
         sessionStorage.setItem("deliveryAddress", JSON.stringify(formDeliveryAddress));
     }
 
+    const clearSessionData = () => {
+        sessionStorage.setItem("personalData", null);
+        sessionStorage.setItem("billingAddress", null);
+        sessionStorage.setItem("delveryAddress", null);
+    }
+
     // método para salvar o endereço de faturamento no banco
     const saveBillingAddress = async (id) => {
         const getBillingAddressFromSessionStorage = sessionStorage.getItem("billingAddress");
@@ -48,14 +58,10 @@ export default function Register() {
         }
 
         const response = await addBillingAddress(obj);
-        if (response.status == 201) {
-            toast.success("Endereço de faturamento cadastrado com sucesso!");
-            return;
-        }
 
-        toast.error("Erro ao salvar endereço de faturamento.");
+        return response.status == 201;  
     }
-    
+
     // método para salvar o endereço de entrega no banco
     const saveDeliveryAddress = async (id) => {
         const getDeliveryAddressFromSessionStorage = sessionStorage.getItem("deliveryAddress");
@@ -69,12 +75,8 @@ export default function Register() {
         }
 
         const response = await addDeliveryAddress(obj);
-        if (response.status == 201) {
-            toast.success("Endereço de entrega cadastrado com sucesso!");
-            return;
-        }
 
-        toast.error("Erro ao salvar endereço entrega.");
+        return response.status == 201;
     }
 
     const saveUser = async () => {
@@ -84,12 +86,23 @@ export default function Register() {
         const response = await createClient(userToJson);
 
         if (response.status == 201) {
+            setShowLoader(true);
             toast.success("Usuário cadastrado com sucesso!");
-            
-            await saveBillingAddress(response.data.id);
-            await saveDeliveryAddress(response.data.id);
 
-            navigate('/login');
+            const responseBillingAddress = await saveBillingAddress(response.data.id);
+            const responseDeliveryAddress = await saveDeliveryAddress(response.data.id);
+
+            if (responseBillingAddress && responseDeliveryAddress) {
+                toast.success("Endereço de faturamento cadastrado com sucesso!");
+                toast.success("Endereço de entrega cadastrado com sucesso!");
+            }
+
+            clearSessionData();
+
+            setTimeout(() => {
+                navigate('/login');
+            }, 1000);
+
             return;
         }
 
@@ -111,6 +124,7 @@ export default function Register() {
                     saveUser();
                     break;
                 case 4:
+                    setShowLoader(true);
                 default:
                     console.log(page);
             }
@@ -138,23 +152,25 @@ export default function Register() {
                     <p>Insira seus dados pessoais para usar todos os recursos do site</p>
                     <button onClick={() => navigate("/login")}>Entrar</button>
                 </motion.section>
-                <section className='form'>
-                    <h1>Cadastro</h1>
-                    <div className='content'>
-                        {page > 0 &&
-                            <p onClick={() => setPage(page - 1)}>Voltar</p>
-                        }
-                        {pages[page]}
-                        <motion.button
-                            disabled={buttonDisabled}
-                            initial={{ opacity: 0, x: 300 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -300 }}
-                            transition={{ duration: 1 }}
-                            onClick={nextPage}>Próximo
-                        </motion.button>
-                    </div>
-                </section>
+                {(!showLoader
+                    ? <section className='form'>
+                        <h1>Cadastro</h1>
+                        <div className='content'>
+                            {page > 0 &&
+                                <img src={left} id='left' onClick={() => setPage(page - 1)} />
+                            }
+                            {pages[page]}
+                            <motion.button
+                                disabled={buttonDisabled}
+                                initial={{ opacity: 0, x: 300 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -300 }}
+                                transition={{ duration: 1 }}
+                                onClick={nextPage}>Próximo
+                            </motion.button>
+                        </div>
+                    </section>
+                    : <img id='loader' src={loader} />)}
             </div>
         </AnimatePresence>
     );

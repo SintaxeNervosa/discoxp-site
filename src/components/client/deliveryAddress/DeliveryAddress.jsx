@@ -12,6 +12,7 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
     const [street, setStreet] = useState("");
     const [number, setNumber] = useState(null);
     const [complement, setComplement] = useState("");
+    const [checked, setChecked] = useState(false);
 
     const verifyCep = async (value) => {
         if (/[^0-9]/.test(value) || value.length > 8) return;
@@ -76,15 +77,8 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
         setButtonDisabled(true);
     }
 
-    useEffect(() => {
-        verifyFields();
-    }, [street, number]);
-
-    useEffect(() => {
-
-    }, []);
-
     const loadDataToAddress = () => {
+        console.log("AQUI!");
         const getAddressToBilling = sessionStorage.getItem("billingAddress");
 
         const addressToJson = JSON.parse(getAddressToBilling);
@@ -95,6 +89,28 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
         setComplement(addressToJson.complement);
     };
 
+    function clearFields() {
+        setStreet("");
+        setNumber("");
+        setCep("");
+        setComplement("");
+    }
+
+    useEffect(() => {
+        verifyFields();
+    }, [street, number]);
+
+    useEffect(() => {
+        if (checked) {
+            loadDataToAddress();
+            return;
+        }
+
+        clearFields();
+    }, [checked]);
+
+    useEffect(() => {
+    }, []);
 
     return (
         <AnimatePresence mode="wait">
@@ -106,8 +122,14 @@ export default function DeliveryAddress({ setButtonDisabled, setFormDeliveryAddr
                 transition={{ duration: 0.5 }}
                 className="container-delivery-address">
                 <div className="container-billing-address">
-                    <h1>Endereço de Entrega</h1>
-                    <button onClick={() => loadDataToAddress()}></button>
+                    <h1 id="sub-title">Endereço de Entrega</h1>
+                    <div className="copy-address">
+                        <p>Copiar endereço de faturamento</p>
+                        <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={() => setChecked(!checked)} />
+                    </div>
                     <div>
                         <p>CEP</p>
                         <input

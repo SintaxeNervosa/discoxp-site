@@ -45,6 +45,7 @@
             font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
+
         }
 
         button:hover {
@@ -70,12 +71,37 @@
             overflow: hidden;
             gap: 20px;
 
+            #sub-title {
+                font-size: 20px;
+                font-weight: 500;
+                padding-bottom: 10px;
+                text-decoration: underline;
+            }
+
+            .copy-address {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                gap: 10px;
+
+                input {
+                    width: 15px;
+                    height: 15px;
+                }
+            }
+
+            >img {
+                cursor: pointer;
+                width: 40px;
+                margin-left: 50px;
+            }
+
             >div {
                 margin: 0 auto;
                 max-height: 490px;
                 display: flex;
                 flex-direction: column;
-                gap: 7px;
                 width: 70%;
                 overflow: auto;
 
@@ -149,5 +175,10 @@
                 background-color: rgb(182, 182, 182);
             }
         }
+    }
+
+    #loader {
+        margin: 0 auto;
+        width: 100px;
     }
 }

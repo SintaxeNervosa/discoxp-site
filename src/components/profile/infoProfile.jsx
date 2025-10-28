@@ -15,6 +15,7 @@ export function InfoProfile() {
         const userIdToJson = JSON.parse(userId);
         const response = await getUsersById(userIdToJson.id);
 
+        console.log(response.cpf);
         setName(response.name);
         setCpf(response.cpf);
         setDateOfBirth(response.dateOfBirth);
@@ -50,7 +51,7 @@ export function InfoProfile() {
                                 <option value="Selecionar">SELECIONAR</option>
                                 <option value="HOMEM">HOMEM</option>
                                 <option value="MULHER">MULHER</option>
-                                <option value="OUTRO">OUTRO</option>
+                                <option value="OUTROS">OUTROS</option>
                             </select>
                         </div>
                         <div className="campo">

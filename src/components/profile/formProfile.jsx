@@ -17,6 +17,7 @@ export function FormProfile({ onSave }) {
         const response = await getUsersById(userIdToJson.id);
 
         setName(response.name);
+        console.log(response.cpf);
         setCpf(response.cpf);
         setDateOfBirth(response.dateOfBirth);
         setGender(response.gender);
@@ -110,8 +111,8 @@ export function FormProfile({ onSave }) {
                             <span>CPF</span>
                             <input
                                 disabled
-                                className="dados" v
-                                alue={cpf} type="number"
+                                className="dados" 
+                                value={cpf} type="number"
                                 onChange={(e) => setCpf(e.target.value)}
                             />
                         </div>
@@ -126,7 +127,7 @@ export function FormProfile({ onSave }) {
                         </div>
                         <div className="campo">
                             <span>Gênero</span>
-                            <select
+                            <select className="dados"
                                 value={gender}
                                 onChange={(e) => setGender(e.target.value)}>
                                 <option value="">SELECIONAR</option>

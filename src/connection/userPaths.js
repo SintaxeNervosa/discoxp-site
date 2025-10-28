@@ -13,7 +13,6 @@ export const getUsers = async () => {
 export const getUsersById = async (id) => {
     try {
         const response = await api.get(`/users/${id}`);
-        console.log(response);
         return response.data;
     } catch (error) {
         console.error("Erro ao buscar usuários:", error);

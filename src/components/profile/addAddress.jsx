@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
+import { addAddress } from "../../connection/AddressPath.js";
+
 import "./addAddress.scss"
+import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 
 export function AddAddress({ onBack }) {
     const [form, setForm] = useState({
@@ -8,6 +12,10 @@ export function AddAddress({ onBack }) {
         complemento: "",
         endereco: "",
     });
+
+    const [validFields, setValidFields] = useState(false);
+
+    const userFromSession = sessionStorage.getItem("user-data");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,19 +30,72 @@ export function AddAddress({ onBack }) {
         }
     };
 
-    const handleSubmit = (e) => {
+    const fyndCep = async () => {
+        const response = await axios.get(`https://viacep.com.br/ws/${form.cep}/json/`);
+
+        if (!response.data.erro) {
+            setForm({
+                ...form,
+                endereco: `${response.data.logradouro}, ${response.data.bairro} - ${response.data.uf}`,
+            });
+        }
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Endereço adicionado:", form);
-        onBack();
+
+        const userToJson = JSON.parse(userFromSession);
+
+        const obj = {
+            id: userToJson.id,
+            cep: form.cep,
+            number: form.numero,
+            complement: form.complemento
+        }
+
+        const response = await addAddress(obj);
+
+        if (response.status = 201) {
+
+            toast.success("Endereço cadastrado com sucesso");
+
+            setTimeout(() => {
+                onBack();
+            }, [2000]);
+
+            return;
+        }
+
+        toast.error("Ocorreu um erro");
     };
+
+    function verifyForm() {
+        return form.numero != "" && form.endereco != ""; 
+    }
+
+    useEffect(() => {
+        setValidFields(verifyForm());
+    }, [form.endereco, form.numero]);
+
+    useEffect(() => {
+        setForm({
+                ...form,
+                endereco: ""
+            });
+        if (form.cep.length >= 8) {
+            fyndCep();
+        }
+    }, [form.cep]);
 
     return (
         <>
             <div className="add-endereco-container">
                 <h2>Adicionar endereço</h2>
-
                 <form className="endereco-form" onSubmit={handleSubmit}>
                     <div className="form-row">
+                        <ToastContainer
+                            position="top-center"
+                        />
                         <div className="form-group">
                             <label>CEP</label>
                             <input
@@ -49,6 +110,7 @@ export function AddAddress({ onBack }) {
                         <div className="form-group">
                             <label>&nbsp;</label>
                             <textarea
+                                disabled
                                 name="endereco"
                                 value={form.endereco}
                                 onChange={handleChange}
@@ -82,7 +144,7 @@ export function AddAddress({ onBack }) {
                         </div>
                     </div>
 
-                    <button type="submit" className="btn-adicionar">
+                    <button disabled={!validFields} type="submit" className="btn-adicionar">
                         Adicionar endereço
                     </button>
                 </form>

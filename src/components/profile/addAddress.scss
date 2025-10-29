@@ -73,6 +73,12 @@
         transform: scale(0.98);
       }
     }
+
+    .btn-adicionar:disabled {
+      background-color: #aaa;
+    }
+
+    
   }
 
 }

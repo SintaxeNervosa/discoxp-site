@@ -1,0 +1,173 @@
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden; 
+    height: 100%;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.finalizacao-pedido {
+    font-family: Arial, sans-serif;
+    color: #333;
+    flex: 1;
+    width: 100%;
+    padding-top: 120px;
+
+    h4 {
+        font-size: 30px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .finalizacao-content {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        padding: 0 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        justify-content: space-between;
+
+        // Lado esquerdo 
+             .produtos-lista {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .produto-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            background: #f9f9f9;
+            width: 100%;
+            height: 30%;
+
+            .item-img {
+                flex-shrink: 0;
+                
+                img {
+                    width: 120px;
+                    height: 150px;
+                    object-fit: cover;
+                }
+            }
+
+            .item-info {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+
+                .item {
+                    display: flex;
+                    flex-direction: row;
+                    
+                    h6 {
+                        font-size: 18px;
+                        margin: 0 0 5px 0;
+                        color: #333;
+                    }
+                }
+                .item-u{
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        }
+
+        // Lado direito
+        aside {
+            width: 45%;
+            flex-shrink: 0;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            background: #f9f9f9;
+            height: fit-content;
+
+            p {
+                margin: 10px 0;
+                line-height: 1.4;
+            }
+
+            .valores {
+                margin: 20px 0;
+                border-top: 1px solid #ddd;
+                padding-top: 15px;
+
+                div {
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 8px 0;
+                    
+                    &:last-child {
+                        font-weight: bold;
+                        font-size: 1.1em;
+                        border-top: 1px solid #ddd;
+                        padding-top: 10px;
+                        margin-top: 15px;
+                    }
+                }
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+                margin: 8px 0;
+                border-radius: 8px;
+                font-size: 16px;
+                cursor: pointer;
+                
+                &:first-of-type {
+                    background: linear-gradient(to bottom, #ff8c00, #ff7700);
+                    color: white;
+                    border: none;
+
+                    &:hover {
+                        background: linear-gradient(to bottom, #ff9900, #ff5500);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+                    }
+                }
+                
+                &:last-of-type {
+                    background: #ffffff;
+                    color: rgb(0, 0, 0);
+                    border-color:#ff9900;
+
+                    &:hover {
+                        background: #ff5100;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .finalizacao-pedido {
+        padding-top: 100px;
+        
+        .finalizacao-content {
+            flex-direction: column;
+            
+            aside {
+                width: 100%;
+                order: -1;
+            }
+        }
+    }
+}

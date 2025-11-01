@@ -1,0 +1,39 @@
+.order {
+    gap: 40px;
+    padding: 90px 40px 80px;
+
+    .back-icon {
+        margin-top: 20px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .address {
+        display: flex;
+        justify-content: space-between;
+        width: 1000px;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .add-endereco {
+            background: none;
+            border: none;
+            color: #f7931e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #d9790f;
+            }
+        }
+    }
+
+}

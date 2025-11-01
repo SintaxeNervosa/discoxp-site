@@ -12,6 +12,7 @@ function Profile() {
     const [activeSection, setActiveSection] = useState("cadastro");
     const [showAddAddress, setShowAddAddress] = useState(false); 
 
+
     function handleEditClick() {
         setIsEditing(true);
     }
@@ -57,9 +58,9 @@ function Profile() {
 
                         {activeSection === "enderecos" && (
                             !showAddAddress ? (
-                                <Address onAddAddress={() => setShowAddAddress(true)} />
+                                <Address onAddAddress={() => setShowAddAddress(true)} ParentElement={"Profile"}/>
                             ) : (
-                                <AddAddress onBack={() => setShowAddAddress(false)} />
+                                <AddAddress onBack={() => setShowAddAddress(false)} ParentElement={"Profile"} />
                             )
                         )}
                     </div>

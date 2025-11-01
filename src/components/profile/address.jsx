@@ -3,8 +3,9 @@ import "./address.scss"
 import { changeFavoriteAddres, getAllAddressByUserId } from "../../connection/AddressPath";
 import heartFavoriteAddress from '../../assets/images/user/profile/address/heart-favorite.svg';
 import notHeartFavoriteAddress from '../../assets/images/user/profile/address/heart-not-favorite.svg';
+import OrderForm from "../../pages/orderForm/orderForm";
 
-export function Address({ onAddAddress }) {
+export function Address({ onAddAddress, changeVisibityForm, ParentElement }){
     const [addressList, setAddressList] = useState([]);
     const userFromSession = sessionStorage.getItem("user-data");
 
@@ -29,6 +30,14 @@ export function Address({ onAddAddress }) {
         if (response.status == 200) { loadAddress(); }
     }
 
+    const onAddAddressOrChangeVisibityForm = () =>{
+        console.log (ParentElement);
+        if(ParentElement == "OrderForm"){
+            changeVisibityForm()
+            return;
+        }onAddAddress();
+    }
+
     useEffect(() => {
         loadAddress();
     }, []);
@@ -43,7 +52,7 @@ export function Address({ onAddAddress }) {
                 <div className="enderecos__header">
                     <h2>Endereços</h2>
                     <button className="add-endereco"
-                        onClick={onAddAddress} >
+                        onClick={onAddAddressOrChangeVisibityForm} >
                         + Adicionar endereço
                     </button>
                 </div>

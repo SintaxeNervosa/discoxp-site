@@ -17,6 +17,7 @@ const ClientResgister = lazy(() => import("./pages/client/register/Register.jsx"
 const Home = lazy(() => import("./pages/home/home.jsx"));
 const InformationProduct = lazy(() => import("./pages/informationProduct/InformationProduct.jsx"));
 const Profile = lazy(() => import("./pages/profileUser/profile.jsx"))
+const OrderForm = lazy(() => import("./pages/orderForm/orderForm.jsx"))
 
 const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
 const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
@@ -37,6 +38,7 @@ export default function RouteWeb() {
               <Route path="/home" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/product/:productid" element={<InformationProduct />} />
+              <Route path="/order" element={<OrderForm />} />
               <Route path="/choice" element={
                 <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                   <Choice />

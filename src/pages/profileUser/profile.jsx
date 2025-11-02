@@ -6,6 +6,7 @@ import { InfoProfile } from "../../components/profile/infoProfile";
 import { FormProfile } from "../../components/profile/formProfile";
 import { Address } from "../../components/profile/address";
 import { AddAddress } from "../../components/profile/addAddress";
+import { Orders } from "../../components/profile/orders";
 
 function Profile() {
     const [isEditing, setIsEditing] = useState(false);
@@ -64,7 +65,9 @@ function Profile() {
                             )
                         )}
                     </div>
-
+                         {activeSection === "pedidos" && (
+                            <Orders />
+                        )}
                     {/* <Address /> */}
 
                     {/* <AddAddress /> */}

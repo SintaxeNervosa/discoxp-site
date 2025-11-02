@@ -16,6 +16,11 @@ export function ContainerProfile({ onSelect }) {
                     </button>
                 </div>
                 <div className="sidebar-item">
+                    <button onClick={() => onSelect("pedidos")}>
+                        <strong>Pedidos</strong><br /> Acompanhar meus pedidos
+                    </button>
+                </div>
+                <div className="sidebar-item">
                     <button onClick={""}>
                         <strong>Sair</strong><br /> Deslogar da conta e encerrar sessão
                     </button>

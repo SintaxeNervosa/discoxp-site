@@ -10,8 +10,10 @@
 
     .address {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        width: 1000px;
+        width: 100%;
+        max-width: 800px;
         padding: 2rem;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -36,4 +38,28 @@
         }
     }
 
+    .next {
+        background-color: #f7931e;
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        align-self: center;
+        transition: background 0.3s ease, transform 0.1s ease;
+
+        &:hover {
+            background-color: #d9790f;
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    .next:disabled {
+        background-color: #aaa;
+    }
 }

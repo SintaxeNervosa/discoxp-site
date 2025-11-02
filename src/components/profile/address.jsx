@@ -5,7 +5,7 @@ import heartFavoriteAddress from '../../assets/images/user/profile/address/heart
 import notHeartFavoriteAddress from '../../assets/images/user/profile/address/heart-not-favorite.svg';
 import OrderForm from "../../pages/orderForm/orderForm";
 
-export function Address({ onAddAddress, changeVisibityForm, ParentElement }){
+export function Address({ onAddAddress, changeVisibityForm, ParentElement, showForm }){
     const [addressList, setAddressList] = useState([]);
     const userFromSession = sessionStorage.getItem("user-data");
 
@@ -40,11 +40,7 @@ export function Address({ onAddAddress, changeVisibityForm, ParentElement }){
 
     useEffect(() => {
         loadAddress();
-    }, []);
-
-    useEffect(() => {
-        console.log(addressList);
-    }, [addressList]);
+    }, [showForm]);
 
     return (
         <>

@@ -5,7 +5,7 @@ import "./addAddress.scss"
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
-export function AddAddress({ onBack }) {
+export function AddAddress({ onBack, changeVisibityForm }) {
     const [form, setForm] = useState({
         cep: "",
         numero: "",
@@ -58,6 +58,8 @@ export function AddAddress({ onBack }) {
         if (response.status = 201) {
 
             toast.success("Endereço cadastrado com sucesso");
+
+            changeVisibityForm();
 
             setTimeout(() => {
                 onBack();

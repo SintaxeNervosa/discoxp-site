@@ -1,0 +1,118 @@
+.payment-container {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 100px;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .payment-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+
+        .option {
+            position: relative;
+            padding-left: 28px;
+            cursor: pointer;
+
+            input[type="radio"] {
+                display: none;
+            }
+
+            .checkmark {
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                height: 18px;
+                width: 18px;
+                border-radius: 50%;
+                border: 2px solid #f28c28;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            input[type="radio"]:checked+.checkmark {
+                background-color: #f28c28;
+            }
+
+            .checkmark::after {
+                content: "";
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: white;
+                display: none;
+            }
+
+            input[type="radio"]:checked+.checkmark::after {
+                display: block;
+            }
+        }
+    }
+
+    .pix-area {
+        display: flex;
+        justify-content: center;
+        padding: 2rem;
+        border-radius: 12px;
+        border: 2px dashed #f28c28;
+
+        img {
+            width: 700px;
+            height: auto;
+        }
+    }
+
+    .card-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+
+            span {
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+
+            input,
+            select {
+                padding: 0.7rem;
+                border: 2px solid #f28c28;
+                border-radius: 6px;
+                font-size: 0.95rem;
+
+                &[type="number"]::-webkit-outer-spin-button,
+                &[type="number"]::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
+                }
+            }
+
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+
+    }
+}

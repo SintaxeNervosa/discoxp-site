@@ -1,6 +1,11 @@
 import { usePedidoFromCart } from '../../components/hooks/usePedidoFromCart'
 import { Header } from "../../components/layout/Header";
 import "./finalization.scss"
+import Modal from 'react-modal'
+import Confetti from 'react-confetti'
+import { useState } from 'react';
+
+Modal.setAppElement('#root')
 
 export default function Finalization() {
     const {
@@ -9,11 +14,55 @@ export default function Finalization() {
         recarregar
     } = usePedidoFromCart();
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [showConfetti, setShowConfetti] = useState(false)
     const frete = 15.90;
     const totalComFrete = calcularTotal() + frete;
 
+    const whenFinalizationBuy = () => {
+        setShowConfetti(true)
+        setShowPopup(true)
+
+        setTimeout(() => {
+            setShowPopup(false)
+        }, 3000)
+
+        setTimeout(() => {
+            setShowConfetti(false)
+        }, 5000);
+    }
+
+    const closePopup = () => {
+        setShowPopup(false)
+    }
+
     return (
         <>
+        {/*Confeeti */}
+        {showConfetti && (
+            <Confetti 
+                width={window.innerWidth}
+                height={window.innerHeight}
+                recycle={false}
+                numberOfPieces={500}
+                gravity={0.3}
+            />
+        )}
+        {/*Modal Popup*/}
+        <Modal 
+            isOpen={showPopup}
+            onRequestClose={closePopup}
+            className='modal-popup'
+            closeTimeoutMS={300}
+            overlayClassName='modal-overlay'
+        >
+             <div className="modal-body">
+                    <div className="modal-icon">🎮</div>
+                    <h2>Compra Finalizada com Sucesso!</h2>
+                    <p>Obrigado por comprar na <strong>DISCO XP</strong>!</p>
+            </div>
+        </Modal>
+
             <Header />
             <div className='finalizacao-pedido'>
                 <h4>Resumo do pedido</h4>
@@ -66,7 +115,7 @@ export default function Finalization() {
                             </div>
                         </div>
 
-                        <button>Finalizar compra</button>
+                        <button onClick={whenFinalizationBuy}>Finalizar compra</button>
                         <button>Voltar aos meus pedidos</button>
                     </aside>
                 </section>

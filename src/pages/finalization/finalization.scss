@@ -11,6 +11,74 @@ html, body {
     flex-direction: column;
 }
 
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+
+    &.ReactModal__Overlay--after-open {
+        opacity: 1;
+    }
+
+    &.ReactModal__Overlay--before-close {
+        opacity: 0;
+    }
+}
+
+.modal-popup{
+    position: relative;
+    background: #eecfae;
+    background: radial-gradient(circle,rgba(238, 207, 174, 1) 0%, rgba(245, 114, 0, 1) 100%);
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.4s ease;
+
+    &.ReactModal__Content--after-open {
+        transform: translateY(0);
+    }
+
+    &.ReactModal__Content--before-close {
+        transform: translateY(-30px);
+    }
+
+    .modal-body{
+    padding: 3rem 2rem;
+    text-align: center;
+    color: white;
+    }
+    .modal-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        animation: bounce 2s ease infinite;
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        opacity: 0.9;
+    }
+}
+
 .finalizacao-pedido {
     font-family: Arial, sans-serif;
     color: #333;

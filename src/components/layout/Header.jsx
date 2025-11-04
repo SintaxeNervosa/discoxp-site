@@ -39,7 +39,7 @@ export function Header() {
 
   useEffect(() => {
     let completeName = sessionStorage.getItem("user-data")
-      ? JSON.parse(sessionStorage.getItem("user-data")).username || "Usuário"
+      ? JSON.parse(sessionStorage.getItem("user-data"))?.username || "Usuário"
       : "Usuário";
 
     setUsername(completeName.split(" ")[0]);

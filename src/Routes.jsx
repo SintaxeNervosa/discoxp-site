@@ -43,9 +43,13 @@ export default function RouteWeb() {
                   <Profile />
                 </ProtectRoutes>
               } />
-              
+
               <Route path="/product/:productid" element={<InformationProduct />} />
-              <Route path="/order" element={<OrderForm />} />
+              <Route path="/order" element={
+                <ProtectRoutes requiredType={["CLIENT"]}>
+                  <OrderForm />
+                </ProtectRoutes>
+              } />
               <Route path="/choice" element={
                 <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                   <Choice />

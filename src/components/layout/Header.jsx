@@ -131,7 +131,7 @@ export function Header() {
               <motion.img
                 src="/svg/user.svg"
                 alt="User Icon"
-                id='user-icon'
+                id='use-icon'
                 onClick={() => navigate('/profile')}
                 whileHover={{
                   scale: 1.1,
@@ -146,7 +146,6 @@ export function Header() {
               >
                 Olá, {username}
               </motion.span>
-              <img src="/img/logout.png" alt="" className='logout-image' onClick={logout} />
             </div>
           ) : (
             //user not logged

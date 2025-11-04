@@ -14,8 +14,8 @@ export function useLogin() {
         if (e) e.preventDefault();
 
         try {
-            const response = await ApiService.user.loginUser(email, senha);//
-
+            const response = await ApiService.user.loginUser(email, senha);
+            
             if (response.status === 200 && response) {
                 
                 const data = response.data;

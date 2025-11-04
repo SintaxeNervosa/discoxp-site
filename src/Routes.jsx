@@ -37,7 +37,13 @@ export default function RouteWeb() {
               {/*Usuarios*/}
               <Route path="/" element={<Login />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />
+
+              <Route path="/profile" element={
+                <ProtectRoutes requiredType={["CLIENT"]}>
+                  <Profile />
+                </ProtectRoutes>
+              } />
+              
               <Route path="/product/:productid" element={<InformationProduct />} />
               <Route path="/order" element={<OrderForm />} />
               <Route path="/choice" element={
@@ -87,7 +93,7 @@ export default function RouteWeb() {
 
               {/*<ProtectRoutes requiredType={["CLIENT"]} > </ProtectRoutes> */}
               <Route path="/login" element={<ClientLogin />} />
-              
+
 
               {/*Produto*/}
               <Route path="/admin/product/gallery/:productid" element={
@@ -101,7 +107,7 @@ export default function RouteWeb() {
               <Route path="/register" element={<ClientResgister />}></Route>
               <Route path="*" element={<NotFound />} />
               {/*TESTE */}
-              <Route path="/finalization" element={<Finalization />}/>
+              <Route path="/finalization" element={<Finalization />} />
             </Routes>
           </Suspense>
         </CartProvider>

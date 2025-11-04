@@ -19,7 +19,7 @@ export const ProtectRoutes = ({ children, requiredType }) => {
         // converte para json
         const dataUserToJson = JSON.parse(dataUser);
         // captura o group
-        const group = dataUserToJson.group;
+        const group = dataUserToJson?.group || "";
 
         // variável para verificar se os tipos são iguais aos requiridos
         let equalTypes = false;

@@ -11,6 +11,7 @@ export function Header() {
   const logoRef = useRef(null);
   const { toggleCart, visibilityCart } = useCart();
   const [quantityItensInCart, setQuantityInCart] = useState(0);
+  const [username, setUsername] = useState("Usuário");
   const navigate = useNavigate()
 
   async function changeQuantityCart() {
@@ -35,6 +36,14 @@ export function Header() {
   useEffect(() => {
     changeQuantityCart();
   }, [toggleCart]);
+
+  useEffect(() => {
+    let completeName = sessionStorage.getItem("user-data")
+      ? JSON.parse(sessionStorage.getItem("user-data")).username || "Usuário"
+      : "Usuário";
+
+    setUsername(completeName.split(" ")[0]);
+  }, [])
 
   return (
     <>
@@ -66,30 +75,30 @@ export function Header() {
             }}
           />
         </div>
-      <motion.span 
-  className="logo-text"
-  initial={{ opacity: 0.8 }}
-  animate={{ 
-    opacity: [0.8, 1, 0.8],
-    textShadow: [
-      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #EB8F25, 0 0 20px #EB8F25",
-      "0 0 10px #fff, 0 0 20px #fff, 0 0 30px #EB8F25, 0 0 40px #EB8F25", 
-      "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #EB8F25, 0 0 20px #EB8F25"
-    ]
-  }}
-  transition={{ 
-    duration: 2,
-    repeat: Infinity,
-    ease: "easeInOut"
-  }}
-  whileHover={{
-    scale: 1.05,
-    textShadow: "0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff4da6, 0 0 50px #ff4da6",
-    transition: { duration: 0.3 }
-  }}
->
-  DISCO XP
-</motion.span>
+        <motion.span
+          className="logo-text"
+          initial={{ opacity: 0.8 }}
+          animate={{
+            opacity: [0.8, 1, 0.8],
+            textShadow: [
+              "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #EB8F25, 0 0 20px #EB8F25",
+              "0 0 10px #fff, 0 0 20px #fff, 0 0 30px #EB8F25, 0 0 40px #EB8F25",
+              "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #EB8F25, 0 0 20px #EB8F25"
+            ]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          whileHover={{
+            scale: 1.05,
+            textShadow: "0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff4da6, 0 0 50px #ff4da6",
+            transition: { duration: 0.3 }
+          }}
+        >
+          DISCO XP
+        </motion.span>
 
         <motion.div
           className="search"
@@ -122,6 +131,7 @@ export function Header() {
               <motion.img
                 src="/svg/user.svg"
                 alt="User Icon"
+                id='user-icon'
                 onClick={() => navigate('/profile')}
                 whileHover={{
                   scale: 1.1,
@@ -134,11 +144,7 @@ export function Header() {
                 whileHover={{ scale: 1.1, color: "#f0f0f0" }}
                 whileTap={{ scale: 0.95 }}
               >
-                Olá, {
-                  sessionStorage.getItem("user-data")
-                    ? JSON.parse(sessionStorage.getItem("user-data")).name || "Usuário"
-                    : "Usuário"
-                }
+                Olá, {username}
               </motion.span>
               <img src="/img/logout.png" alt="" className='logout-image' onClick={logout} />
             </div>

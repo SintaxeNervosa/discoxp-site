@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import "./containerProfile.scss"
 
 export function ContainerProfile({ onSelect }) {
+
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        navigate('/login');
+        sessionStorage.setItem('user-data', null);
+    } 
 
     return (
         <>
@@ -16,7 +24,12 @@ export function ContainerProfile({ onSelect }) {
                     </button>
                 </div>
                 <div className="sidebar-item">
-                    <button onClick={""}>
+                    <button onClick={() => onSelect("pedidos")}>
+                        <strong>Pedidos</strong><br /> Acompanhar meus pedidos
+                    </button>
+                </div>
+                <div className="sidebar-item">
+                    <button onClick={() => logOut()}>
                         <strong>Sair</strong><br /> Deslogar da conta e encerrar sessão
                     </button>
                 </div>

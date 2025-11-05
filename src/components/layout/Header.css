@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
 
   position: fixed;
   top: 0;
@@ -98,7 +98,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: 4rem;
   height: 40px;
   width: auto;
   margin-right: 60px;
@@ -137,6 +137,11 @@
   align-items: center;
   max-height:40px;
 }
+#user-icon {
+cursor: pointer;
+} 
+
+
 .logout-image {
   cursor: pointer;
   width: 24px;
@@ -191,11 +196,10 @@ body {
     padding: 2px 7px;
     font-weight: bold;
     font-size: 14px;
-    top: 33px;
-    right: 45px;
   }
 
   #cart {
-    width: 50px;
+    width: 60px;
+    padding-right: 5px;
   }
 }

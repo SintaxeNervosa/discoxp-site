@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./PaymentForm.scss";
 import { HeaderProfile } from "../../components/layout/HeaderProfile";
 
-export function PaymentForm() {
+export function PaymentForm({ setbuttonIsValid }) {
     const [paymentMethod, setPaymentMethod] = useState("");
+
+    useEffect(() => {
+        if (paymentMethod == "") { return }
+
+        setbuttonIsValid(true);
+    }, [paymentMethod]);
 
     return (
         <>

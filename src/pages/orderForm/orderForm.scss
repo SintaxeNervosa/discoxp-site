@@ -1,6 +1,8 @@
 .order {
+    display: flex;
+    align-items: flex-start;
     gap: 40px;
-    padding: 90px 40px 80px;
+    padding: 120px 90px 40px 80px;
 
     .back-icon {
         margin-top: 20px;
@@ -17,7 +19,7 @@
         padding: 2rem;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
+        min-width: 750px;
         h2 {
             font-size: 1.6rem;
             font-weight: 700;

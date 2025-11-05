@@ -11,7 +11,6 @@ export const addProductInCart = async (id) => {
     const responseProductFindById = await findProductCartById(id);
     
     if (responseProductFindById != undefined) {
-        console.log("caiu aqui!");
         await putProductQuantity(id, responseProductFindById.quantity + 1);
         return;
     };
@@ -46,12 +45,10 @@ export const putProductQuantity = async (id, newQuantity) => {
 
 export const findProductCartById = async (id) => {
     return await db.cart.get(id);
-
 }
 
 export const deleleItem = async (id) => {
     const response = db.cart.delete(id);
-    console.log(response);
 }
 
 export const findAllProductsByCart = async () => {
@@ -100,4 +97,4 @@ export const convertFilesToFormData = async () => {
 
 export const remove = (name) => {
 
-}
+}   

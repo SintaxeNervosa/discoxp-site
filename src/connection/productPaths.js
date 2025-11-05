@@ -100,6 +100,7 @@ export const getImage = async (id) => {
         throw error;
     }
 };
+
 //Esse método COM UMA imagem deu certo 
 export const getImageFile = async (id) => {
     // eslint-disable-next-line no-useless-catch
@@ -108,6 +109,7 @@ export const getImageFile = async (id) => {
             responseType: "arraybuffer"
         });
 
+        console.log(bufferResponse.data);
         const blob = new Blob([bufferResponse.data], { type: "image/jpeg" });
         const url = URL.createObjectURL(blob);
         return url;

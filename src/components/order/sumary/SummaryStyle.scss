@@ -7,7 +7,7 @@
     border-radius: 12px;
     max-height: 100%;
 
-    > h1 {
+    >h1 {
         font-size: 25px;
     }
 
@@ -51,7 +51,7 @@
         }
     }
 
-    > button {
+    >button {
         background-color: #EB8F25;
         padding: 10px 20px;
         border: none;
@@ -71,4 +71,7 @@
         transform: scale(1);
     }
 
+    button:disabled {
+        background-color: rgb(103, 103, 103);
+    }
 }

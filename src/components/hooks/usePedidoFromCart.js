@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { findAllProductsByCart } from '../../config/dexie.js';
 
-export function usePedidoFromCart(){
-    const [produtos, setProdutos] = useState([]); 
+export function usePedidoFromCart() {
+    const [produtos, setProdutos] = useState([]);
     const [error, setError] = useState(null);
+    const [total, setTotal] = useState(0);
 
     async function carregarProdutosDoCarrinho() {
         try {
@@ -16,7 +17,7 @@ export function usePedidoFromCart(){
                 imagem: item.file,
                 quantidade: item.quantity || item.quantidade || item.qtd
             }));
-            
+
             console.log("Produtos do carrinho:", produtosFormatados);
             setProdutos(produtosFormatados);
         } catch (error) {
@@ -27,9 +28,19 @@ export function usePedidoFromCart(){
 
     // Calcular total do pedido
     const calcularTotal = () => {
-        return produtos.reduce((total, produto) => {
-            return total + (produto.preco * produto.quantidade);
-        }, 0);
+        // return produtos.reduce((total, produto) => {
+
+        //     let result = total + (produto.preco * produto.quantidade);
+        //     console.log(result);
+        //     return;
+        // }, 0);
+
+        let teste = 0;
+        produtos.map((produto) => {
+            teste += produto.preco * produto.quantidade;
+        });
+
+        return teste;
     };
 
     useEffect(() => {
@@ -37,7 +48,7 @@ export function usePedidoFromCart(){
     }, []);
 
     return {
-        produtos, 
+        produtos,
         calcularTotal,
         recarregar: carregarProdutosDoCarrinho,
         error

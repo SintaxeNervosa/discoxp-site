@@ -1,0 +1,126 @@
+.orders-section {
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #222;
+  }
+
+  .order-card {
+    background: #fff;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      border-color: #ffa726;
+    }
+
+    &.open {
+      border-color: #2196f3;
+    }
+
+    .order-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      .order-id {
+        font-weight: 600;
+        color: #444;
+      }
+
+      .order-date {
+        color: #555;
+      }
+
+      .order-status {
+        color: #ff9800;
+        font-weight: 600;
+      }
+
+      .order-price {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .details-btn {
+        background: #fff7e6;
+        border: 1px solid #ff9800;
+        color: #ff9800;
+        border-radius: 30px;
+        padding: 6px 14px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .arrow {
+          font-size: 1.2rem;
+          line-height: 1;
+        }
+
+        &:hover {
+          background: #ff9800;
+          color: #fff;
+        }
+      }
+    }
+
+    .order-details {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 15px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+      animation: fadeIn 0.3s ease-in-out;
+
+      img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .order-info {
+        .product-name {
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 5px;
+        }
+
+        .product-qty {
+          color: #666;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

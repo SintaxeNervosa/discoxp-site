@@ -1,13 +1,14 @@
 import "./orderForm.scss";
 import { HeaderProfile } from "../../components/layout/HeaderProfile";
 import { Address } from "../../components/profile/address";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddAddress } from "../../components/profile/addAddress";
 import PaymentForm from "../../components/order/PaymentForm";
 import Summary from "../../components/order/sumary/summary";
 
 function OrderForm() {
     const [showForm, setShowForm] = useState(false);
+    const [buttonIsValid, setbuttonIsValid] = useState(false);
 
     return (
         <>
@@ -42,9 +43,9 @@ function OrderForm() {
                             Ir para pagamento
                         </button>
                     </div>
-                    <PaymentForm />
+                    <PaymentForm setbuttonIsValid={setbuttonIsValid} />
                 </section>
-                <Summary />
+                <Summary buttonIsValid={buttonIsValid}/>
             </main>
         </>
 

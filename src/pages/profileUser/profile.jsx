@@ -1,17 +1,26 @@
 import "./profile.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeaderProfile } from "../../components/layout/HeaderProfile";
 import { ContainerProfile } from "../../components/profile/containerProfile";
 import { InfoProfile } from "../../components/profile/infoProfile";
 import { FormProfile } from "../../components/profile/formProfile";
 import { Address } from "../../components/profile/address";
 import { AddAddress } from "../../components/profile/addAddress";
+import { Orders } from "../../components/profile/orders";
 
 function Profile() {
     const [isEditing, setIsEditing] = useState(false);
     const [activeSection, setActiveSection] = useState("cadastro");
     const [showAddAddress, setShowAddAddress] = useState(false); 
+    const [username, setUsername] = useState("");
 
+
+    useEffect(() => {
+        let userData = JSON.parse(sessionStorage.getItem("user-data"));
+        let firstName = userData.username.split(" ")[0];
+        
+        setUsername(firstName);
+    })
 
     function handleEditClick() {
         setIsEditing(true);
@@ -33,7 +42,7 @@ function Profile() {
                     </div>
                     <div className="nameUser">
                         <img src="/img/user.png" alt="user" className="user-icon" />
-                        <span>Olá, Alisson</span>
+                        <span>Olá, {username}</span>
                     </div>
                 </div>
 
@@ -64,7 +73,9 @@ function Profile() {
                             )
                         )}
                     </div>
-
+                         {activeSection === "pedidos" && (
+                            <Orders />
+                        )}
                     {/* <Address /> */}
 
                     {/* <AddAddress /> */}

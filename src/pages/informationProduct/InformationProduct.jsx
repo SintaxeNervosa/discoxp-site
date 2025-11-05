@@ -62,15 +62,7 @@ function InformationProduct() {
 
         setImagens([...files]);
     }
-    <p>
-        <Rating
-            initialValue={2}
-            size={40}
-            fillColor="gold"
-            readonly
-            allowFraction
-        />
-    </p>
+
     function mostrarImagem(file) {
         if (file instanceof File) {
             return URL.createObjectURL(file);
@@ -102,27 +94,29 @@ function InformationProduct() {
                         <section className="thumbnails">
                             <div className="product-photo">
                                 {images.length > 0 ? (
-                                    <Swiper
-                                        spaceBetween={10}
-                                        navigation={true}
-                                        pagination={{ clickable: true }}
-                                        thumbs={{ swiper: thumbsSwiper }}
-                                        modules={[Navigation, Pagination, Thumbs]}
-                                        className="main-swiper"
-                                        initialSlide={0}// Começa [0] das imagens
-                                    >
-                                        {images.map((image, index) => (
-                                            <SwiperSlide key={index}>
-                                                <div className="slide-content">
-                                                    <img
-                                                        src={mostrarImagem(image)}
-                                                        alt={`Imagem ${index + 1}`}
-                                                        className="main-image"
-                                                    />
-                                                </div>
-                                            </SwiperSlide>
-                                        ))}
-                                    </Swiper>
+                                    <div className="swiper-container">
+                                        <Swiper
+                                            spaceBetween={10}
+                                            navigation={true}
+                                            pagination={{ clickable: true }}
+                                            thumbs={{ swiper: thumbsSwiper }}
+                                            modules={[Navigation, Pagination, Thumbs]}
+                                            className="main-swiper"
+                                            initialSlide={0}
+                                        >
+                                            {images.map((image, index) => (
+                                                <SwiperSlide key={index}>
+                                                    <div className="slide-content">
+                                                        <img
+                                                            src={mostrarImagem(image)}
+                                                            alt={`Imagem ${index + 1}`}
+                                                            className="main-image"
+                                                        />
+                                                    </div>
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
+                                    </div>
                                 ) : (
                                     <p>carregando setImagens...</p>
                                 )}
@@ -130,6 +124,15 @@ function InformationProduct() {
 
                             <div className="thumbnails-information">
                                 <h1>{product.name}</h1>
+                                <p>
+                                    <Rating
+                                        initialValue={product.evaluation}
+                                        size={40}
+                                        fillColor="gold"
+                                        readonly
+                                        allowFraction
+                                    />
+                                </p>
                                 <h2>
                                     {product.price?.toLocaleString("pt-BR", {
                                         style: "currency",
@@ -143,6 +146,11 @@ function InformationProduct() {
                                     <button className="cart" onClick={() => addInCart()}>Adicionar ao carrinho</button>
                                 </div>
                             </div>
+                        </section>
+
+                        <section className="description">
+                            <h3>Descrição do produto</h3>
+                            <p>{product.description}</p>
                         </section>
 
                         <motion.section
@@ -184,10 +192,7 @@ function InformationProduct() {
                             </div>
                         </motion.section>
 
-                        <section className="description">
-                            <h3>Descrição do produto</h3>
-                            <p>{product.description}</p>
-                        </section>
+
                     </section>
                 </div>
             </main>

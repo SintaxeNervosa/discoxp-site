@@ -36,13 +36,20 @@
           justify-content: center;
           position: relative;
 
-          .main-swiper {
+          .swiper-container{
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            overflow: hidden; 
+            position: relative;
+            isolation: isolate;
+
+            .main-swiper {
             width: 100%;
             max-width: 500px;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          
 
             .swiper-slide {
               display: flex;
@@ -145,6 +152,7 @@
               content: "🔄 ";
               margin-right: 0.5rem;
             }
+          }
           }
         }
 

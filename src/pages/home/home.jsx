@@ -2,6 +2,7 @@ import "./home.scss";
 import { lazy, Suspense, useEffect, useState } from "react";
 import HomeEfets from "../../components/layout/HomeEfeets";
 import { Header } from "../../components/layout/Header";
+import { useNavigate } from "react-router-dom";
 
 //Loaders dos componentes pesados
 const BestSellersSection = lazy(() =>
@@ -45,7 +46,15 @@ const SetionLoander = () => (
 function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    const redirectOrder = sessionStorage.getItem('redirectOrder');
+
+    if (redirectOrder != null) {
+      navigate("/order")
+    }
+
     const timer = setTimeout(() => {
       setIsLoading(true);
     }, 1000); // Simula um carregamento de 2 segundos
@@ -61,31 +70,31 @@ function Home() {
           <div className="gallery">
             <div className="row row-down">
               <Optimizador src="/img/capa/Black_ops_2_cover.jpg" alt="capa01" />
-              <Optimizador src="/img/capa/CrashTwinsanityAmerican.png"alt="capa02"/>
+              <Optimizador src="/img/capa/CrashTwinsanityAmerican.png" alt="capa02" />
               <Optimizador src="/img/capa/Elden_Ring_capa.jpg" alt="capa03" />
               <Optimizador src="/img/capa/fifa25.jpeg" alt="capa04" />
               <Optimizador src="/img/capa/Final_Fantasy_7_Rebirth_capa.png" alt="capa05"
               />
               <Optimizador src="/img/capa/forza-horizon-1.jpg" alt="capa06" />
               <Optimizador src="/img/capa/Black_ops_2_cover.jpg" alt="capa01" />
-              <Optimizador src="/img/capa/CrashTwinsanityAmerican.png" alt="capa02"/>
+              <Optimizador src="/img/capa/CrashTwinsanityAmerican.png" alt="capa02" />
               <Optimizador src="/img/capa/Elden_Ring_capa.jpg" alt="capa03" />
               <Optimizador src="/img/capa/fifa25.jpeg" alt="capa04" />
-              <Optimizador src="/img/capa/Final_Fantasy_7_Rebirth_capa.png"alt="capa05"/>
+              <Optimizador src="/img/capa/Final_Fantasy_7_Rebirth_capa.png" alt="capa05" />
               <Optimizador src="/img/capa/forza-horizon-1.jpg" alt="capa06" />
             </div>
 
             <div className="row row-up">
-              <Optimizador src="/img/capa/Capa_de_Forza_Horizon_5.jpg" alt="capa07"/>
+              <Optimizador src="/img/capa/Capa_de_Forza_Horizon_5.jpg" alt="capa07" />
               <Optimizador src="/img/capa/God_of_War_2_capa.png" alt="capa08" />
-              <Optimizador src="/img/capa/Gran_Turismo_2009_capa.png" alt="capa09"/>
-              <Optimizador src="/img/capa/Halo-_Reach_box_art.jpg" alt="capa10"/>
+              <Optimizador src="/img/capa/Gran_Turismo_2009_capa.png" alt="capa09" />
+              <Optimizador src="/img/capa/Halo-_Reach_box_art.jpg" alt="capa10" />
               <Optimizador src="/img/capa/Legend_of_Zelda.png" alt="capa11" />
               <Optimizador src="/img/capa/Minecraft_capa.png" alt="capa12" />
-              <Optimizador src="/img/capa/Capa_de_Forza_Horizon_5.jpg"alt="capa07"/>
+              <Optimizador src="/img/capa/Capa_de_Forza_Horizon_5.jpg" alt="capa07" />
               <Optimizador src="/img/capa/God_of_War_2_capa.png" alt="capa08" />
-              <Optimizador src="/img/capa/Gran_Turismo_2009_capa.png"alt="capa09"/>
-              <Optimizador src="/img/capa/Halo-_Reach_box_art.jpg"alt="capa10"/>
+              <Optimizador src="/img/capa/Gran_Turismo_2009_capa.png" alt="capa09" />
+              <Optimizador src="/img/capa/Halo-_Reach_box_art.jpg" alt="capa10" />
               <Optimizador src="/img/capa/Legend_of_Zelda.png" alt="capa11" />
               <Optimizador src="/img/capa/Minecraft_capa.png" alt="capa12" />
             </div>

@@ -9,9 +9,10 @@ import schedule from '../../assets/images/cart/schedule.svg';
 import loader from '../../assets/images/cart/Rolling@1x-1.0s-200px-200px.svg';
 import axios from 'axios';
 import { AnimatePresence, motion } from 'motion/react';
-import { addProductInCart, deleleItem, findAllProductsByCart } from '../../config/dexie.js';
+import { deleleItem, findAllProductsByCart } from '../../config/dexie.js';
 import EmptyCart from './empty/EmptyCart.jsx';
 import { useCart } from '../../context/CartContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
     const [zipCode, setZipCode] = useState("");
@@ -23,6 +24,8 @@ export default function Cart() {
     const [delivery, setDelivery] = useState(0);
 
     const { visibilityCart, closeCart } = useCart();
+
+    const navigate = useNavigate();
 
     const zipCodeSearch = async (e) => {
         if (e !== undefined && e.key != 'Enter') {
@@ -60,7 +63,6 @@ export default function Cart() {
         await deleleItem(id);
     }
 
-
     function totalCalculate() {
         let t = 0;
         products.forEach((p) => {
@@ -68,6 +70,19 @@ export default function Cart() {
         });
 
         setTotal(t + Number.parseFloat(delivery));
+    }
+
+    const redirectOrderOrLogin = () => {
+        const userData = sessionStorage.getItem("user-data");
+        console.log(userData);
+        
+        if (userData == null) {
+            sessionStorage.setItem("redirectOrder", true)
+            navigate('/login')
+            return;
+        }
+        console.log("AQUI!")
+        navigate('/order')
     }
 
     useEffect(() => {
@@ -188,7 +203,7 @@ export default function Cart() {
                                                 <p>Total</p>
                                                 <p>R$ {total}</p>
                                             </div>
-                                            <button id="continue">Continuar</button>
+                                            <button onClick={() => redirectOrderOrLogin()} id="continue">Continuar</button>
                                         </div>
                                     </div>
                                 </>

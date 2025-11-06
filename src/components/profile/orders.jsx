@@ -11,22 +11,30 @@ export function Orders() {
     const userFromSessionToJson = JSON.parse(userFromSession);
 
     const response = await getAllOrdersByUser(userFromSessionToJson.id);
-
+    console.log(response.data);
     if (response.status != 200) { return; }
 
     let tempOrder = []
     for (let order of response.data) {
-      tempOrder.push({order, showDetail: false})
+      tempOrder.push({ order, showDetail: false })
     }
 
-    console.log(tempOrder);
-    setOpenOrder(tempOrder);
+    setOrders(tempOrder);
+  }
+
+
+  const renameOrderStatus = (status) => {
+    switch(status) {
+      case "AWAITING_PAYMENT":
+        return "Aguardando pagamento"
+      default: "Ocorreu um erro"
+    }
   }
 
   useEffect(() => {
     loadOrders();
   }, [])
-  
+
   useEffect(() => {
     console.log(orders);
   }, [orders])
@@ -38,27 +46,27 @@ export function Orders() {
   return (
     <section className="orders-section">
       <h2>Pedidos</h2>
-      {console.log(orders)}
-      {orders.data.map((order) => (
+      {orders.map((order) => (
         <div
           key={order.orderId}
           className={`order-card open`}
           onClick={() => toggleOrder(order.id)}
         >
+          {console.log(order.order.totalPrice)}
           <div className="order-header">
-            <span className="order-id">Pedido: {order.orderId}</span>
-            <span className="order-date">{order.orderDate}</span>
-            <span className="order-status">{order.status}</span>
+            <span className="order-id">Pedido: {order.order.orderId}</span>
+            <span className="order-date">{order.order.orderDate}</span>
+            <span className="order-status">{renameOrderStatus(order.order.status)}</span>
             <span className="order-price">
-              R$ {order.totalPrice.toFixed(2).replace(".", ",")}
+              R$ {order.order.totalPrice}
             </span>
             <button className="details-btn">
               Ver detalhes <span className="arrow">›</span>
             </button>
           </div>
 
-          {/*openOrder === order.orderId &&*/ (
-            order.orderItemResponseDTOList.map((product) =>
+          {!order.showDetail && (
+            order.order.orderItemResponseDTOList.map((product) =>
               <div key={product.productId} className="order-details">
                 <img src={`data:image/jpeg;base64,${product.imageFile}`} alt={product.name} />
                 <div className="order-info">

@@ -18,6 +18,15 @@ export const getAllAddressByUserId = async (id) => {
     }
 }
 
+export const getFavoriteAddressByUserId = async (id) => {
+    try {
+        const response = await api.get(`/delivery-address/favorite/${id}`);
+        return response;
+    } catch (error) {
+        return error;
+    }
+}
+
 export const changeFavoriteAddres = async (obj) => {
     try {
         const response = await api.put(`/delivery-address`, obj);

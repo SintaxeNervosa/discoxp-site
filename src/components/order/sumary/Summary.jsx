@@ -1,5 +1,4 @@
 import './SummaryStyle.scss';
-import zelda from "../../../assets/images/cart/zelda.svg";
 import { usePedidoFromCart } from '../../hooks/usePedidoFromCart';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +15,6 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
     const [total, setTotal] = useState(0);
     const [valid, setValid] = useState(false);
 
-
     useEffect(() => {
         setSubTotal(calcularTotal());
     }, []);
@@ -27,6 +25,8 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
 
 
     const contianua = () => {
+        console.log(selectedAddress);
+        console.log(paymentMethod);
         navigate("/finalization", {
             state: {
                 selectedAddress: selectedAddress,

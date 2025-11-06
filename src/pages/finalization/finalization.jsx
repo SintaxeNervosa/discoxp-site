@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { postOrder } from "../../connection/OrderPaths";
 import { toast, ToastContainer } from "react-toastify";
 import { useLocation } from 'react-router-dom';
+import { getFavoriteAddressByUserId } from '../../connection/AddressPath';
 
 Modal.setAppElement('#root')
 
@@ -17,11 +18,15 @@ export default function Finalization() {
         recarregar
     } = usePedidoFromCart();
 
+    const [address, setAddress] = useState();
+
     const location = useLocation()
-    const { selectAddress, paymentMethod } = location.state || {}
+    const { paymentMethod } = location.state || {}
+
+    const userData = sessionStorage.getItem("user-data");
 
     console.log(location.state)
-    console.log("Enderoço: ", selectAddress + " Pagamento: ", paymentMethod)
+    console.log("Pagamento: ", paymentMethod)
 
     const [showPopup, setShowPopup] = useState(false);
     const [showConfetti, setShowConfetti] = useState(false)
@@ -32,26 +37,26 @@ export default function Finalization() {
     const totalComFrete = calcularTotal() + frete;
 
     const whenFinalizationBuy = async () => {
-       try {
-        const resp = await fzrPedido();
-        
-        setOrderNumber(resp.id)
-        setOrderTotal(resp.total)
+        try {
+            const resp = await fzrPedido();
 
-        setShowConfetti(true)
-        setShowPopup(true)
+            setOrderNumber(resp.id)
+            setOrderTotal(resp.total)
 
-        setTimeout(() => {
-            setShowPopup(false)
-        }, 3000)
+            setShowConfetti(true)
+            setShowPopup(true)
 
-        setTimeout(() => {
-            setShowConfetti(false)
-        }, 5000);
-       } catch (error) {
-         toast.error("Erro ao finalizar a compra");
-        console.error(error)
-       }
+            setTimeout(() => {
+                setShowPopup(false)
+            }, 3000)
+
+            setTimeout(() => {
+                setShowConfetti(false)
+            }, 5000);
+        } catch (error) {
+            toast.error("Erro ao finalizar a compra");
+            console.error(error)
+        }
     }
 
     const closePopup = () => {
@@ -60,12 +65,11 @@ export default function Finalization() {
     }
 
     async function fzrPedido() {
-        const userData = sessionStorage.getItem("user-data");
-    
+        // tirei o user data daqui 
         if (!userData) {
-        
-        toast.warning("Usuário não logado");
-        throw new Error("Usuário não logado");
+
+            toast.warning("Usuário não logado");
+            throw new Error("Usuário não logado");
         }
 
         const u = JSON.parse(userData);
@@ -82,7 +86,7 @@ export default function Finalization() {
             quantity: produto.quantidade.toString()
         }))
 
-         console.log('Enviando pedido:', {
+        console.log('Enviando pedido:', {
             userId: u.id,
             paymentMethod: "PIX", //calm0
             freight: frete.toString(),
@@ -98,32 +102,44 @@ export default function Finalization() {
         return response;
     }
 
+    const loadAddress = async () => {
+        const userDataToJson = JSON.parse(userData);
+
+        const response = await getFavoriteAddressByUserId(userDataToJson.id);
+        const data = response.data;
+        setAddress(`${data.street} ${data.neighborhood} - ${data.uf} ${data.cep}`)
+    }
+
+    useEffect(() => {
+        loadAddress();
+    }, []);
+
     return (
         <>
-         <ToastContainer />
-        {/*Confeeti */}
-        {showConfetti && (
-            <Confetti 
-                width={window.innerWidth}
-                height={window.innerHeight}
-                recycle={false}
-                numberOfPieces={500}
-                gravity={0.3}
-            />
-        )}
-        {/*Modal Popup*/}
-        <Modal 
-            isOpen={showPopup}
-            onRequestClose={closePopup}
-            className='modal-popup'
-            closeTimeoutMS={300}
-            overlayClassName='modal-overlay'
-        >
-             <div className="modal-body">
+            <ToastContainer />
+            {/*Confeeti */}
+            {showConfetti && (
+                <Confetti
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    recycle={false}
+                    numberOfPieces={500}
+                    gravity={0.3}
+                />
+            )}
+            {/*Modal Popup*/}
+            <Modal
+                isOpen={showPopup}
+                onRequestClose={closePopup}
+                className='modal-popup'
+                closeTimeoutMS={300}
+                overlayClassName='modal-overlay'
+            >
+                <div className="modal-body">
                     <div className="modal-icon">🎮</div>
                     <h2>Compra Finalizada com Sucesso!</h2>
 
-                     {orderNumber && (
+                    {orderNumber && (
                         <div className="order-info">
                             <p><strong>Nº do Pedido: #{orderNumber}</strong></p>
                             {orderTotal && (
@@ -133,8 +149,8 @@ export default function Finalization() {
                     )}
 
                     <p>Obrigado por comprar na <strong>DISCO XP</strong>!</p>
-            </div>
-        </Modal>
+                </div>
+            </Modal>
 
             <Header />
             <div className='finalizacao-pedido'>
@@ -165,12 +181,10 @@ export default function Finalization() {
 
                     <aside>
                         <h5>Endereço de entrega</h5>
-                        <p>Av. Eng. Eusébio Stevaux 823<br />
-                        Santo Amaro - São Paulo<br />
-                        SP 04696-000</p>
-                        
+                        <p>{address}</p>
+
                         <h5>Forma de pagamento</h5>
-                        <p><strong>Cartão de crédito</strong></p>
+                        <p><strong>{paymentMethod}</strong></p>
 
                         <div className='valores'>
                             <div className='linha-valor'>

@@ -5,7 +5,7 @@ import heartFavoriteAddress from '../../assets/images/user/profile/address/heart
 import notHeartFavoriteAddress from '../../assets/images/user/profile/address/heart-not-favorite.svg';
 import OrderForm from "../../pages/orderForm/orderForm";
 
-export function Address({ onAddAddress, changeVisibityForm, ParentElement, showForm, onAddAddressSelect }) {
+export function Address({ setSelectAddress, changeVisibityForm, ParentElement, showForm, onAddAddressSelect }) {
     const [addressList, setAddressList] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null)
     const userFromSession = sessionStorage.getItem("user-data");
@@ -45,8 +45,8 @@ export function Address({ onAddAddress, changeVisibityForm, ParentElement, showF
 
     const enderecoFinal = (address) => {
         setSelectedAddress(address)
-        if (onAddAddress) {
-            onAddAddress(address)
+        if (setSelectAddress) {
+            setSelectAddress(address)
         }
     }
 

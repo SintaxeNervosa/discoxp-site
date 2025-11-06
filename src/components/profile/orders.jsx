@@ -13,12 +13,23 @@ export function Orders() {
     const response = await getAllOrdersByUser(userFromSessionToJson.id);
 
     if (response.status != 200) { return; }
-    setOrders(response.data);
+
+    let tempOrder = []
+    for (let order of response.data) {
+      tempOrder.push({order, showDetail: false})
+    }
+
+    console.log(tempOrder);
+    setOpenOrder(tempOrder);
   }
 
   useEffect(() => {
     loadOrders();
   }, [])
+  
+  useEffect(() => {
+    console.log(orders);
+  }, [orders])
 
   const toggleOrder = (id) => {
     setOpenOrder(openOrder === id ? null : id);
@@ -27,8 +38,8 @@ export function Orders() {
   return (
     <section className="orders-section">
       <h2>Pedidos</h2>
-
-      {orders.map((order) => (
+      {console.log(orders)}
+      {orders.data.map((order) => (
         <div
           key={order.orderId}
           className={`order-card open`}
@@ -45,7 +56,6 @@ export function Orders() {
               Ver detalhes <span className="arrow">›</span>
             </button>
           </div>
-
 
           {/*openOrder === order.orderId &&*/ (
             order.orderItemResponseDTOList.map((product) =>

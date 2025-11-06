@@ -3,7 +3,10 @@ import { Header } from "../../components/layout/Header";
 import "./finalization.scss"
 import Modal from 'react-modal'
 import Confetti from 'react-confetti'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { postOrder } from "../../connection/OrderPaths";
+import { toast, ToastContainer } from "react-toastify";
+import { useLocation } from 'react-router-dom';
 
 Modal.setAppElement('#root')
 
@@ -14,12 +17,27 @@ export default function Finalization() {
         recarregar
     } = usePedidoFromCart();
 
+    const location = useLocation()
+    const { selectAddress, paymentMethod } = location.state || {}
+
+    console.log(location.state)
+    console.log("Enderoço: ", selectAddress + " Pagamento: ", paymentMethod)
+
     const [showPopup, setShowPopup] = useState(false);
     const [showConfetti, setShowConfetti] = useState(false)
-    const frete = 15.90;
+    const [orderNumber, setOrderNumber] = useState(null);
+    const [orderTotal, setOrderTotal] = useState(null);
+
+    const frete = Number(Math.floor(Math.random() * 16));
     const totalComFrete = calcularTotal() + frete;
 
-    const whenFinalizationBuy = () => {
+    const whenFinalizationBuy = async () => {
+       try {
+        const resp = await fzrPedido();
+        
+        setOrderNumber(resp.id)
+        setOrderTotal(resp.total)
+
         setShowConfetti(true)
         setShowPopup(true)
 
@@ -30,14 +48,59 @@ export default function Finalization() {
         setTimeout(() => {
             setShowConfetti(false)
         }, 5000);
+       } catch (error) {
+         toast.error("Erro ao finalizar a compra");
+        console.error(error)
+       }
     }
 
     const closePopup = () => {
+
         setShowPopup(false)
+    }
+
+    async function fzrPedido() {
+        const userData = sessionStorage.getItem("user-data");
+    
+        if (!userData) {
+        
+        toast.warning("Usuário não logado");
+        throw new Error("Usuário não logado");
+        }
+
+        const u = JSON.parse(userData);
+
+        console.log(u)
+        if (!u || !u.id || u === null) {
+            alert("fasdmjkfdsks")
+            toast.warning("Usuario não Logado")
+        }
+
+        //format for back
+        const productsForApi = produtos.map(produto => ({
+            productId: produto.id.toString(),
+            quantity: produto.quantidade.toString()
+        }))
+
+         console.log('Enviando pedido:', {
+            userId: u.id,
+            paymentMethod: "PIX", //calm0
+            freight: frete.toString(),
+            products: productsForApi
+        });
+
+        const response = await postOrder(
+            u.id,
+            "PIX",
+            frete,
+            productsForApi
+        )
+        return response;
     }
 
     return (
         <>
+         <ToastContainer />
         {/*Confeeti */}
         {showConfetti && (
             <Confetti 
@@ -59,6 +122,16 @@ export default function Finalization() {
              <div className="modal-body">
                     <div className="modal-icon">🎮</div>
                     <h2>Compra Finalizada com Sucesso!</h2>
+
+                     {orderNumber && (
+                        <div className="order-info">
+                            <p><strong>Nº do Pedido: #{orderNumber}</strong></p>
+                            {orderTotal && (
+                                <p><strong>Total: R$ {orderTotal.toFixed(2)}</strong></p>
+                            )}
+                        </div>
+                    )}
+
                     <p>Obrigado por comprar na <strong>DISCO XP</strong>!</p>
             </div>
         </Modal>
@@ -90,7 +163,6 @@ export default function Finalization() {
                         ))}
                     </div>
 
-                    {/* Lado direito - Resumo do pedido */}
                     <aside>
                         <h5>Endereço de entrega</h5>
                         <p>Av. Eng. Eusébio Stevaux 823<br />

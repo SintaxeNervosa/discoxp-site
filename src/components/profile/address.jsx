@@ -5,8 +5,9 @@ import heartFavoriteAddress from '../../assets/images/user/profile/address/heart
 import notHeartFavoriteAddress from '../../assets/images/user/profile/address/heart-not-favorite.svg';
 import OrderForm from "../../pages/orderForm/orderForm";
 
-export function Address({ onAddAddress, changeVisibityForm, ParentElement, showForm }){
+export function Address({ onAddAddress, changeVisibityForm, ParentElement, showForm, onAddAddressSelect }) {
     const [addressList, setAddressList] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(null)
     const userFromSession = sessionStorage.getItem("user-data");
 
     const loadAddress = async () => {
@@ -30,17 +31,24 @@ export function Address({ onAddAddress, changeVisibityForm, ParentElement, showF
         if (response.status == 200) { loadAddress(); }
     }
 
-    const onAddAddressOrChangeVisibityForm = () =>{
-        console.log (ParentElement);
-        if(ParentElement == "OrderForm"){
+    const onAddAddressOrChangeVisibityForm = () => {
+        console.log(ParentElement);
+        if (ParentElement == "OrderForm") {
             changeVisibityForm()
             return;
-        }onAddAddress();
+        } onAddAddress();
     }
 
     useEffect(() => {
         loadAddress();
     }, [showForm]);
+
+    const enderecoFinal = (address) => {
+        setSelectedAddress(address)
+        if (onAddAddress) {
+            onAddAddress(address)
+        }
+    }
 
     return (
         <>
@@ -55,10 +63,16 @@ export function Address({ onAddAddress, changeVisibityForm, ParentElement, showF
 
                 <div className="enderecos__lista">
                     {addressList.map((address) => (
-                        <div key={address.id} className="endereco-card">
+                        <div key={address.id}
+                            className="endereco-card"
+                            onClick={() => enderecoFinal(address)}
+                            >
                             <img
                                 src={address.isFavorite ? heartFavoriteAddress : notHeartFavoriteAddress}
-                                onClick={() => changeFavoriteAddress(address.id)}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    changeFavoriteAddress(address.id)
+                                }}
                             />
                             <p>{address.street}</p>
                             <p>{address.neighborhood}</p>

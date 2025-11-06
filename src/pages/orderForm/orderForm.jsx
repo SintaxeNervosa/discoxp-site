@@ -4,11 +4,13 @@ import { Address } from "../../components/profile/address";
 import { useEffect, useState } from "react";
 import { AddAddress } from "../../components/profile/addAddress";
 import PaymentForm from "../../components/order/PaymentForm";
-import Summary from "../../components/order/sumary/summary";
+import Summary from "../../components/order/sumary/Summary";
 
 function OrderForm() {
     const [showForm, setShowForm] = useState(false);
     const [buttonIsValid, setbuttonIsValid] = useState(false);
+    const [selectAddress, setSelectAddress] = useState(null)
+    const [paymentMethod, setPaymentMethod] = useState("")
 
     return (
         <>
@@ -29,6 +31,7 @@ function OrderForm() {
                             showForm={showForm}
                             changeVisibityForm={() => setShowForm(!showForm)}
                             ParentElement={"OrderForm"}
+                            onAddAddress={setSelectAddress}
                         />
 
                         <div className="formAddress">
@@ -43,9 +46,14 @@ function OrderForm() {
                             Ir para pagamento
                         </button>
                     </div>
-                    <PaymentForm setbuttonIsValid={setbuttonIsValid} />
+                    <PaymentForm 
+                        setbuttonIsValid={setbuttonIsValid} 
+                        PaymentMethod={setPaymentMethod}
+                        />
                 </section>
-                <Summary buttonIsValid={buttonIsValid}/>
+                <Summary buttonIsValid={"buttonIsValid"}
+                selectedAddress={selectAddress}
+                paymentMethod={paymentMethod}/>
             </main>
         </>
 

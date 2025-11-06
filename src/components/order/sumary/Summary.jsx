@@ -4,7 +4,7 @@ import { usePedidoFromCart } from '../../hooks/usePedidoFromCart';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Summary({ buttonIsValid }) {
+export default function Summary({ buttonIsValid, selectedAddress, paymentMethod }) {
     const {
         produtos,
         calcularTotal,
@@ -25,6 +25,15 @@ export default function Summary({ buttonIsValid }) {
         setValid(buttonIsValid);
     }, [buttonIsValid]);
 
+
+    const contianua = () => {
+        navigate("/finalization", {
+            state: {
+                selectedAddress: selectedAddress,
+                paymentMethod: paymentMethod
+            }
+        })
+    }
 
     return (
         <div className="container-summary">
@@ -54,7 +63,7 @@ export default function Summary({ buttonIsValid }) {
             </div>
             <button
                 disabled={!valid}
-                onClick={(() => navigate("/finalization"))}>Continuar compra</button>
+                onClick={contianua}>Continuar compra</button>
         </div>
     )
 }

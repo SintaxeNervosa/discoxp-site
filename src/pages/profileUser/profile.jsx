@@ -17,7 +17,7 @@ function Profile() {
 
     useEffect(() => {
         let userData = JSON.parse(sessionStorage.getItem("user-data"));
-        let firstName = userData.username.split(" ")[0];
+        let firstName = userData.username?.split(" ")[0];
         
         setUsername(firstName);
     })

@@ -55,6 +55,10 @@ export const findAllProductsByCart = async () => {
     return await db.cart.toArray();
 }
 
+export const removeItens = () => {
+    db.cart.clear()
+}
+
 // image
 export const add = async (files) => {
     files.forEach(async file => {

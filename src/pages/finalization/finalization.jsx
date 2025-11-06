@@ -8,6 +8,8 @@ import { postOrder } from "../../connection/OrderPaths";
 import { toast, ToastContainer } from "react-toastify";
 import { useLocation } from 'react-router-dom';
 import { getFavoriteAddressByUserId } from '../../connection/AddressPath';
+import { useNavigate } from 'react-router-dom';
+import { removeItens } from '../../config/dexie';
 
 Modal.setAppElement('#root')
 
@@ -17,6 +19,7 @@ export default function Finalization() {
         calcularTotal,
         recarregar
     } = usePedidoFromCart();
+    const navigate = useNavigate()
 
     const [address, setAddress] = useState();
 
@@ -53,6 +56,11 @@ export default function Finalization() {
             setTimeout(() => {
                 setShowConfetti(false)
             }, 5000);
+
+            setTimeout(async () => {
+            navigate('/home')
+            await removeItens()
+            }, 6000);
         } catch (error) {
             toast.error("Erro ao finalizar a compra");
             console.error(error)
@@ -76,7 +84,6 @@ export default function Finalization() {
 
         console.log(u)
         if (!u || !u.id || u === null) {
-            alert("fasdmjkfdsks")
             toast.warning("Usuario não Logado")
         }
 
@@ -92,6 +99,10 @@ export default function Finalization() {
             freight: frete.toString(),
             products: productsForApi
         });
+
+        if (productsForApi === null) {
+            toast.warning("Sem nenhum produto no carinho")
+        }
 
         const response = await postOrder(
             u.id,

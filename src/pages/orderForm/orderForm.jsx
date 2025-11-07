@@ -12,6 +12,10 @@ function OrderForm() {
     const [selectAddress, setSelectAddress] = useState(null)
     const [paymentMethod, setPaymentMethod] = useState("")
 
+    useEffect(() => {
+        sessionStorage.removeItem("redirectOrder")
+    }, [])
+
     return (
         <>
             <HeaderProfile />

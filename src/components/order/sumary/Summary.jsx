@@ -53,10 +53,6 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
                     <p>R$ {subTotal}</p>
                 </div>
                 <div>
-                    <p>Frete</p>
-                    <p>Grátis</p>
-                </div>
-                <div>
                     <p>Total</p>
                     <p>R$ {total}</p>
                 </div>

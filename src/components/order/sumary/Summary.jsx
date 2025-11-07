@@ -14,10 +14,25 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
     const [subTotal, setSubTotal] = useState();
     const [total, setTotal] = useState(0);
     const [valid, setValid] = useState(false);
+    const [frete, setFrete] = useState(0)
+
+    const calcularFrete = () => {
+        return Number(Math.floor(Math.random() * 16));
+    }
+
+        console.log("toatal: ", total)
+        console.log("Subtotal: ", subTotal)
 
     useEffect(() => {
-        setSubTotal(calcularTotal1());
-    }, []);
+        const subtotalCal = calcularTotal1()
+        const freteCal = calcularFrete()
+        const totalCal = subtotalCal + freteCal
+        
+        setSubTotal(subtotalCal)
+        setFrete(freteCal)
+        setTotal(totalCal)
+
+    }, [produtos, calcularTotal1]);
 
     useEffect(() => {
         setValid(buttonIsValid);
@@ -25,12 +40,17 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
 
 
     const contianua = () => {
-        console.log(selectedAddress);
-        console.log(paymentMethod);
+        console.log("Enviado para finalizar", {
+            selectedAddress,
+            paymentMethod,
+            frete
+        });
+        
         navigate("/finalization", {
             state: {
-                selectedAddress: selectedAddress,
-                paymentMethod: paymentMethod
+            selectedAddress: selectedAddress,
+            paymentMethod: paymentMethod,
+            frete: frete
             }
         })
     }
@@ -53,8 +73,12 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
                     <p>R$ {subTotal}</p>
                 </div>
                 <div>
+                    <p>Frete</p>
+                    <p>R$ {frete.toFixed(2)}</p>
+                </div>
+                <div>
                     <p>Total</p>
-                    <p>R$ {total}</p>
+                    <p>R$ {total.toFixed(2)}</p>
                 </div>
             </div>
             <button

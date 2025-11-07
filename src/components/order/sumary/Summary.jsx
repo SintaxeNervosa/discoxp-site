@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Summary({ buttonIsValid, selectedAddress, paymentMethod }) {
     const {
         produtos,
-        calcularTotal,
+        calcularTotal1,
         recarregar
     } = usePedidoFromCart();
 
@@ -16,7 +16,7 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
     const [valid, setValid] = useState(false);
 
     useEffect(() => {
-        setSubTotal(calcularTotal());
+        setSubTotal(calcularTotal1());
     }, []);
 
     useEffect(() => {

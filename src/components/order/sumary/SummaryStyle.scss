@@ -44,12 +44,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        div:nth-child(2) {
-            p:nth-child(2) {
-                color: rgb(0, 214, 0);
-            }
-        }
     }
 
     >button {
@@ -74,5 +68,8 @@
 
     button:disabled {
         background-color: rgb(103, 103, 103);
+        cursor: not-allowed;
+        opacity: 0.6;
+        transform: none;
     }
 }

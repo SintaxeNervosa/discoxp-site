@@ -51,7 +51,7 @@ function OrderForm() {
                         PaymentMethod={setPaymentMethod}
                         />
                 </section>
-                <Summary buttonIsValid={"buttonIsValid"}
+                <Summary buttonIsValid={buttonIsValid}
                 selectedAddress={selectAddress}
                 paymentMethod={paymentMethod}/>
             </main>

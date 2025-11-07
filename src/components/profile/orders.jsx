@@ -24,7 +24,7 @@ export function Orders() {
 
 
   const renameOrderStatus = (status) => {
-    switch(status) {
+    switch (status) {
       case "AWAITING_PAYMENT":
         return "Aguardando pagamento"
       default: "Ocorreu um erro"
@@ -40,7 +40,15 @@ export function Orders() {
   }, [orders])
 
   const toggleOrder = (id) => {
-    setOpenOrder(openOrder === id ? null : id);
+    let orderTemp = [...orders];
+
+    for (let i = 0; i < orderTemp.length; i++) {
+      if (orderTemp[i].order.orderId == id) {
+        orderTemp[i].showDetail = !orderTemp[i].showDetail; 
+      }
+    }
+
+    setOrders(orderTemp);
   };
 
   return (
@@ -50,7 +58,7 @@ export function Orders() {
         <div
           key={order.orderId}
           className={`order-card open`}
-          onClick={() => toggleOrder(order.id)}
+          onClick={() => toggleOrder(order.order.orderId)}
         >
           {console.log(order.order.totalPrice)}
           <div className="order-header">
@@ -65,7 +73,7 @@ export function Orders() {
             </button>
           </div>
 
-          {!order.showDetail && (
+          {order.showDetail && (
             order.order.orderItemResponseDTOList.map((product) =>
               <div key={product.productId} className="order-details">
                 <img src={`data:image/jpeg;base64,${product.imageFile}`} alt={product.name} />

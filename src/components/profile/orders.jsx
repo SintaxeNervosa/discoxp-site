@@ -22,7 +22,6 @@ export function Orders() {
     setOrders(tempOrder);
   }
 
-
   const renameOrderStatus = (status) => {
     switch (status) {
       case "AWAITING_PAYMENT":
@@ -36,7 +35,6 @@ export function Orders() {
   }, [])
 
   useEffect(() => {
-    console.log(orders);
   }, [orders])
 
   const toggleOrder = (id) => {

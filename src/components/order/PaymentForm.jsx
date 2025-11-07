@@ -38,7 +38,7 @@ export function PaymentForm({ setbuttonIsValid, PaymentMethod }) {
             setbuttonIsValid(false);
             return;
         }
-        if (paymentMethod === "pix") {
+        if (paymentMethod === "PIX") {
             setbuttonIsValid(true);
             return;
         }
@@ -55,7 +55,6 @@ export function PaymentForm({ setbuttonIsValid, PaymentMethod }) {
     return (
         <>
             <HeaderProfile />
-
             <section className="payment-container">
                 <h2>Pagamento</h2>
 
@@ -64,8 +63,8 @@ export function PaymentForm({ setbuttonIsValid, PaymentMethod }) {
                         <input
                             type="radio"
                             name="payment"
-                            value="pix"
-                            checked={paymentMethod === "pix"}
+                            value="PIX"
+                            checked={paymentMethod === "PIX"}
                             onChange={(e) => setPaymentMethod(e.target.value)}
                         />
                         <span className="checkmark"></span>
@@ -85,7 +84,7 @@ export function PaymentForm({ setbuttonIsValid, PaymentMethod }) {
                     </label>
                 </div>
 
-                {paymentMethod === "pix" && (
+                {paymentMethod === "PIX" && (
                     <div className="pix-area">
                         <img src="/img/Pix.png" alt="Pix QR Code" />
                     </div>

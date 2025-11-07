@@ -135,6 +135,9 @@ export default function Finalization() {
         if(s === "card"){
             return "CREDIT_CARD"
         }
+        if(s == "PIX") {
+            return "PIX";
+        }
     }
 
     return (

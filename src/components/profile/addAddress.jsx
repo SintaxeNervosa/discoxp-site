@@ -59,7 +59,7 @@ export function AddAddress({ onBack, changeVisibityForm }) {
 
             toast.success("Endereço cadastrado com sucesso");
 
-            changeVisibityForm;
+            changeVisibityForm();
 
             setTimeout(() => {
                 onBack();

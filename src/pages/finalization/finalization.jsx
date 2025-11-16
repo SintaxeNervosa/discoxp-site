@@ -28,15 +28,10 @@ export default function Finalization() {
 
     const userData = sessionStorage.getItem("user-data");
 
-    console.log(location.state)
-    console.log("Pagamento: ", paymentMethod)
-    console.log("frete: ",frete)
-
     const [showPopup, setShowPopup] = useState(false);
     const [showConfetti, setShowConfetti] = useState(false)
     const [orderNumber, setOrderNumber] = useState(null);
     const [orderTotal, setOrderTotal] = useState(null);
-
    
     const totalComFrete = calcularTotal1() + (frete || 0);
 
@@ -105,12 +100,21 @@ export default function Finalization() {
             toast.warning("Sem nenhum produto no carinho")
         }
 
+        const favoriteDeliveryAddress = await getFavoriteAddressByUserId(u.id);
+        
+        if(favoriteDeliveryAddress.status != 200) {
+            toast.error("Ocorreu um erro inesperado.")
+            return;
+        }
+
         const response = await postOrder(
             u.id,
             alissonTradux(paymentMethod),
             frete,
+            favoriteDeliveryAddress.data.id,
             productsForApi
         )
+        
         return response;
     }
 

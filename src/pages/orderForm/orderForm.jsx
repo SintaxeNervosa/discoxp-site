@@ -41,8 +41,7 @@ function OrderForm() {
                         <div className="formAddress">
                             {showForm &&
                                 <div>
-                                    <AddAddress changeVisibityForm={() => setShowForm(!showForm)}
-                                    />
+                                    <AddAddress changeVisibityForm={() => setShowForm(!showForm)} />
                                 </div>
                             }
                         </div>
@@ -50,14 +49,14 @@ function OrderForm() {
                             Ir para pagamento
                         </button>
                     </div>
-                    <PaymentForm 
-                        setbuttonIsValid={setbuttonIsValid} 
+                    <PaymentForm
+                        setbuttonIsValid={setbuttonIsValid}
                         PaymentMethod={setPaymentMethod}
-                        />
+                    />
                 </section>
                 <Summary buttonIsValid={buttonIsValid}
-                selectedAddress={selectAddress}
-                paymentMethod={paymentMethod}/>
+                    selectedAddress={selectAddress}
+                    paymentMethod={paymentMethod} />
             </main>
         </>
 

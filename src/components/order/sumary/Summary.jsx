@@ -20,9 +20,6 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
         return Number(Math.floor(Math.random() * 16));
     }
 
-        console.log("toatal: ", total)
-        console.log("Subtotal: ", subTotal)
-
     useEffect(() => {
         const subtotalCal = calcularTotal1()
         const freteCal = calcularFrete()

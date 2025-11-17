@@ -26,22 +26,19 @@ export function usePedidoFromCart() {
         }
     }
 
-    // Calcular total do pedido
-    const calcularTotal = () => {
-        // return produtos.reduce((total, produto) => {
+const calcularTotal1 = () => {
+    return produtos.reduce((total, produto) => {
+        return total + (produto.preco * produto.quantidade);
+    }, 0);
+};
 
-        //     let result = total + (produto.preco * produto.quantidade);
-        //     console.log(result);
-        //     return;
-        // }, 0);
-
-        let teste = 0;
-        produtos.map((produto) => {
-            teste += produto.preco * produto.quantidade;
-        });
-
-        return teste;
-    };
+const calcularTotal2 = () => {
+    let total = 0;
+    produtos.forEach((produto) => {
+        total += produto.preco * produto.quantidade;
+    });
+    return total;
+};
 
     useEffect(() => {
         carregarProdutosDoCarrinho();
@@ -49,7 +46,7 @@ export function usePedidoFromCart() {
 
     return {
         produtos,
-        calcularTotal,
+        calcularTotal1,
         recarregar: carregarProdutosDoCarrinho,
         error
     }

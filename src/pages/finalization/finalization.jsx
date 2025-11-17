@@ -16,7 +16,7 @@ Modal.setAppElement('#root')
 export default function Finalization() {
     const {
         produtos,
-        calcularTotal,
+        calcularTotal1,
         recarregar
     } = usePedidoFromCart();
     const navigate = useNavigate()
@@ -24,20 +24,21 @@ export default function Finalization() {
     const [address, setAddress] = useState();
 
     const location = useLocation()
-    const { paymentMethod } = location.state || {}
+    const { paymentMethod, frete } = location.state || {}
 
     const userData = sessionStorage.getItem("user-data");
 
     console.log(location.state)
     console.log("Pagamento: ", paymentMethod)
+    console.log("frete: ",frete)
 
     const [showPopup, setShowPopup] = useState(false);
     const [showConfetti, setShowConfetti] = useState(false)
     const [orderNumber, setOrderNumber] = useState(null);
     const [orderTotal, setOrderTotal] = useState(null);
 
-    const frete = Number(Math.floor(Math.random() * 16));
-    const totalComFrete = calcularTotal() + frete;
+   
+    const totalComFrete = calcularTotal1() + (frete || 0);
 
     const whenFinalizationBuy = async () => {
         try {
@@ -95,8 +96,8 @@ export default function Finalization() {
 
         console.log('Enviando pedido:', {
             userId: u.id,
-            paymentMethod: "PIX", //calm0
-            freight: frete.toString(),
+            paymentMethod: paymentMethod, //calm0
+            freight: (frete || 0).toString(),
             products: productsForApi
         });
 
@@ -106,7 +107,7 @@ export default function Finalization() {
 
         const response = await postOrder(
             u.id,
-            "PIX",
+            alissonTradux(paymentMethod),
             frete,
             productsForApi
         )
@@ -124,6 +125,21 @@ export default function Finalization() {
     useEffect(() => {
         loadAddress();
     }, []);
+
+    const traduzAlisson = (m) => {
+        if (m === "card") {
+            return "Cartão de crédito"
+        }
+        return m
+    }
+    function alissonTradux(s) {
+        if(s === "card"){
+            return "CREDIT_CARD"
+        }
+        if(s == "PIX") {
+            return "PIX";
+        }
+    }
 
     return (
         <>
@@ -195,12 +211,12 @@ export default function Finalization() {
                         <p>{address}</p>
 
                         <h5>Forma de pagamento</h5>
-                        <p><strong>{paymentMethod}</strong></p>
+                        <p><strong>{traduzAlisson(paymentMethod)}</strong></p>
 
                         <div className='valores'>
                             <div className='linha-valor'>
                                 <span>Subtotal</span>
-                                <span>R$ {calcularTotal().toFixed(2)}</span>
+                                <span>R$ {calcularTotal1().toFixed(2)}</span>
                             </div>
                             <div className='linha-valor'>
                                 <span>Frete</span>
@@ -213,7 +229,7 @@ export default function Finalization() {
                         </div>
 
                         <button onClick={whenFinalizationBuy}>Finalizar compra</button>
-                        <button>Voltar aos meus pedidos</button>
+                        <button onClick={() => navigate('/order')}>Voltar aos meus pedidos</button>
                     </aside>
                 </section>
             </div>

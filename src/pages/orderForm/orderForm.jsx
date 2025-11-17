@@ -12,6 +12,10 @@ function OrderForm() {
     const [selectAddress, setSelectAddress] = useState(null)
     const [paymentMethod, setPaymentMethod] = useState("")
 
+    useEffect(() => {
+        sessionStorage.removeItem("redirectOrder")
+    }, [])
+
     return (
         <>
             <HeaderProfile />
@@ -51,7 +55,7 @@ function OrderForm() {
                         PaymentMethod={setPaymentMethod}
                         />
                 </section>
-                <Summary buttonIsValid={"buttonIsValid"}
+                <Summary buttonIsValid={buttonIsValid}
                 selectedAddress={selectAddress}
                 paymentMethod={paymentMethod}/>
             </main>

@@ -3,7 +3,6 @@ import "./address.scss"
 import { changeFavoriteAddres, getAllAddressByUserId } from "../../connection/AddressPath";
 import heartFavoriteAddress from '../../assets/images/user/profile/address/heart-favorite.svg';
 import notHeartFavoriteAddress from '../../assets/images/user/profile/address/heart-not-favorite.svg';
-import OrderForm from "../../pages/orderForm/orderForm";
 
 export function Address({ setSelectAddress, changeVisibityForm, ParentElement, showForm, onAddAddressSelect, onAddAddress }) {
     const [addressList, setAddressList] = useState([]);

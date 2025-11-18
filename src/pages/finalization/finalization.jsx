@@ -24,20 +24,16 @@ export default function Finalization() {
     const [address, setAddress] = useState();
 
     const location = useLocation()
-    const { paymentMethod } = location.state || {}
+    const { paymentMethod, frete } = location.state || {}
 
     const userData = sessionStorage.getItem("user-data");
-
-    console.log(location.state)
-    console.log("Pagamento: ", paymentMethod)
 
     const [showPopup, setShowPopup] = useState(false);
     const [showConfetti, setShowConfetti] = useState(false)
     const [orderNumber, setOrderNumber] = useState(null);
     const [orderTotal, setOrderTotal] = useState(null);
-
-    const frete = Number(Math.floor(Math.random() * 16));
-    const totalComFrete = calcularTotal1() + frete;
+   
+    const totalComFrete = calcularTotal1() + (frete || 0);
 
     const whenFinalizationBuy = async () => {
         try {
@@ -96,7 +92,7 @@ export default function Finalization() {
         console.log('Enviando pedido:', {
             userId: u.id,
             paymentMethod: paymentMethod, //calm0
-            freight: frete.toString(),
+            freight: (frete || 0).toString(),
             products: productsForApi
         });
 
@@ -104,12 +100,21 @@ export default function Finalization() {
             toast.warning("Sem nenhum produto no carinho")
         }
 
+        const favoriteDeliveryAddress = await getFavoriteAddressByUserId(u.id);
+        
+        if(favoriteDeliveryAddress.status != 200) {
+            toast.error("Ocorreu um erro inesperado.")
+            return;
+        }
+
         const response = await postOrder(
             u.id,
             alissonTradux(paymentMethod),
             frete,
+            favoriteDeliveryAddress.data.id,
             productsForApi
         )
+        
         return response;
     }
 

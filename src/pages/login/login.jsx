@@ -24,29 +24,32 @@ function login() {
           <div className="inputizinho">
             <p>E-mail</p>
             <input
+              id="email"
               className="inputDados"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
+              
               placeholder="Digite seu e-mail"
             />
           </div>
           <div className="inputizinho">
             <p>Senha</p>
             <input
+              id="password"
               type="password"
               className="inputDados"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
-              required
+              
               placeholder="Digite sua senha"
             />
           </div>
 
-          <div className="botao">
-            <button type="submit">Confirmar</button>
-          </div>
+          <div className="botao"> 
+            <button id="btnLogin" type="submit">Confirmar</button>
+              </div>
+
         </form>
 
         <footer className="embaixo">

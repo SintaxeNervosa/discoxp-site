@@ -14,6 +14,7 @@ export default function Summary({ buttonIsValid, selectedAddress, paymentMethod 
     const [subTotal, setSubTotal] = useState();
     const [total, setTotal] = useState(0);
     const [valid, setValid] = useState(false);
+    {console.log(setSubTotal, setTotal)}
 
     useEffect(() => {
         setSubTotal(calcularTotal1());

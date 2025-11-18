@@ -218,27 +218,27 @@ export default function UserForm() {
             <div className="content">
                 <div className="email">
                     <p>E-mail</p>
-                    <input type="email"
+                    <input id="email" type="email"
                         disabled={disableEmail}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="full-name">
                     <p>Nome Completo</p>
-                    <input type="text"
+                    <input id="name" type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div className="cpf-group">
                     <div className="cpf">
                         <p>CPF</p>
-                        <input type="text"
+                        <input id="cpf" type="text"
                             value={cpf}
                             onChange={(e) => setCpf(e.target.value)} />
                     </div>
                     <div className="group">
                         <p>Grupo</p>
-                        <select value={group} onChange={(e) => setGroup(e.target.value)}>
+                        <select id="group" value={group} onChange={(e) => setGroup(e.target.value)}>
                             <option value="">Selecionar</option>
                             <option value="ADMIN">Administrador</option>
                             <option value="STOCKIST">Estoquista</option>
@@ -249,13 +249,13 @@ export default function UserForm() {
                 <div className="password-confirm-password">
                     <div className="password">
                         <p>Senha</p>
-                        <input type="password"
+                        <input id="password" type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className="confirm-password">
                         <p>Confirmar Senha</p>
-                        <input type="password"
+                        <input id="confirmPassword" type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)} />
                     </div>

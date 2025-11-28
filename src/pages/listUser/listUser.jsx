@@ -49,7 +49,6 @@ function ListUser() {
   }
 
   return (
-
     <main className="main-list-user">
       <ToastContainer />
       <section className="container-list-user">
@@ -105,7 +104,6 @@ function ListUser() {
             : <h1>Não há usuários</h1>
 
           }
-
         </div>
       </section>
     </main>

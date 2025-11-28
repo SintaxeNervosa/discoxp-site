@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { ProtectRoutes } from "./context/ProtectRoutes.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
+import OrderList from "./pages/orderList/index.jsx";
 
 const Login = lazy(() => import("./pages/login/login.jsx"));
 const ClientLogin = lazy(() => import("./pages/user-login/clientLogin.jsx"));
@@ -57,6 +58,10 @@ export default function RouteWeb() {
               <Route path="/list-products" element={
                 <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                   <ListProduct />
+                </ProtectRoutes>} />
+              <Route path="/list-orders" element={
+                <ProtectRoutes requiredType={["STOCKIST"]}>
+                  <OrderList />
                 </ProtectRoutes>} />
               <Route path="/admin/product/edit/:productid" element={
                 <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>

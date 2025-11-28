@@ -24,3 +24,23 @@ export const postOrder = async(userId,  paymentMethod, freight, deliveryAddressI
         throw error;
     }
 }
+
+export const getAllOrders = async () => {
+    try {
+        const response = await api.get(`/order`);
+        return response;
+    } catch (error) {
+        return error;
+    }
+}
+
+export const changeOrderStatus = async (id, status) => {
+    try {
+        const response = await api.put(`/order/${id}`, {
+            status: status
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+}

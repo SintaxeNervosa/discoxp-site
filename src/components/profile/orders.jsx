@@ -22,13 +22,30 @@ export function Orders() {
     setOrders(tempOrder);
   }
 
-  const renameOrderStatus = (status) => {
-    switch (status) {
-      case "AWAITING_PAYMENT":
-        return "Aguardando pagamento"
-      default: "Ocorreu um erro"
-    }
+const renameOrderStatus = (status) => {
+  switch (status) {
+    case "AWAITING_PAYMENT":
+      return "Aguardando pagamento";
+
+    case "PAYMENT_REJECTED":
+      return "Pagamento rejeitado";
+
+    case "PAYMENT_APPROVED":
+      return "Pagamento aprovado";
+
+    case "AWAITING_PICKUP":
+      return "Aguardando retirada";
+
+    case "IN_TRANSIT":
+      return "Em transporte";
+
+    case "DELIVERED":
+      return "Entregue";
+
+    default:
+      return "Status desconhecido";
   }
+};
 
   useEffect(() => {
     loadOrders();

@@ -83,7 +83,7 @@ const renameOrderStatus = (status) => {
             <span className="order-date">{order.order.orderDate}</span>
             <span className="order-status">{renameOrderStatus(order.order.status)}</span>
             <span className="order-price">
-              R$ {order.order.totalPrice}
+              R$ {order.order.total}
             </span>
             <button className="details-btn">
               Ver detalhes <span className="arrow">›</span>
@@ -110,16 +110,16 @@ const renameOrderStatus = (status) => {
                 <div className="info-card">
                 <h4>📦 Endereço de Entrega</h4>
                   <div className="address-info">
-                    <p><strong>Cep: 86783623-02-3</strong></p>
-                    <p>Rua das Flores, 123 Centro São Paulo - SP</p>
-                    <p>Numero: 4332</p>
-                    <p>CEP: 01234-567</p>
+                    <p><strong>Cep: {order.order.deliveryAddress.cep}</strong></p>
+                    <p>{order.order.deliveryAddress.street}, {order.order.deliveryAddress.number} {order.order.deliveryAddress.city} - {order.order.deliveryAddress.uf}</p>
+                    <p>Numero: {order.order.deliveryAddress.number}</p>
+                    <p>CEP: {order.order.deliveryAddress.cep}</p>
                   </div>
                 </div>
 
                 <div className="info-card">
                   <h4>Forma de Pagamento</h4>
-                  <p>Cartão de Crédito</p>
+                  <p>{order.order.paymentMethod}</p>
                 </div>
 
                 <div className="info-card">
@@ -127,15 +127,15 @@ const renameOrderStatus = (status) => {
                   <div className="price-breakdown">
                     <div className="price-row">
                       <span>Subtotal:</span>
-                      <span>R$ 15,00</span>
+                      <span>R$ {order.order.subtotal}</span>
                     </div>
                     <div className="price-row">
                       <span>Frete:</span>
-                      <span>R$ 15,00</span>
+                      <span>R$ {order.order.freight}</span>
                     </div>
                     <div className="price-row total">
                       <span>Total:</span>
-                      <span>R$ 30,00</span>
+                      <span>R$ {order.order.total}</span>
                     </div>
                   </div>
                 </div>

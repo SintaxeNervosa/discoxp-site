@@ -14,6 +14,20 @@ function Profile() {
     const [showAddAddress, setShowAddAddress] = useState(false); 
     const [username, setUsername] = useState("");
 
+     useEffect(() => {
+        const hasReloaded = sessionStorage.getItem('profileReloaded');
+        
+        if (!hasReloaded) {
+            sessionStorage.setItem('profileReloaded', 'true');
+            setTimeout(() => window.location.reload(), 50);
+        }
+        
+        // Limpando ao sair d page
+        return () => {
+            sessionStorage.removeItem('profileReloaded');
+        };
+    }, []);
+
 
     useEffect(() => {
         let userData = JSON.parse(sessionStorage.getItem("user-data"));

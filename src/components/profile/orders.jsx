@@ -50,15 +50,17 @@ export function Orders() {
   };
 
   return (
-    <section className="orders-section">
+   <section className="orders-section">
       <h2>Pedidos</h2>
       {orders.map((order) => (
         <div
-          key={order.orderId}
+          key={order.order.orderId}
           className={`order-card open`}
           onClick={() => toggleOrder(order.order.orderId)}
         >
-          {console.log(order.order.totalPrice)}
+          {console.log("Order")}
+          {console.log(order)}
+
           <div className="order-header">
             <span className="order-id">Pedido: {order.order.orderId}</span>
             <span className="order-date">{order.order.orderDate}</span>
@@ -72,17 +74,56 @@ export function Orders() {
           </div>
 
           {order.showDetail && (
-            order.order.orderItemResponseDTOList.map((product) =>
-              <div key={product.productId} className="order-details">
-                <img src={`data:image/jpeg;base64,${product.imageFile}`} alt={product.name} />
-                <div className="order-info">
-                  <p className="product-name">{product.name}</p>
-                  <p className="product-qty">
-                    Quantidade: {product.quantity}
-                  </p>
+            <div>
+              {order.order.orderItemResponseDTOList.map((product) =>
+                <div key={product.productId} className="order-details">
+
+                  {console.log("Produto")}
+                  {console.log(product)}
+
+                  <img src={`data:image/jpeg;base64,${product.imageFile}`} alt={product.name} />
+                  <div className="order-info">
+                    <p className="product-name">{product.name}</p>
+                    <p className="product-qty"> Quantidade: {product.quantity}</p>
+                  </div>
+                </div>
+              )}
+              
+              <div className="order-info-grid">
+                <div className="info-card">
+                <h4>📦 Endereço de Entrega</h4>
+                  <div className="address-info">
+                    <p><strong>Cep: 86783623-02-3</strong></p>
+                    <p>Rua das Flores, 123 Centro São Paulo - SP</p>
+                    <p>Numero: 4332</p>
+                    <p>CEP: 01234-567</p>
+                  </div>
+                </div>
+
+                <div className="info-card">
+                  <h4>Forma de Pagamento</h4>
+                  <p>Cartão de Crédito</p>
+                </div>
+
+                <div className="info-card">
+                  <h4>Resumo do Pedido</h4>
+                  <div className="price-breakdown">
+                    <div className="price-row">
+                      <span>Subtotal:</span>
+                      <span>R$ 15,00</span>
+                    </div>
+                    <div className="price-row">
+                      <span>Frete:</span>
+                      <span>R$ 15,00</span>
+                    </div>
+                    <div className="price-row total">
+                      <span>Total:</span>
+                      <span>R$ 30,00</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            )
+            </div>
           )}
         </div>
       ))}

@@ -23,7 +23,10 @@ export default function choice() {
                 </>;
         } else if (usertype == "STOCKIST") {
             componente =
+            <>
                 <button onClick={() => navigate("/list-products")}>Listar Produto</button>
+                <button onClick={() => navigate("/list-orders")}>Listar Pedidos</button>
+            </>
         } else {
             toast.error("Ocorreu um erro inesperado");
             setTimeout(() => {

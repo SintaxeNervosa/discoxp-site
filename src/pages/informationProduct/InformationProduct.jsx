@@ -192,10 +192,7 @@ function InformationProduct() {
                                 <p>Quantidade: {product.quantity}</p>
 
                                 <div className="buttons">
-                                    <button className="buy">Comprar agora</button>
-                                    <button className="cart" onClick={addInCart}>
-                                        Adicionar ao carrinho
-                                    </button>
+                                    <button className="buy" onClick={addInCart}>Comprar agora</button>
                                 </div>
                             </div>
                         </section>

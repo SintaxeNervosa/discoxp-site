@@ -11,7 +11,7 @@ export default function ProductForm() {
 
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
-    const [stock, setStock] = useState(1);
+    const [stock, setStock] = useState(0);
     const [description, setDescription] = useState("");
     const [evaluation, setEvaluetion] = useState(0);
     const [image, setImage] = useState(emptyImage);

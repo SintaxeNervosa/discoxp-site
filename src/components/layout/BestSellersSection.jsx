@@ -124,7 +124,8 @@ export function BestSellersSection() {
         variants={containerVariants}
       >
         {produtosList.length > 0 ? (
-          produtosList.map((product) => product.quantity > 0 && (
+          produtosList.map((product) => 
+            product.quantity > 0 &&  product.status === true &&(
             <motion.div
               key={product.id}
               className="card"

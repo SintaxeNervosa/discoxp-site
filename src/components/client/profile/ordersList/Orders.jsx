@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./orders.scss";
+import "./Orders.scss";
 import { getAllOrdersByUser } from "../../../../connection/OrderPaths";
 
 export function Orders() {

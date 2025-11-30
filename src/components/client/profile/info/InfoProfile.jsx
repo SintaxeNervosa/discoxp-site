@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./infoProfile.scss"
+import "./InfoProfile.scss"
 import { getUsersById } from "../../../../connection/userPaths";
 
 export function InfoProfile() {

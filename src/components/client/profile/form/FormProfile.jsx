@@ -1,5 +1,5 @@
 import { useState, useEffect, use } from "react";
-import "./formProfile.scss"
+import "./FormProfile.scss"
 import { getUsersById, changeUser } from "../../../../connection/userPaths";
 
 export function FormProfile({ onSave }) {

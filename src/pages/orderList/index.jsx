@@ -62,7 +62,7 @@ export default function OrderList() {
                                     <tr key={key}>
                                         <td>{order.orderId}</td>
                                         <td>{order.orderDate}</td>
-                                        <td>{order.totalPrice}</td>
+                                        <td>R$ {order.total}</td>
                                         <td>{order.status}</td>
                                         <td>
                                             <button onClick={() => prepareStatusChange(order.orderId, order.status)}>Alterar Status</button>

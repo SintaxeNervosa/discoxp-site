@@ -60,7 +60,7 @@ export default function RouteWeb() {
                   <ListProduct />
                 </ProtectRoutes>} />
               <Route path="/list-orders" element={
-                <ProtectRoutes requiredType={["STOCKIST"]}>
+                <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
                   <OrderList />
                 </ProtectRoutes>} />
               <Route path="/admin/product/edit/:productid" element={

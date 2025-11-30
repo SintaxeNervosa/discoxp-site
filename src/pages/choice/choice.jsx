@@ -20,6 +20,7 @@ export default function choice() {
                 <>
                     <button onClick={() => navigate("/list-products")} >Listar Produto</button>
                     <button onClick={() => navigate("/admin/users")}>Listar Usuário</button>
+                    <button onClick={() => navigate("/list-orders")}>Listar Pedidos</button>
                 </>;
         } else if (usertype == "STOCKIST") {
             componente =

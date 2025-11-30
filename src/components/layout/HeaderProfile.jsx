@@ -1,7 +1,7 @@
 import "./HeaderProfile.css";
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import Cart from '../../components/cart/Cart';
+import Cart from '../client/cart/Cart';
 import { useCart } from '../../context/CartContext';
 import { findAllProductsByCart } from '../../config/dexie';
 

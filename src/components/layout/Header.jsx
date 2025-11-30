@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { use, useEffect, useRef, useState } from 'react';
 import "./Header.css"
-import Cart from '../../components/cart/Cart';
+import Cart from '../client/cart/Cart';
 import { useCart } from '../../context/CartContext';
 import { findAllProductsByCart } from '../../config/dexie';
 import { toast, ToastContainer } from "react-toastify";

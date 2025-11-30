@@ -1,5 +1,5 @@
-import FormPersonalData from '../../../components/client/formPersonalData/FormPersonalData';
-import DeliveryAddress from '../../../components/client/deliveryAddress/DeliveryAddress';
+import FormPersonalData from '../../../components/client/register/FormPersonalData';
+import DeliveryAddress from '../../../components/client/register/DeliveryAddress';
 import { AnimatePresence, motion } from "framer-motion";
 import './RegisterStyle.scss';
 
@@ -7,7 +7,7 @@ import left from '../../../assets/images/register/left.svg';
 import loader from '../../../assets/images/cart/Rolling@1x-1.0s-200px-200px.svg';
 
 import { useEffect, useState } from 'react';
-import BillingAddress from '../../../components/client/billingAddress/BillingAddress';
+import BillingAddress from '../../../components/client/register/BillingAddress';
 import { useNavigate } from 'react-router-dom';
 import { addBillingAddress, addDeliveryAddress } from '../../../connection/userPaths';
 import { toast, ToastContainer } from 'react-toastify';

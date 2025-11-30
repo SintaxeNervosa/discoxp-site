@@ -2,31 +2,31 @@ import { BrowserRouter, Routes, Route, } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { ProtectRoutes } from "./context/ProtectRoutes.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
-import OrderList from "./pages/orderList/index.jsx";
+import OrderList from "./pages/backoffice/general/orderList/OrderList.jsx";
 
-const Login = lazy(() => import("./pages/login/login.jsx"));
-const ClientLogin = lazy(() => import("./pages/user-login/clientLogin.jsx"));
-const ListUser = lazy(() => import("./pages/listUser/listUser.jsx"));
-const Choice = lazy(() => import("./pages/choice/choice.jsx"));
-const UserRegister = lazy(() => import("./pages/userForm/create/UserFormPage.jsx"));
-const UserFormEdit = lazy(() => import("./pages/userForm/edit/UserFormEdit.jsx"));
-const ProductFormCreate = lazy(() => import("./pages/form/product/create/ProductFormCreate.jsx"));
-const ProductFormPageEdit = lazy(() => import("./pages/form/product/edit/ProductFormPageEdit.jsx"));
-const ListProduct = lazy(() => import("./pages/listProduct/listProduc.jsx"));
+const Login = lazy(() => import("./pages/backoffice/general/login/BackofficeLogin.jsx"));
+const ClientLogin = lazy(() => import("./pages/client/login/ClientLogin.jsx"));
+const ListUser = lazy(() => import("./pages/backoffice/admin/userList/UserList.jsx"));
+const HomeBackoffice = lazy(() => import("./pages/backoffice/general/Home/HomeBackOffice.jsx"));
+const UserRegister = lazy(() => import("./pages/backoffice/admin/userForm/create/Create.jsx"));
+const UserFormEdit = lazy(() => import("./pages/backoffice/admin/userForm/edit/Edit.jsx"));
+const ProductFormCreate = lazy(() => import("./pages/backoffice/admin/productForm/create/ProductFormCreate.jsx"));
+const ProductFormPageEdit = lazy(() => import("./pages/backoffice/admin/productForm/edit/ProductFormPageEdit.jsx"));
+const ListProduct = lazy(() => import("./pages/backoffice/general/productList/ProductList.jsx"));
 const ClientResgister = lazy(() => import("./pages/client/register/Register.jsx"));
 
-const Home = lazy(() => import("./pages/home/home.jsx"));
-const InformationProduct = lazy(() => import("./pages/informationProduct/InformationProduct.jsx"));
-const Profile = lazy(() => import("./pages/profileUser/profile.jsx"))
-const OrderForm = lazy(() => import("./pages/orderForm/orderForm.jsx"))
+const HomeClient = lazy(() => import("./pages/client/home/Home.jsx"));
+const InformationProduct = lazy(() => import("./pages/client/detailProduct/DetailProduct.jsx"));
+const Profile = lazy(() => import("./pages/client/profile/Profile.jsx"))
+const OrderForm = lazy(() => import("./pages/client/orderForm/OrderForm.jsx"))
 
-const Gallery = lazy(() => import("./components/galleryImgs/Gallery"));
-const PreviewProduct = lazy(() => import("./pages/preview/PreviewProduct"));
+const Gallery = lazy(() => import("./components/backoffice/admin/galleryImgs/Gallery.jsx"));
+const PreviewProduct = lazy(() => import("./pages/backoffice/admin/productPreview/ProductPreview.jsx"));
 
 // const PageCart = lazy(() => import("./pages/cartTest/CartTest.jsx"))
-const Finalization = lazy(() => import("./pages/finalization/finalization.jsx"))
+const Finalization = lazy(() => import("./pages/client/orderFinalization/OrderFinalization.jsx"))
 
-const NotFound = lazy(() => import("./pages/notFound/NotFound.jsx"));
+const NotFound = lazy(() => import("./pages/web/notFound/NotFound.jsx"));
 
 export default function RouteWeb() {
   return (
@@ -37,7 +37,7 @@ export default function RouteWeb() {
             <Routes>
               {/*Usuarios*/}
               <Route path="/" element={<Login />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/home" element={<HomeClient />} />
 
               <Route path="/profile" element={
                 <ProtectRoutes requiredType={["CLIENT"]}>
@@ -53,7 +53,7 @@ export default function RouteWeb() {
               } />
               <Route path="/choice" element={
                 <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>
-                  <Choice />
+                  <HomeBackoffice />
                 </ProtectRoutes>} />
               <Route path="/list-products" element={
                 <ProtectRoutes requiredType={["STOCKIST", "ADMIN"]}>

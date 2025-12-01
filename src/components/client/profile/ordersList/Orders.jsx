@@ -22,30 +22,30 @@ export function Orders() {
     setOrders(tempOrder);
   }
 
-const renameOrderStatus = (status) => {
-  switch (status) {
-    case "AWAITING_PAYMENT":
-      return "Aguardando pagamento";
+  const renameOrderStatus = (status) => {
+    switch (status) {
+      case "AWAITING_PAYMENT":
+        return "Aguardando pagamento";
 
-    case "PAYMENT_REJECTED":
-      return "Pagamento rejeitado";
+      case "PAYMENT_REJECTED":
+        return "Pagamento rejeitado";
 
-    case "PAYMENT_APPROVED":
-      return "Pagamento aprovado";
+      case "PAYMENT_APPROVED":
+        return "Pagamento aprovado";
 
-    case "AWAITING_PICKUP":
-      return "Aguardando retirada";
+      case "AWAITING_PICKUP":
+        return "Aguardando retirada";
 
-    case "IN_TRANSIT":
-      return "Em transporte";
+      case "IN_TRANSIT":
+        return "Em transporte";
 
-    case "DELIVERED":
-      return "Entregue";
+      case "DELIVERED":
+        return "Entregue";
 
-    default:
-      return "Status desconhecido";
-  }
-};
+      default:
+        return "Status desconhecido";
+    }
+  };
 
   useEffect(() => {
     loadOrders();
@@ -59,7 +59,7 @@ const renameOrderStatus = (status) => {
 
     for (let i = 0; i < orderTemp.length; i++) {
       if (orderTemp[i].order.orderId == id) {
-        orderTemp[i].showDetail = !orderTemp[i].showDetail; 
+        orderTemp[i].showDetail = !orderTemp[i].showDetail;
       }
     }
 
@@ -67,7 +67,7 @@ const renameOrderStatus = (status) => {
   };
 
   return (
-   <section className="orders-section">
+    <section className="orders-section">
       <h2>Pedidos</h2>
       {orders.map((order) => (
         <div
@@ -94,21 +94,20 @@ const renameOrderStatus = (status) => {
             <div>
               {order.order.orderItemResponseDTOList.map((product) =>
                 <div key={product.productId} className="order-details">
-
-                  {console.log("Produto")}
-                  {console.log(product)}
-
-                  <img src={`data:image/jpeg;base64,${product.imageFile}`} alt={product.name} />
-                  <div className="order-info">
-                    <p className="product-name">{product.name}</p>
-                    <p className="product-qty"> Quantidade: {product.quantity}</p>
+                  <div>
+                    <img src={`data:image/jpeg;base64,${product.imageFile}`} alt={product.name} />
+                    <div className="order-info">
+                      <p className="product-name">{product.name}</p>
+                      <p className="product-qty"> Quantidade: {product.quantity}</p>
+                    </div>
                   </div>
+                  <p>R$ {Number.parseFloat(product.unitPrice).toFixed(2)}</p>
                 </div>
               )}
-              
+
               <div className="order-info-grid">
                 <div className="info-card">
-                <h4>📦 Endereço de Entrega</h4>
+                  <h4>📦 Endereço de Entrega</h4>
                   <div className="address-info">
                     <p><strong>Cep: {order.order.deliveryAddress.cep}</strong></p>
                     <p>{order.order.deliveryAddress.street}, {order.order.deliveryAddress.number} {order.order.deliveryAddress.city} - {order.order.deliveryAddress.uf}</p>

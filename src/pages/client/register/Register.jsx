@@ -45,57 +45,41 @@ export default function Register() {
         sessionStorage.setItem("delveryAddress", null);
     }
 
-    // método para salvar o endereço de faturamento no banco
-    const saveBillingAddress = async (id) => {
-        const getBillingAddressFromSessionStorage = sessionStorage.getItem("billingAddress");
-        const billingAddressToJson = JSON.parse(getBillingAddressFromSessionStorage);
-
-        const obj = {
-            id: id,
-            cep: billingAddressToJson.cep,
-            number: billingAddressToJson.number,
-            complement: billingAddressToJson.complement
-        }
-
-        const response = await addBillingAddress(obj);
-
-        return response.status == 201;  
-    }
-
-    // método para salvar o endereço de entrega no banco
-    const saveDeliveryAddress = async (id) => {
-        const getDeliveryAddressFromSessionStorage = sessionStorage.getItem("deliveryAddress");
-        const deliveryAddressToJson = JSON.parse(getDeliveryAddressFromSessionStorage);
-
-        const obj = {
-            id: id,
-            cep: deliveryAddressToJson.cep,
-            number: deliveryAddressToJson.number,
-            complement: deliveryAddressToJson.complement
-        }
-
-        const response = await addDeliveryAddress(obj);
-
-        return response.status == 201;
-    }
-
     const saveUser = async () => {
-        let usuarioLocalStorage = sessionStorage.getItem("personalData");
-        let userToJson = JSON.parse(usuarioLocalStorage);
+    try {
+        // Busca os dados do sessionStorage
+        const personalData = JSON.parse(sessionStorage.getItem("personalData"));
+        const billingAddress = JSON.parse(sessionStorage.getItem("billingAddress"));
+        const deliveryAddress = JSON.parse(sessionStorage.getItem("deliveryAddress"));
 
-        const response = await createClient(userToJson);
-
-        if (response.status == 201) {
-            setShowLoader(true);
-            toast.success("Usuário cadastrado com sucesso!");
-
-            const responseBillingAddress = await saveBillingAddress(response.data.id);
-            const responseDeliveryAddress = await saveDeliveryAddress(response.data.id);
-
-            if (responseBillingAddress && responseDeliveryAddress) {
-                toast.success("Endereço de faturamento cadastrado com sucesso!");
-                toast.success("Endereço de entrega cadastrado com sucesso!");
+        // Monta o objeto completo para enviar
+        const userData = {
+            name: personalData.name,
+            email: personalData.email,
+            cpf: personalData.cpf,
+            password: personalData.password,
+            dateOfBirth: personalData.dateOfBirth,
+            gender: personalData.gender,
+            deliveryAddress: {
+                id: "",
+                cep: deliveryAddress.cep,
+                number: deliveryAddress.number,
+                complement: deliveryAddress.complement
+            },
+            billingAddress: {
+                id: "",
+                cep: billingAddress.cep,
+                number: billingAddress.number,
+                complement: billingAddress.complement
             }
+        };
+
+        // Faz uma única chamada para a API
+        const response = await createClient(userData);
+
+        if (response.status === 201) {
+            setShowLoader(true);
+            toast.success("Cadastro realizado com sucesso!");
 
             clearSessionData();
 
@@ -106,8 +90,13 @@ export default function Register() {
             return;
         }
 
-        toast.error("Ocorreu um erro ao salvar o usuário");
+        toast.error("Ocorreu um erro ao realizar o cadastro");
+
+    } catch (error) {
+        console.error("Erro ao salvar usuário:", error);
+        toast.error("Ocorreu um erro ao realizar o cadastro");
     }
+}
 
     useEffect(() => {
         if (!buttonDisabled) {

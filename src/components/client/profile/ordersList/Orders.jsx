@@ -83,7 +83,7 @@ const renameOrderStatus = (status) => {
             <span className="order-date">{order.order.orderDate}</span>
             <span className="order-status">{renameOrderStatus(order.order.status)}</span>
             <span className="order-price">
-              R$ {order.order.total}
+              R$ {order.order.total.toFixed(2)}
             </span>
             <button className="details-btn">
               Ver detalhes <span className="arrow">›</span>

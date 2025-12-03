@@ -133,7 +133,7 @@ export function FormProfile({ onSave }) {
                                 <option value="">SELECIONAR</option>
                                 <option value="HOMEM">HOMEM</option>
                                 <option value="MULHER">MULHER</option>
-                                <option value="OUTROS">OUTROS</option>
+                                <option value="OUTRO">OUTRO</option>
                             </select>
                             {errors.gender && <p className="erro">{errors.gender}</p>}
                         </div>

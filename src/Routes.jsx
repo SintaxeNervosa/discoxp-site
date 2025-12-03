@@ -111,7 +111,11 @@ export default function RouteWeb() {
                 </ProtectRoutes>
               }>
               </Route>
-              <Route path="/admin/product/:productid" element={<PreviewProduct />} />
+              <Route path="/admin/product/:productid" element={
+                <ProtectRoutes requiredType={["ADMIN"]}>
+                  <PreviewProduct />
+                </ProtectRoutes> 
+              } />
               {/* <Route path="/cart" element={<PageCart />} /> */}
               <Route path="/register" element={<ClientResgister />}></Route>
               <Route path="*" element={<NotFound />} />

@@ -59,6 +59,7 @@ export const changeUserStatus = async (id) => {
 
 export const changeUser = async (user) => {
     try {
+        console.log("User: " + user)
         const response = await api.put(`/admin`, user);
         return response;
     } catch (error) {

@@ -81,12 +81,24 @@
 
     .order-details {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 15px;
+
       margin-top: 15px;
       border-top: 1px solid #eee;
       padding-top: 15px;
       animation: fadeIn 0.3s ease-in-out;
+
+      >div {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      >p {
+        font-weight: 600;
+        color: #333;
+      }
 
       img {
         width: 70px;

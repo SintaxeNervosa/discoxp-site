@@ -30,16 +30,10 @@ export default function UserForm() {
             setCpf(data.cpf);
             setGroup(data.groupEnum);
 
-            // busca o usuário salvo na LocalStorage
-            const userFromLocalStorage = findUserByLocalStorageId();
-            // coleta a senha salva e adiciona no input
-            setPassword(userFromLocalStorage.password);
-            setConfirmPassword(userFromLocalStorage.password);
-
-            // eslint-disable-next-line no-unused-vars
         } catch (err) {
             // retorna para tela de listagem caso haja algum erro ao buscar dados do usuário
-            navigate('/users', { replace: true });
+            console.log(err)
+            navigate('/admin/users', { replace: true });
         }
     };
 
@@ -47,74 +41,6 @@ export default function UserForm() {
         // caso haja id no parâmetro, carrega os dados do usuário
         if (userid) { fetchDataUser(); }
     }, []);
-
-    // converte os usuários da localStorage em JSON
-    function fetchLocalStorageUsers() {
-        const users = localStorage.getItem(LOCAL_STORAGE_NAME);
-        const usersToJson = JSON.parse(users);
-        return usersToJson;
-    }
-
-    // busca de usuários por id na localStorage
-    const findUserByLocalStorageId = () => {
-        // obtêm os usuários da LocalStorage convertidos em JSON
-        const users = fetchLocalStorageUsers();
-
-        // obtêm a posição do usuário na lista
-        const position = binarySearch(users);
-
-        // caso não encontre, retorna null
-        if (position == null) { return null; }
-
-        // caso encontre, retorna o objeto do usuário
-        return users[position];
-    };
-
-    // busca binária de usuários da LocalStorage
-    function binarySearch(users) {
-        let low = 0;
-        let high = users.length - 1;
-        let middle = 0;
-
-        while (low <= high) {
-            middle = Math.floor((low + high) / 2);
-
-            if (users[middle].id == userid) {
-                return middle;
-            }
-            if (users[middle].id > userid) {
-                high = middle - 1;
-            } else {
-                low = middle + 1;
-            }
-        }
-
-        return null;
-    }
-
-    // função para criar o adcionar um item na LocalStorage
-    function createItemInLocalStorage(id) {
-        // busca os usuários da localStorage
-        let localStorageItems = fetchLocalStorageUsers();
-
-        if (localStorageItems != null) {
-            // adiciona a cópia dos elementos + o novo objeto
-            let newItens = [{ ...localStorageItems }, JSON.parse(`{"id": ${id}, "password": "${password}"}`)];
-
-            // salva o novo objeto na LocalStorage
-            localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(newItens));
-            return;
-        }
-
-        // salva o primeiro usuário como string, mas em formato de JSON 
-        const userToString = `
-            {
-             "id": ${id},
-             "password": "${password}"
-            }`;
-
-        localStorage.setItem(LOCAL_STORAGE_NAME, userToString);
-    }
 
     // função para criar o usuário
     async function requestToCreateUser() {
@@ -125,10 +51,6 @@ export default function UserForm() {
 
             // se o usuário for criado 
             if (response.status == 201) {
-                // captura o id da resposta da requisição
-                const id = response.data.id;
-                // função para adicionar o id e password na LocalStorage
-                createItemInLocalStorage(id);
                 toast.success("Usuário criado com sucesso");
                 return;
             }
@@ -139,38 +61,17 @@ export default function UserForm() {
         }
     }
 
-    // função para alterar a senha da localStorage
-    function changeUserPasswordById() {
-        let users = fetchLocalStorageUsers();
-
-        // pega a posição do usuário
-        const position = binarySearch(users);
-
-        // atualiza a senha
-        users[position].password = password;
-        // salva na LocalStorage
-        localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(users));
-    }
-
     // função para editar usuário
     async function requestToEditUser() {
         // monta o objeto para a requisição
         const userRequest = { id: userid, name: name, group: group, cpf: cpf, password: password };
         try {
             // faz a requisição
+            console.log(userRequest);
             const response = await changeUser(userRequest);
 
             // caso a requisição dê "ok"
             if (response.status == 201) {
-                // busca o usuário da localStorage
-                const user = findUserByLocalStorageId();
-                
-                // verifica se a senha atual (enviada na requisição) é a mesma da localStorage
-                if (password != user.password) {
-                    // caso não, altera a senha da localStorage
-                    changeUserPasswordById(); 
-                }
-
                 toast.success("Usuário alterado com sucesso.");
             };
 
@@ -178,7 +79,6 @@ export default function UserForm() {
             // caso dê exceção, exibe os erros
             showAllErrors(error);
         }
-
     };
 
     // função utilizada para exibir todos os erros

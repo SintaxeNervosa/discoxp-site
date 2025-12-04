@@ -44,7 +44,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
         }
     }
 
-    function handleImageSelect(event) {
+    function lidarComSelecaoDeImagem(event) {
         const files = Array.from(event.target.files);
         if (files.length > 0) {
             setImagens((prev) => [...prev, ...files]);
@@ -56,7 +56,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
     }
 
 
-    function imageFavorita() {
+    function reordenarComFavoritaPrimeiro() {
         if (images.length === 0) return images;
 
         const reordenarImages = [...images];
@@ -67,17 +67,17 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
         return reordenarImages;
     }
 
-    function handleCancel() {
+    function lidarComCancelamento() {
         if (window.confirm("Tem certeza que deseja cancelar? As alterações não serão salvas.")) {
             navigate(-1);
             // onCancel();
         }
     }
 
-    async function handleSave() {
+    async function lidarComSalvamento() {
         setIsLoading(true)
         try {
-            const imagensToEnviar = imageFavorita()
+            const imagensToEnviar = reordenarComFavoritaPrimeiro()
 
             await salveImages(imagensToEnviar);
 
@@ -310,7 +310,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                     type="file"
                     multiple
                     accept="image/*"
-                    onChange={handleImageSelect}
+                    onChange={lidarComSelecaoDeImagem}
                     style={{ display: "none" }}
                 />
 
@@ -323,10 +323,10 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                         📷 Adicionar mais imagens
                     </button>
                     <div className="footer-actions">
-                        <button className="btn-cancel" onClick={handleCancel} disabled={isLoading}>
+                        <button className="btn-cancel" onClick={lidarComCancelamento} disabled={isLoading}>
                             Cancelar
                         </button>
-                        <button className="btn-save" onClick={handleSave} disabled={isLoading || images.length === 0}>
+                        <button className="btn-save" onClick={lidarComSalvamento} disabled={isLoading || images.length === 0}>
                             {isLoading ? "Salvando..." : "💾 Salvar"}
                         </button>
                     </div>

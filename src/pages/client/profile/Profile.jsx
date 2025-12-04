@@ -19,7 +19,8 @@ function Profile() {
         
         if (!hasReloaded) {
             sessionStorage.setItem('profileReloaded', 'true');
-            setTimeout(() => window.location.reload(), 50);
+            setTimeout(() => window.location.reload(), 10);
+            setTimeout(() => window.location.reload(), 10);
         }
         
         // Limpando ao sair d page

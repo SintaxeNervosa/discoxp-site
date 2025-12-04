@@ -67,7 +67,6 @@ export default function UserForm() {
         const userRequest = { id: userid, name: name, group: group, cpf: cpf, password: password };
         try {
             // faz a requisição
-            console.log(userRequest);
             const response = await changeUser(userRequest);
 
             // caso a requisição dê "ok"

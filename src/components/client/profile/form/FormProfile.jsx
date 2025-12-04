@@ -81,7 +81,6 @@ export function FormProfile({ onSave }) {
                 gender: gender
             }
 
-            console.log(obj);
             const request = await changeUser(obj);
 
             if (request.status == 204) {

@@ -54,20 +54,20 @@ export function FormAddress({ onBack, changeVisibityForm }) {
         }
 
         const response = await addAddress(obj);
+        
 
-        if (response.status = 201) {
+        if (response.status == 201) {
 
             toast.success("Endereço cadastrado com sucesso");
 
             changeVisibityForm();
-
+    
             setTimeout(() => {
                 onBack();
             }, [2000]);
 
             return;
         }
-
         toast.error("Ocorreu um erro");
     };
 

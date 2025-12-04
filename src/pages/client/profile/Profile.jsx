@@ -13,6 +13,7 @@ function Profile() {
     const [activeSection, setActiveSection] = useState("cadastro");
     const [showFormAddress, setShowFormAddress] = useState(false); 
     const [username, setUsername] = useState("");
+    const [reloadAddresses, setReloadAddresses] = useState(false);
 
      useEffect(() => {
         const hasReloaded = sessionStorage.getItem('profileReloaded');
@@ -81,9 +82,9 @@ function Profile() {
 
                         {activeSection === "enderecos" && (
                             !showFormAddress ? (
-                                <Address onFormAddress={() => setShowFormAddress(true)} ParentElement={"Profile"}/>
+                                <Address onFormAddress={() => setShowFormAddress(true)} reload={reloadAddresses} />
                             ) : (
-                                <FormAddress onBack={() => setShowFormAddress(false)} ParentElement={"Profile"} />
+                                <FormAddress onBack={() => setShowFormAddress(false)} changeVisibityForm={() => setShowFormAddress(false)} />
                             )
                         )}
                     </div>

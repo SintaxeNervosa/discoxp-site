@@ -26,58 +26,59 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
     const navigate = useNavigate();
     const { productid } = useParams();
 
-    function exibirImagem(file) {
+    function obterUrlDaImagem(file) {
         if (file instanceof File) {
-            return URL.createObjectURL(file);
+            return URL.createObjectURL(file);  //file ou blob bruto pá criar url de visualiar sem upar
         }
-        return file.imageUrl || file;
+        return file.imageUrl || file; //n for é string ou img já carregada
     }
 
     function removerImagem(index) {
-        const novasImagens = images.filter((_, i) => i !== index);
+        const novasImagens = images.filter((_, i) => i !== index); //Remove uma imagem e cria uma nova lista
         setImagens(novasImagens);
 
         if (index === favoriteIndex) {
-            setFavoriteIndex(0);
+            setFavoriteIndex(0); //se for define essa fav
         } else if (index < favoriteIndex) {
-            setFavoriteIndex(favoriteIndex - 1);
+            setFavoriteIndex(favoriteIndex - 1); //antes da favorita para manter referencia
         }
     }
 
-    function handleImageSelect(event) {
-        const files = Array.from(event.target.files);
+    function lidarComSelecaoDeImagem(event) {
+        const files = Array.from(event.target.files); //converte fileList em array 
         if (files.length > 0) {
-            setImagens((prev) => [...prev, ...files]);
+            setImagens((prev) => [...prev, ...files]); //colocar prev img old + files news
         }
     }
 
-    function handleSetFavorite(index) {
+    function definirComoFavorita(index) {
         setFavoriteIndex(index);
     }
 
 
-    function imageFavorita() {
+    function reordenarComFavoritaPrimeiro() {
         if (images.length === 0) return images;
 
         const reordenarImages = [...images];
         if (favoriteIndex > 0) {
+            ///remove a img fav da pocição atual e coloca no 0
             const [favoriteImage] = reordenarImages.splice(favoriteIndex, 1);
             reordenarImages.unshift(favoriteImage);
         }
         return reordenarImages;
     }
 
-    function handleCancel() {
+    function lidarComCancelamento() {
         if (window.confirm("Tem certeza que deseja cancelar? As alterações não serão salvas.")) {
             navigate(-1);
             // onCancel();
         }
     }
 
-    async function handleSave() {
+    async function lidarComSalvamento() {
         setIsLoading(true)
         try {
-            const imagensToEnviar = imageFavorita()
+            const imagensToEnviar = reordenarComFavoritaPrimeiro()
 
             await salveImages(imagensToEnviar);
 
@@ -92,9 +93,9 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
     }
 
     const parseImagesToFormData = (newFiles) => {
-        const formData = new FormData();
+        const formData = new FormData(); //obj js para form virtual para enviar file HTTP (multipart/form-data)
 
-        newFiles.forEach((file) => {
+        newFiles.forEach((file) => { //cada file msm do back @RequestParam('file')
             formData.append("file", file);
         });
 
@@ -214,7 +215,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                                     <SwiperSlide key={index}>
                                         <div className="slide-content">
                                             <img
-                                                src={exibirImagem(image)}
+                                                src={obterUrlDaImagem(image)}
                                                 alt={`Imagem ${index + 1}`}
                                                 className="main-image"
                                             />
@@ -222,7 +223,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                                                 <button
                                                     className={`favorite-btn ${index === favoriteIndex ? "active" : ""
                                                         }`}
-                                                    onClick={() => handleSetFavorite(index)}
+                                                    onClick={() => definirComoFavorita(index)}
                                                     title="Definir como principal"
                                                     disabled={isLoading}
                                                 >
@@ -257,7 +258,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                                     <SwiperSlide key={index}>
                                         <div className="thumbzona-slide">
                                             <img
-                                                src={exibirImagem(image)}
+                                                src={obterUrlDaImagem(image)}
                                                 alt={`Thumb ${index + 1}`}
                                                 className={`thumbzona-image ${index === favoriteIndex ? "favorite" : ""
                                                     }`}
@@ -291,9 +292,9 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                                     key={index}
                                     className={`aside-image-item ${index === favoriteIndex ? "favorite" : ""
                                         }`}
-                                    onClick={() => handleSetFavorite(index)}
+                                    onClick={() => definirComoFavorita(index)}
                                 >
-                                    <img src={exibirImagem(image)} alt={`Preview ${index + 1}`} />
+                                    <img src={obterUrlDaImagem(image)} alt={`Preview ${index + 1}`} />
                                     {index === favoriteIndex && (
                                         <div className="favorite-indicator">Principal</div>
                                     )}
@@ -310,7 +311,7 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                     type="file"
                     multiple
                     accept="image/*"
-                    onChange={handleImageSelect}
+                    onChange={lidarComSelecaoDeImagem}
                     style={{ display: "none" }}
                 />
 
@@ -323,10 +324,10 @@ export default function Gallery({ onSave, onCancel, existingImages = [], product
                         📷 Adicionar mais imagens
                     </button>
                     <div className="footer-actions">
-                        <button className="btn-cancel" onClick={handleCancel} disabled={isLoading}>
+                        <button className="btn-cancel" onClick={lidarComCancelamento} disabled={isLoading}>
                             Cancelar
                         </button>
-                        <button className="btn-save" onClick={handleSave} disabled={isLoading || images.length === 0}>
+                        <button className="btn-save" onClick={lidarComSalvamento} disabled={isLoading || images.length === 0}>
                             {isLoading ? "Salvando..." : "💾 Salvar"}
                         </button>
                     </div>

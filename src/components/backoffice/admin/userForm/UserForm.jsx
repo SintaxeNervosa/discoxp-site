@@ -12,7 +12,6 @@ export default function UserForm() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const LOCAL_STORAGE_NAME = "userPassword";
     const { userid } = useParams();
     const navigate = useNavigate();
 
@@ -49,10 +48,9 @@ export default function UserForm() {
             const userRequest = { name: name, email: email, group: group, password: password, cpf: cpf };
             const response = await createUser(userRequest);
 
-            // se o usuário for criado 
+            // se o usuário for criado
             if (response.status == 201) {
                 toast.success("Usuário criado com sucesso");
-                return;
             }
 
         } catch (error) {
@@ -69,8 +67,10 @@ export default function UserForm() {
             // faz a requisição
             const response = await changeUser(userRequest);
 
+            
+            console.log(response.status); 
             // caso a requisição dê "ok"
-            if (response.status == 201) {
+            if (response.status == 204) {
                 toast.success("Usuário alterado com sucesso.");
             };
 

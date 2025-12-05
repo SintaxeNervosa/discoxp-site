@@ -123,7 +123,8 @@ export default function Finalization() {
 
         const response = await getFavoriteAddressByUserId(userDataToJson.id);
         const data = response.data;
-        setAddress(`${data.street} ${data.neighborhood} - ${data.uf} ${data.cep}`)
+        console.log(data);
+        setAddress(`${data.street}, ${data.number} - ${data.neighborhood} - ${data.uf} ${data.cep}`)
     }
 
     useEffect(() => {

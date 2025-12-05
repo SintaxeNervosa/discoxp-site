@@ -126,15 +126,15 @@ export function Orders() {
                   <div className="price-breakdown">
                     <div className="price-row">
                       <span>Subtotal:</span>
-                      <span>R$ {order.order.subtotal}</span>
+                      <span>R$ {order.order.subtotal.toFixed(2)}</span>
                     </div>
                     <div className="price-row">
                       <span>Frete:</span>
-                      <span>R$ {order.order.freight}</span>
+                      <span>R$ {order.order.freight.toFixed(2)}</span>
                     </div>
                     <div className="price-row total">
                       <span>Total:</span>
-                      <span>R$ {order.order.total}</span>
+                      <span>R$ {order.order.total.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
